@@ -2,13 +2,12 @@
 using NHibernate.Type;
 using NHibernate.UserTypes;
 using System;
+using System.Collections.Generic;
 using System.Data.Common;
 
 namespace NHibernate.NodaTime
 {
-    public abstract class AbstractTwoPropertyStructType<T, TProperty1Persisted, TProperty2Persisted> : ICompositeUserType 
-        where TProperty1Persisted : struct 
-        where TProperty2Persisted : struct
+    public abstract class AbstractTwoPropertyStructType<T, TProperty1Persisted, TProperty2Persisted> : ICompositeUserType, ISupportLinqQueries<T>
     {
         protected abstract string Property1Name { get; }
         protected abstract string Property2Name { get; }
@@ -16,10 +15,14 @@ namespace NHibernate.NodaTime
         protected abstract IType Property1Type { get; }
         protected abstract IType Property2Type { get; }
 
-        protected abstract T Unwrap(TProperty1Persisted? property1Value, TProperty2Persisted? property2Value);
+        protected abstract int Property1ColumnSpan { get; }
+        protected abstract int Property2ColumnSpan { get; }
 
-        protected abstract TProperty1Persisted? GetProperty1Value(T value);
-        protected abstract TProperty2Persisted? GetProperty2Value(T value);
+
+        protected abstract T Unwrap(TProperty1Persisted property1Value, TProperty2Persisted property2Value);
+
+        protected abstract TProperty1Persisted GetProperty1Value(T value);
+        protected abstract TProperty2Persisted GetProperty2Value(T value);
 
 
         string[] ICompositeUserType.PropertyNames => new[] { Property1Name, Property2Name };
@@ -30,6 +33,8 @@ namespace NHibernate.NodaTime
 
         bool ICompositeUserType.IsMutable => false;
 
+        IEnumerable<SupportedQueryProperty<T>> ISupportLinqQueries<T>.SupportedQueryProperties => new SupportedQueryProperty<T>[] { };
+
         object ICompositeUserType.Assemble(object cached, ISessionImplementor session, object owner) => cached;
 
         object ICompositeUserType.DeepCopy(object value) => value;
@@ -38,27 +43,57 @@ namespace NHibernate.NodaTime
 
         bool ICompositeUserType.Equals(object x, object y)
         {
-            throw new NotImplementedException();
+            if (x == null || y == null)
+            {
+                return false;
+            }
+            return object.Equals(x, y);
         }
 
         int ICompositeUserType.GetHashCode(object x)
         {
-            throw new NotImplementedException();
+            return x?.GetHashCode() ?? 0;
         }
 
-        object ICompositeUserType.GetPropertyValue(object component, int property)
+        object? ICompositeUserType.GetPropertyValue(object? component, int property)
         {
-            throw new NotImplementedException();
+            if (component == null)
+            {
+                return null;
+            }
+            var value = (T)component;
+            return property switch
+            {
+                1 => GetProperty1Value(value),
+                2 => GetProperty2Value(value),
+                _ => throw new ArgumentException(message: "invalid property index", paramName: nameof(property)),
+            };
         }
 
-        object ICompositeUserType.NullSafeGet(DbDataReader dr, string[] names, ISessionImplementor session, object owner)
+        object? ICompositeUserType.NullSafeGet(DbDataReader dr, string[] names, ISessionImplementor session, object owner)
         {
-            throw new NotImplementedException();
+            var names1 = new string[Property1ColumnSpan];
+            var names2 = new string[Property2ColumnSpan];
+            Array.Copy(names, names1, Property1ColumnSpan);
+            Array.Copy(names, Property1ColumnSpan, names2, 0, Property2ColumnSpan);
+
+            var value1 = (TProperty1Persisted)Property1Type.NullSafeGet(dr, names1, session, owner);
+            var value2 = (TProperty2Persisted)Property2Type.NullSafeGet(dr, names1, session, owner);
+
+            return Unwrap(value1,value2);
         }
 
         void ICompositeUserType.NullSafeSet(DbCommand cmd, object value, int index, bool[] settable, ISessionImplementor session)
         {
-            throw new NotImplementedException();
+            if (value == null)
+            {
+                Property1Type.NullSafeSet(cmd, null, index, session);
+                Property2Type.NullSafeSet(cmd, null, index + Property1ColumnSpan, session);
+                return;
+            }
+            var typedValue = (T)value;
+            Property1Type.NullSafeSet(cmd, GetProperty1Value(typedValue), index, session);
+            Property2Type.NullSafeSet(cmd, GetProperty2Value(typedValue), index + Property1ColumnSpan, session);
         }
 
         object ICompositeUserType.Replace(object original, object target, ISessionImplementor session, object owner)

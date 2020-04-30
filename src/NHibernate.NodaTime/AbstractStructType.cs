@@ -2,8 +2,6 @@
 using NHibernate.SqlTypes;
 using NHibernate.Type;
 using NHibernate.UserTypes;
-using NodaTime;
-using System;
 using System.Data.Common;
 
 namespace NHibernate.NodaTime
@@ -44,7 +42,7 @@ namespace NHibernate.NodaTime
             return x?.GetHashCode() ?? 0;
         }
 
-        public object NullSafeGet(DbDataReader rs, string[] names, ISessionImplementor session, object owner)
+        public object? NullSafeGet(DbDataReader rs, string[] names, ISessionImplementor session, object owner)
         {
             var value = ValueType.NullSafeGet(rs, names[0], session, owner);
             if (value == null)
@@ -55,7 +53,7 @@ namespace NHibernate.NodaTime
             return Unwrap(persistedValue);
         }
 
-        public void NullSafeSet(DbCommand cmd, object value, int index, ISessionImplementor session)
+        public void NullSafeSet(DbCommand cmd, object? value, int index, ISessionImplementor session)
         {
             if (value == null)
             {
