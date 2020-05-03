@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NHibernate.NodaTime
 {
-    public abstract class AbstractDateIntervalAsLocalDatesType<TLocalDateType> : AbstractTwoPropertyStructType<DateInterval,LocalDate, LocalDate>
+    public abstract class AbstractDateIntervalAsLocalDatesType<TLocalDateType> : AbstractTwoPropertyStructType<DateInterval, LocalDate, LocalDate>
     {
         protected override string Property1Name => "Start";
         protected override string Property2Name => "End";
@@ -19,14 +19,7 @@ namespace NHibernate.NodaTime
         protected override int Property1ColumnSpan => 1;
         protected override int Property2ColumnSpan => 1;
 
-        protected override DateInterval Unwrap(LocalDate property1Value, LocalDate property2Value)
-        {
-            if (property1Value != null && property2Value != null)
-            {
-                return new DateInterval(property1Value, property2Value);
-            }
-            return null;
-        }
+        protected override DateInterval Unwrap(LocalDate property1Value, LocalDate property2Value) => new DateInterval(property1Value, property2Value);
 
         protected override LocalDate GetProperty1Value(DateInterval value) => value.Start;
 

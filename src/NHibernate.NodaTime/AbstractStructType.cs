@@ -58,6 +58,7 @@ namespace NHibernate.NodaTime
             if (value == null)
             {
                 ValueType.NullSafeSet(cmd, null, index, session);
+                return;
             }
             var actualValue = (T)value;
             ValueType.NullSafeSet(cmd, Wrap(actualValue), index, session);

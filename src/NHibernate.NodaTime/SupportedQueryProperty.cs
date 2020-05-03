@@ -9,4 +9,12 @@ namespace NHibernate.NodaTime
 
         }
     }
+
+    public class SupportedQueryMethod<T>
+    {
+        public SupportedQueryMethod(MethodInfo method, IHqlMethodTransformer transformer)
+        {
+
+        }
+    }
 }

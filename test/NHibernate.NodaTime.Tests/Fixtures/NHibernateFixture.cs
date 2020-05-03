@@ -7,6 +7,7 @@ namespace NHibernate.NodaTime.Tests.Fixtures
     {
         private Lazy<ISessionFactory> _sessionFactory;
         private Lazy<Configuration> _configuration;
+        private Action<Configuration> _configurationAction;
 
         public NHibernateFixture()
         {
@@ -24,13 +25,14 @@ namespace NHibernate.NodaTime.Tests.Fixtures
         {
             var configuration = new Configuration();
 
-            Configure(configuration);
+            _configurationAction?.Invoke(configuration);
 
             return configuration;
         }
 
-        public virtual void Configure(Configuration configuration)
-        { 
+        public void Configure(Action<Configuration> configurationAction)
+        {
+            _configurationAction = configurationAction;
         }
 
         public ISessionFactory SessionFactory => _sessionFactory.Value;

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace NHibernate.NodaTime
 {
-    public class AnnualDateAsDateType : AbstractStructType<AnnualDate,DateTime>
+    public class AnnualDateAsDateType : AbstractStructType<AnnualDate, DateTime>
     {
         protected override IType ValueType => NHibernateUtil.Date;
         protected override SqlType SqlType => SqlTypeFactory.Date;

@@ -4,10 +4,11 @@ using NHibernate.UserTypes;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Linq;
 
 namespace NHibernate.NodaTime
 {
-    public abstract class AbstractTwoPropertyStructType<T, TProperty1Persisted, TProperty2Persisted> : ICompositeUserType, ISupportLinqQueries<T>
+    public abstract class AbstractTwoPropertyStructType<T, TProperty1Persisted, TProperty2Persisted> : ICompositeUserType, ISupportLinqQueries<T>, IParameterizedType
     {
         protected abstract string Property1Name { get; }
         protected abstract string Property2Name { get; }
@@ -33,7 +34,8 @@ namespace NHibernate.NodaTime
 
         bool ICompositeUserType.IsMutable => false;
 
-        IEnumerable<SupportedQueryProperty<T>> ISupportLinqQueries<T>.SupportedQueryProperties => new SupportedQueryProperty<T>[] { };
+        public virtual IEnumerable<SupportedQueryProperty<T>> SupportedQueryProperties => Enumerable.Empty<SupportedQueryProperty<T>>();
+        public virtual IEnumerable<SupportedQueryMethod<T>> SupportedQueryMethods => Enumerable.Empty<SupportedQueryMethod<T>>();
 
         object ICompositeUserType.Assemble(object cached, ISessionImplementor session, object owner) => cached;
 
@@ -104,6 +106,21 @@ namespace NHibernate.NodaTime
         void ICompositeUserType.SetPropertyValue(object component, int property, object value)
         {
             throw new NotImplementedException();
+        }
+
+        void IParameterizedType.SetParameterValues(IDictionary<string, string> parameters)
+        {
+            if (parameters != null)
+            {
+                if (Property1Type is IParameterizedType parameterizedType1)
+                {
+                    parameterizedType1.SetParameterValues(parameters.Where(x => x.Key.StartsWith(Property1Name + "_")).ToDictionary(x => x.Key.Remove(0, Property1Name.Length + 1), x => x.Value));
+                }
+                if (Property2Type is IParameterizedType parameterizedType2)
+                {
+                    parameterizedType2.SetParameterValues(parameters.Where(x => x.Key.StartsWith(Property2Name + "_")).ToDictionary(x => x.Key.Remove(0, Property2Name.Length + 1), x => x.Value));
+                }
+            }
         }
     }
 }
