@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace NHibernate.NodaTime
+namespace NHibernate.NodaTime.Linq
 {
     public interface ISupportLinqQueries<T>
     {

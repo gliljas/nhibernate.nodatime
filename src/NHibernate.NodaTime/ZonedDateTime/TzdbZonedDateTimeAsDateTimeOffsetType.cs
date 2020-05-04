@@ -1,4 +1,5 @@
-﻿using NHibernate.Type;
+﻿using NHibernate.NodaTime.Linq;
+using NHibernate.Type;
 using NodaTime;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,9 @@ namespace NHibernate.NodaTime
         protected override DateTimeOffset GetProperty1Value(ZonedDateTime value) => value.ToDateTimeOffset();
         protected override DateTimeZone GetProperty2Value(ZonedDateTime value) => value.Zone;
 
+        public override IEnumerable<SupportedQueryMethod<ZonedDateTime>> SupportedQueryMethods => new[] { 
+            new SupportedQueryMethod<ZonedDateTime>(x=>x.ToDateTimeOffset(),new PropertyResolver(Property1Name))
+        };
     }
 
 }

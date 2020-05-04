@@ -29,4 +29,15 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="LocalTime\" />
+    <Folder Include="LocalDateTime\" />
+    <Folder Include="LocalDate\" />
+    <Folder Include="Interval\" />
+    <Folder Include="Instant\" />
+    <Folder Include="ZonedDateTime\" />
+    <Folder Include="OffsetDate\" />
+    <Folder Include="OffsetDateTime\" />
+  </ItemGroup>
+
 </Project>

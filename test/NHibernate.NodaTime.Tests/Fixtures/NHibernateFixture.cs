@@ -1,4 +1,6 @@
-﻿using NHibernate.Cfg;
+﻿using Microsoft.Extensions.Configuration;
+using NHibernate.Cfg;
+using NHibernate.Tool.hbm2ddl;
 using System;
 
 namespace NHibernate.NodaTime.Tests.Fixtures
@@ -18,12 +20,21 @@ namespace NHibernate.NodaTime.Tests.Fixtures
 
         private ISessionFactory CreateSessionFactory()
         {
+            var cfg = _configuration.Value;
+            var exporter = new SchemaExport(cfg);
+            exporter.Create(true, true);
             return _configuration.Value.BuildSessionFactory();
         }
 
         private Configuration CreateConfiguration()
         {
             var configuration = new Configuration();
+
+            var configRoot = TestConfiguration.GetConfigurationRoot();
+
+            var nhibernateSection = configRoot.GetSection("nhibernate");
+
+            nhibernateSection.Bind(configuration.Properties);
 
             _configurationAction?.Invoke(configuration);
 

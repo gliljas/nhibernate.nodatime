@@ -1,4 +1,5 @@
 ﻿using NHibernate.Engine;
+using NHibernate.NodaTime.Linq;
 using NHibernate.Type;
 using NHibernate.UserTypes;
 using System;
@@ -66,8 +67,8 @@ namespace NHibernate.NodaTime
             var value = (T)component;
             return property switch
             {
-                1 => GetProperty1Value(value),
-                2 => GetProperty2Value(value),
+                0 => GetProperty1Value(value),
+                1 => GetProperty2Value(value),
                 _ => throw new ArgumentException(message: "invalid property index", paramName: nameof(property)),
             };
         }
