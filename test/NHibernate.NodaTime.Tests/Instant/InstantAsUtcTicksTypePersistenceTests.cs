@@ -3,7 +3,7 @@ using NodaTime;
 
 namespace NHibernate.NodaTime.Tests
 {
-    public class InstantAsUtcTicksTypePersistenceTests : AbstractPersistenceTests<Instant, InstantAsUtcDbTimestampType>
+    public class InstantAsUtcTicksTypePersistenceTests : AbstractInstantPersistenceTests<InstantAsUtcDbTimestampType>
     {
         public InstantAsUtcTicksTypePersistenceTests(NHibernateFixture nhibernateFixture) : base(nhibernateFixture)
         {

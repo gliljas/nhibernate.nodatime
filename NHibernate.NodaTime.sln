@@ -5,9 +5,14 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHibernate.NodaTime", "src\NHibernate.NodaTime\NHibernate.NodaTime.csproj", "{90DF51BB-FC36-45F8-BBC2-A8050D70118D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHibernate.NodaTime.Tests", "test\NHibernate.NodaTime.Tests\NHibernate.NodaTime.Tests.csproj", "{9522418D-9196-4959-AF21-FDCAF985B1E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHibernate.NodaTime.Tests", "test\NHibernate.NodaTime.Tests\NHibernate.NodaTime.Tests.csproj", "{9522418D-9196-4959-AF21-FDCAF985B1E1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{0D65164F-BD0C-4BE1-8391-0E082F310F43}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{75927877-425F-43DA-BBE6-90FDE6027CA0}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,8 +20,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0D65164F-BD0C-4BE1-8391-0E082F310F43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0D65164F-BD0C-4BE1-8391-0E082F310F43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90DF51BB-FC36-45F8-BBC2-A8050D70118D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{90DF51BB-FC36-45F8-BBC2-A8050D70118D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90DF51BB-FC36-45F8-BBC2-A8050D70118D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -25,6 +28,8 @@ Global
 		{9522418D-9196-4959-AF21-FDCAF985B1E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9522418D-9196-4959-AF21-FDCAF985B1E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9522418D-9196-4959-AF21-FDCAF985B1E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D65164F-BD0C-4BE1-8391-0E082F310F43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D65164F-BD0C-4BE1-8391-0E082F310F43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

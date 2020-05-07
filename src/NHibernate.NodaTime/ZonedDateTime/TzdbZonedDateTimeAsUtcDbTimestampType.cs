@@ -4,7 +4,7 @@ using System;
 
 namespace NHibernate.NodaTime
 {
-    public class TzdbZonedDateTimeAsDateTimeUtcType : AbstractTwoPropertyStructType<ZonedDateTime, DateTime, DateTimeZone, DateTimeType,CustomType<TzdbDateTimeZoneType>>
+    public class TzdbZonedDateTimeAsUtcDbTimestampType : AbstractTwoPropertyStructType<ZonedDateTime, DateTime, DateTimeZone, UtcDbTimestampType, CustomType<TzdbDateTimeZoneType>>
     {
         protected override string Property1Name => "DateTime";
         protected override string Property2Name => "Zone";

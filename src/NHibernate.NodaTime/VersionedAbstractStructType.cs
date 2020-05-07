@@ -8,7 +8,7 @@ namespace NHibernate.NodaTime
     public abstract class VersionedAbstractStructType<T, TPersisted, TNullableType> : AbstractStructType<T, TPersisted, TNullableType>, IUserVersionType
         where TNullableType : NullableType , IVersionType, new()
     {
-        public int Compare(object x, object y)
+        public virtual int Compare(object x, object y)
         {
             if (ValueType is IVersionType versionType)
             {
@@ -17,7 +17,7 @@ namespace NHibernate.NodaTime
             throw new NotImplementedException();
         }
 
-        public object Next(object current, ISessionImplementor session)
+        public virtual object Next(object current, ISessionImplementor session)
         {
             if (ValueType is IVersionType versionType)
             {
@@ -26,7 +26,7 @@ namespace NHibernate.NodaTime
             throw new NotImplementedException();
         }
 
-        public object Seed(ISessionImplementor session)
+        public virtual object Seed(ISessionImplementor session)
         {
             if (ValueType is IVersionType versionType)
             {

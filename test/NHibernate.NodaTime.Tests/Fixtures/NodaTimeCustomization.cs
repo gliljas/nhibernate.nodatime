@@ -6,14 +6,16 @@ namespace NHibernate.NodaTime.Tests.Fixtures
     {
         public void Customize(IFixture fixture)
         {
-            fixture.Customizations.Add(new AnnualDateBuilder());
+            fixture.Customizations.Add(new AnnualDateSpecimenBuilder());
+            fixture.Customizations.Add(new DateIntervalSpecimenBuilder());
             fixture.Customizations.Add(new InstantBuilder());
-            fixture.Customizations.Add(new LocalDateBuilder());
-            fixture.Customizations.Add(new LocalDateTimeBuilder());
-            fixture.Customizations.Add(new LocalTimeBuilder());
-            fixture.Customizations.Add(new OffsetDateBuilder());
-            fixture.Customizations.Add(new OffsetDateTimeBuilder());
-            fixture.Customizations.Add(new OffsetTimeBuilder());
+            fixture.Customizations.Add(new LocalDateSpecimenBuilder());
+            fixture.Customizations.Add(new LocalDateTimeSpecimenBuilder());
+            fixture.Customizations.Add(new LocalTimeSpecimenBuilder());
+            fixture.Customizations.Add(new OffsetDateSpecimenBuilder());
+            fixture.Customizations.Add(new OffsetDateTimeSpecimenBuilder());
+            fixture.Customizations.Add(new OffsetTimeSpecimenBuilder());
+            fixture.Customizations.Add(new PeriodSpecimenBuilder());
 
         }
     }

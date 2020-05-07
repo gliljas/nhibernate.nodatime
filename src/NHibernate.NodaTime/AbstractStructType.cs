@@ -1,10 +1,12 @@
 ﻿using NHibernate.Engine;
+using NHibernate.NodaTime.Linq;
 using NHibernate.SqlTypes;
 using NHibernate.Type;
 using NHibernate.UserTypes;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Linq;
 
 namespace NHibernate.NodaTime
 {
@@ -18,7 +20,7 @@ namespace NHibernate.NodaTime
         }
     }
 
-    public abstract class AbstractStructType<T, TPersisted> : IUserType, IParameterizedType
+    public abstract class AbstractStructType<T, TPersisted> : IUserType, IParameterizedType, ISupportLinqQueries<T>
     {
         private NullableType _backingType;
 
@@ -35,11 +37,17 @@ namespace NHibernate.NodaTime
 
         protected abstract T Unwrap(TPersisted value);
 
+        protected virtual object? NullValue => null;
+
         public SqlType[] SqlTypes => new[] { SqlType };
 
         public System.Type ReturnedType => typeof(T);
 
         public bool IsMutable => false;
+
+        public virtual IEnumerable<SupportedQueryProperty<T>> SupportedQueryProperties => Enumerable.Empty<SupportedQueryProperty<T>>();
+
+        public virtual IEnumerable<SupportedQueryMethod<T>> SupportedQueryMethods => Enumerable.Empty<SupportedQueryMethod<T>>();
 
         public object Assemble(object cached, object owner) => cached;
 
@@ -78,7 +86,7 @@ namespace NHibernate.NodaTime
             var value = ValueType.NullSafeGet(rs, names[0], session, owner);
             if (value == null)
             {
-                return null;
+                return NullValue;
             }
             var persistedValue = (TPersisted)value;
             return Unwrap(persistedValue);
@@ -106,5 +114,7 @@ namespace NHibernate.NodaTime
                 parameterizedType.SetParameterValues(parameters);
             }
         }
+
+
     }
 }

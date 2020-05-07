@@ -9,18 +9,11 @@ using System.Linq;
 
 namespace NHibernate.NodaTime
 {
-    public class CustomType<T> : CustomType where T : IUserType
-    {
-        public CustomType() : base(typeof(T), null)
-        {
-
-        }
-    }
     public abstract class AbstractTwoPropertyStructType<T, TProperty1Persisted, TProperty2Persisted, TProperty1Type, TProperty2Type> : AbstractTwoPropertyStructType<T, TProperty1Persisted, TProperty2Persisted>
-    where TProperty1Type : IType, new()
+        where TProperty1Type : IType, new()
         where TProperty2Type : IType, new()
     {
-        public AbstractTwoPropertyStructType() : base(new TProperty1Type(),new TProperty2Type())
+        public AbstractTwoPropertyStructType() : base(new TProperty1Type(), new TProperty2Type())
         {
 
         }

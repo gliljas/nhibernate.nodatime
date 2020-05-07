@@ -15,5 +15,44 @@ namespace NHibernate.NodaTime.Tests
         {
 
         }
+
+        [SkippableTheory]
+        [NodaTimeAutoData]
+        public void CanQueryByMonth(List<TestEntity<AnnualDate>> testEntities)
+        {
+            AddToDatabase(testEntities.ToArray());
+
+            var month = testEntities.First().TestProperty.Month;
+
+            using (var session = SessionFactory.OpenSession())
+            using (var trans = session.BeginTransaction())
+            {
+                var foundEntities = session.Query<TestEntity<AnnualDate>>().Where(x=>x.TestProperty.Month == month).ToList();
+            }
+        }
+
+        [SkippableTheory]
+        [NodaTimeAutoData]
+        public void CanQueryByDay(List<TestEntity<AnnualDate>> testEntities)
+        {
+            AddToDatabase(testEntities.ToArray());
+
+            var day = testEntities.First().TestProperty.Day;
+
+            using (var session = SessionFactory.OpenSession())
+            using (var trans = session.BeginTransaction())
+            {
+                var foundEntities = session.Query<TestEntity<AnnualDate>>().Where(x => x.TestProperty.Day == day).ToList();
+            }
+        }
+
+        protected override object GetTypeParameters()
+        {
+            return new { 
+                BaseYear = 2000
+            };
+        }
     }
+
+
 }

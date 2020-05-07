@@ -4,7 +4,7 @@ using System;
 
 namespace NHibernate.NodaTime
 {
-    public class OffsetTimeAsTimeAndOffsetType : AbstractTwoPropertyStructType<OffsetTime, TimeSpan, Offset, TimeAsTimeSpanType, CustomType<OffsetAsInt32SecondsType>>
+    public class OffsetTimeAsTimeAsTimeSpanAndOffsetType : AbstractTwoPropertyStructType<OffsetTime, TimeSpan, Offset, TimeAsTimeSpanType, CustomType<OffsetAsInt32SecondsType>>
     {
         protected override string Property1Name => "TimeSpan";
         protected override string Property2Name => "Offset";

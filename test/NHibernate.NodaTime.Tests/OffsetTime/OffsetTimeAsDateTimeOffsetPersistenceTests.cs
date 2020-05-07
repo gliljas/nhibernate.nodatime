@@ -1,5 +1,9 @@
-﻿using NHibernate.NodaTime.Tests.Fixtures;
+﻿using FluentAssertions;
+using NHibernate.NodaTime.Tests.Fixtures;
 using NodaTime;
+using System.Collections.Generic;
+using System.Linq;
+using Xunit;
 
 namespace NHibernate.NodaTime.Tests
 {
@@ -14,6 +18,8 @@ namespace NHibernate.NodaTime.Tests
         {
             return value.WithOffset(Offset.FromSeconds(value.Offset.Seconds / 60 * 60));
         }
+
+        
 
     }
 }

@@ -1,9 +1,13 @@
 ﻿using FluentAssertions;
+using NHibernate.Cfg;
 using NHibernate.Mapping.ByCode;
+using NHibernate.NodaTime.Linq;
 using NHibernate.NodaTime.Tests.Fixtures;
 using NHibernate.UserTypes;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using Xunit;
 
 namespace NHibernate.NodaTime.Tests
@@ -25,6 +29,9 @@ namespace NHibernate.NodaTime.Tests
         {
             _nhibernateFixture = nhibernateFixture;
             _nhibernateFixture.Configure(c => {
+
+                c.LinqQueryProvider<NodaTimeLinqQueryProvider>();
+
                 var mapper = new ModelMapper();
                 mapper.Class<TTestEntity>(m => {
                     m.Table("`" + GetType().Name + "_" + typeof(TUserType).Name + "`" );
@@ -32,7 +39,7 @@ namespace NHibernate.NodaTime.Tests
                     m.Property(p => p.TestProperty,
                         p =>
                         {
-                            p.Type<TUserType>();
+                            p.Type<TUserType>(GetTypeParameters());
                             var typeInstance = new TUserType();
                             if (typeInstance is ICompositeUserType compositeUserType)
                             {
@@ -46,12 +53,20 @@ namespace NHibernate.NodaTime.Tests
                 });
                 var mapping = mapper.CompileMappingForAllExplicitlyAddedEntities();
                 c.AddMapping(mapping);
+                
             });
         }
 
+        protected virtual object GetTypeParameters()
+        {
+            return null;
+        }
+
+        protected ISessionFactory SessionFactory => _nhibernateFixture.SessionFactory;
+
         [Theory]
         [NodaTimeAutoData]
-        public void CanSave(TestEntity<T> testValue)
+        public void CanSave(TTestEntity testValue)
         {
            // testValue.TestProperty = AdjustValue(testValue.TestProperty);
             
@@ -68,7 +83,25 @@ namespace NHibernate.NodaTime.Tests
             }
         }
 
-        private void AddToDatabase(params TestEntity<T>[] testValues)
+        [SkippableTheory]
+        [NodaTimeAutoData]
+        public void CanQueryPropertyWithLinq(List<TTestEntity> testEntities)
+        {
+            AddToDatabase(testEntities.ToArray());
+            var testValue = testEntities.Select(x => x.TestProperty).First();
+
+            var param = Expression.Parameter(typeof(TTestEntity));
+            var lambda = Expression.Lambda(Expression.Equal(Expression.Property(param, "TestProperty"), Expression.Constant(testValue)), param) as Expression<Func<TTestEntity, bool>>;
+
+            using (var session = SessionFactory.OpenSession())
+            using (var trans = session.BeginTransaction())
+            {
+                var foundEntities = session.Query<TTestEntity>().Where(lambda).ToList();
+                foundEntities.Should().HaveCountGreaterOrEqualTo(1);
+            }
+        }
+
+        protected void AddToDatabase(params ITestEntity<T>[] testValues)
         {
             using (var session = _nhibernateFixture.SessionFactory.OpenSession())
             {
