@@ -9,12 +9,8 @@ using System.Threading.Tasks;
 
 namespace NHibernate.NodaTime
 {
-    public class InstantAsDateTimeUtcType : AbstractStructType<Instant,DateTime>
+    public class InstantAsUtcDateTimeType : VersionedAbstractStructType<Instant,DateTime, UtcDateTimeType>
     {
-        protected override IType ValueType => NHibernateUtil.DateTime;
-
-        protected override SqlType SqlType => SqlTypeFactory.DateTime;
-
         protected override Instant Unwrap(DateTime value) => Instant.FromDateTimeUtc(DateTime.SpecifyKind(value, DateTimeKind.Utc));
 
         protected override DateTime Wrap(Instant value) => value.ToDateTimeUtc();

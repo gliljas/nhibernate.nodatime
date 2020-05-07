@@ -1,15 +1,14 @@
 ﻿using NHibernate.Type;
+using NHibernate.UserTypes;
 using NodaTime;
 
 namespace NHibernate.NodaTime
 {
-    public abstract class AbstractIntervalAsInstantsType<TInstantType> : AbstractTwoPropertyStructType<Interval, Instant?, Instant?>
+    public abstract class AbstractIntervalAsInstantsType<TInstantType> : AbstractTwoPropertyStructType<Interval, Instant?, Instant?, CustomType<TInstantType>, CustomType<TInstantType>>
+    where TInstantType : IUserType
     {
         protected override string Property1Name => "Start";
         protected override string Property2Name => "End";
-
-        protected override IType Property1Type => new CustomType(typeof(TInstantType), null);
-        protected override IType Property2Type => new CustomType(typeof(TInstantType), null);
 
         protected override int Property1ColumnSpan => 1;
         protected override int Property2ColumnSpan => 1;

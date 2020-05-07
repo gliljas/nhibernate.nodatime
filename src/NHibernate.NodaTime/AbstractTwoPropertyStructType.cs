@@ -9,13 +9,37 @@ using System.Linq;
 
 namespace NHibernate.NodaTime
 {
+    public class CustomType<T> : CustomType where T : IUserType
+    {
+        public CustomType() : base(typeof(T), null)
+        {
+
+        }
+    }
+    public abstract class AbstractTwoPropertyStructType<T, TProperty1Persisted, TProperty2Persisted, TProperty1Type, TProperty2Type> : AbstractTwoPropertyStructType<T, TProperty1Persisted, TProperty2Persisted>
+    where TProperty1Type : IType, new()
+        where TProperty2Type : IType, new()
+    {
+        public AbstractTwoPropertyStructType() : base(new TProperty1Type(),new TProperty2Type())
+        {
+
+        }
+    }
     public abstract class AbstractTwoPropertyStructType<T, TProperty1Persisted, TProperty2Persisted> : ICompositeUserType, ISupportLinqQueries<T>, IParameterizedType
     {
+        private readonly IType _property1Type;
+        private readonly IType _property2Type;
+
+        protected AbstractTwoPropertyStructType(IType property1Type, IType property2Type)
+        {
+            _property1Type = property1Type;
+            _property2Type = property2Type;
+        }
         protected abstract string Property1Name { get; }
         protected abstract string Property2Name { get; }
 
-        protected abstract IType Property1Type { get; }
-        protected abstract IType Property2Type { get; }
+        protected IType Property1Type => _property1Type;
+        protected IType Property2Type => _property2Type;
 
         protected abstract int Property1ColumnSpan { get; }
         protected abstract int Property2ColumnSpan { get; }
@@ -81,9 +105,9 @@ namespace NHibernate.NodaTime
             Array.Copy(names, Property1ColumnSpan, names2, 0, Property2ColumnSpan);
 
             var value1 = (TProperty1Persisted)Property1Type.NullSafeGet(dr, names1, session, owner);
-            var value2 = (TProperty2Persisted)Property2Type.NullSafeGet(dr, names1, session, owner);
+            var value2 = (TProperty2Persisted)Property2Type.NullSafeGet(dr, names2, session, owner);
 
-            return Unwrap(value1,value2);
+            return Unwrap(value1, value2);
         }
 
         void ICompositeUserType.NullSafeSet(DbCommand cmd, object value, int index, bool[] settable, ISessionImplementor session)

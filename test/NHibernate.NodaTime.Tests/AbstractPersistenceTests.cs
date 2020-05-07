@@ -53,7 +53,7 @@ namespace NHibernate.NodaTime.Tests
         [NodaTimeAutoData]
         public void CanSave(TestEntity<T> testValue)
         {
-            testValue.TestProperty = AdjustValue(testValue.TestProperty);
+           // testValue.TestProperty = AdjustValue(testValue.TestProperty);
             
             AddToDatabase(testValue);
 
@@ -63,7 +63,7 @@ namespace NHibernate.NodaTime.Tests
                 {
                     var dbEntity = session.Get<TestEntity<T>>(testValue.Id);
                     var propertyValue = AdjustValue(dbEntity.TestProperty);
-                    propertyValue.Should().Be(testValue.TestProperty);
+                    propertyValue.Should().Be(AdjustValue(testValue.TestProperty));
                 }
             }
         }

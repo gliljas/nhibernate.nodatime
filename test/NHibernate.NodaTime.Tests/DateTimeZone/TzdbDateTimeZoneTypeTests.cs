@@ -3,10 +3,7 @@ using FluentAssertions;
 using NHibernate.Engine;
 using NodaTime;
 using NSubstitute;
-using System;
-using System.Collections.Generic;
 using System.Data.Common;
-using System.Text;
 using Xunit;
 
 namespace NHibernate.NodaTime.Tests

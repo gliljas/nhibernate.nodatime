@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NHibernate.NodaTime
 {
-    public class IntervalAsDateTimeUtcType : AbstractIntervalAsInstantsType<InstantAsDateTimeUtcType>
+    public class IntervalAsDateTimeUtcType : AbstractIntervalAsInstantsType<InstantAsUtcDateTimeType>
     {
         
     }

@@ -11,10 +11,12 @@ namespace NHibernate.NodaTime
 {
     public class TzdbZonedDateTimeAsDateTimeOffsetType : AbstractTwoPropertyStructType<ZonedDateTime, DateTimeOffset, DateTimeZone>
     {
+        public TzdbZonedDateTimeAsDateTimeOffsetType() : base(new DateTimeOffsetType(), new CustomType(typeof(TzdbDateTimeZoneType), null))
+        {
+
+        }
         protected override string Property1Name => "DateTimeOffset";
         protected override string Property2Name => "Zone";
-        protected override IType Property1Type => NHibernateUtil.DateTimeOffset;
-        protected override IType Property2Type => new CustomType(typeof(TzdbDateTimeZoneType), null);
         protected override int Property1ColumnSpan => 1;
         protected override int Property2ColumnSpan => 1;
         protected override ZonedDateTime Unwrap(DateTimeOffset property1Value, DateTimeZone property2Value) => new ZonedDateTime(Instant.FromDateTimeOffset(property1Value), property2Value);

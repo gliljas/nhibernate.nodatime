@@ -9,12 +9,8 @@ using System.Threading.Tasks;
 
 namespace NHibernate.NodaTime
 {
-    public class LocalDateTimeAsDateTimeType : AbstractStructType<LocalDateTime, DateTime>
+    public class LocalDateTimeAsDateTimeType : AbstractStructType<LocalDateTime, DateTime, DateTimeType>
     {
-        protected override IType ValueType => NHibernateUtil.DateTimeOffset;
-
-        protected override SqlType SqlType => SqlTypeFactory.DateTimeOffSet;
-
         protected override LocalDateTime Unwrap(DateTime value) => LocalDateTime.FromDateTime(value);
 
         protected override DateTime Wrap(LocalDateTime value) => value.ToDateTimeUnspecified();

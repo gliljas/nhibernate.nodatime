@@ -1,6 +1,6 @@
-﻿namespace NHibernate.NodaTime
+﻿    namespace NHibernate.NodaTime
 {
-    public class IntervalAsDateTimeUtcNoMsType : AbstractIntervalAsInstantsType<InstantAsDateTimeUtcNoMsType>
+    public class IntervalAsDateTimeUtcNoMsType : AbstractIntervalAsInstantsType<InstantAsUtcDateTimeNoMsType>
     {
 
     }

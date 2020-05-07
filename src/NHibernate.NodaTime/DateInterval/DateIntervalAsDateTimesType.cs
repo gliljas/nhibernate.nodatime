@@ -1,4 +1,5 @@
 ﻿using NHibernate.Type;
+using NHibernate.UserTypes;
 using NodaTime;
 using System;
 using System.Collections.Generic;
@@ -8,13 +9,11 @@ using System.Threading.Tasks;
 
 namespace NHibernate.NodaTime
 {
-    public abstract class AbstractDateIntervalAsLocalDatesType<TLocalDateType> : AbstractTwoPropertyStructType<DateInterval, LocalDate, LocalDate>
+    public abstract class AbstractDateIntervalAsLocalDatesType<TLocalDateType> : AbstractTwoPropertyStructType<DateInterval, LocalDate, LocalDate, CustomType<TLocalDateType>, CustomType<TLocalDateType>>
+        where TLocalDateType : IUserType
     {
         protected override string Property1Name => "Start";
         protected override string Property2Name => "End";
-
-        protected override IType Property1Type => new CustomType(typeof(TLocalDateType), null);
-        protected override IType Property2Type => new CustomType(typeof(TLocalDateType), null);
 
         protected override int Property1ColumnSpan => 1;
         protected override int Property2ColumnSpan => 1;
