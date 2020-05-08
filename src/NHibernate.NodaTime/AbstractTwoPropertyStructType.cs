@@ -43,6 +43,8 @@ namespace NHibernate.NodaTime
         protected abstract TProperty1Persisted GetProperty1Value(T value);
         protected abstract TProperty2Persisted GetProperty2Value(T value);
 
+        protected virtual T Cast(object value) => (T)value;
+
 
         string[] ICompositeUserType.PropertyNames => new[] { Property1Name, Property2Name };
 
@@ -81,7 +83,7 @@ namespace NHibernate.NodaTime
             {
                 return null;
             }
-            var value = (T)component;
+            var value = Cast(component);
             return property switch
             {
                 0 => GetProperty1Value(value),
@@ -111,7 +113,7 @@ namespace NHibernate.NodaTime
                 Property2Type.NullSafeSet(cmd, null, index + Property1ColumnSpan, session);
                 return;
             }
-            var typedValue = (T)value;
+            var typedValue = Cast(value);
             Property1Type.NullSafeSet(cmd, GetProperty1Value(typedValue), index, session);
             Property2Type.NullSafeSet(cmd, GetProperty2Value(typedValue), index + Property1ColumnSpan, session);
         }

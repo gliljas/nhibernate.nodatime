@@ -16,10 +16,10 @@ namespace NHibernate.NodaTime.Tests
         where TUserType : new()
     {
         protected AbstractPersistenceTests(NHibernateFixture nhibernateFixture) : base(nhibernateFixture)
-        { 
+        {
         }
     }
-    public abstract class AbstractPersistenceTests<T,TUserType,TTestEntity> : IClassFixture<NHibernateFixture> 
+    public abstract class AbstractPersistenceTests<T, TUserType, TTestEntity> : IClassFixture<NHibernateFixture>
         where TUserType : new()
         where TTestEntity : class, ITestEntity<T>
     {
@@ -28,13 +28,15 @@ namespace NHibernate.NodaTime.Tests
         protected AbstractPersistenceTests(NHibernateFixture nhibernateFixture)
         {
             _nhibernateFixture = nhibernateFixture;
-            _nhibernateFixture.Configure(c => {
+            _nhibernateFixture.Configure(c =>
+            {
 
                 c.LinqQueryProvider<NodaTimeLinqQueryProvider>();
 
                 var mapper = new ModelMapper();
-                mapper.Class<TTestEntity>(m => {
-                    m.Table("`" + GetType().Name + "_" + typeof(TUserType).Name + "`" );
+                mapper.Class<TTestEntity>(m =>
+                {
+                    m.Table("`" + GetType().Name + "_" + typeof(TUserType).Name + "`");
                     m.Id(p => p.Id, p => p.Generator(Generators.Guid));
                     m.Property(p => p.TestProperty,
                         p =>
@@ -44,16 +46,33 @@ namespace NHibernate.NodaTime.Tests
                             if (typeInstance is ICompositeUserType compositeUserType)
                             {
                                 p.Columns(compositeUserType.PropertyNames.Select(
-                                    pn => new Action<IColumnMapper>(cm => cm.Name(pn))
+                                    pn => new Action<IColumnMapper>(cm => cm.Name("TestProperty" + pn + "Col"))
                                     ).ToArray());
 
                             }
                         }
                     );
+                    m.Component(component => component.TestComponent,
+                        cm => {
+                            cm.Property(p => p.TestComponentProperty,
+                            p =>
+                            {
+                                p.Type<TUserType>(GetTypeParameters());
+                                var typeInstance = new TUserType();
+                                if (typeInstance is ICompositeUserType compositeUserType)
+                                {
+                                    p.Columns(compositeUserType.PropertyNames.Select(
+                                        pn => new Action<IColumnMapper>(ccm => ccm.Name("TestComponentPropertyTestComponent" + pn + "Col"))
+                                        ).ToArray());
+
+                                }
+                            });
+                        }
+                    );
                 });
                 var mapping = mapper.CompileMappingForAllExplicitlyAddedEntities();
                 c.AddMapping(mapping);
-                
+
             });
         }
 
@@ -68,8 +87,8 @@ namespace NHibernate.NodaTime.Tests
         [NodaTimeAutoData]
         public void CanSave(TTestEntity testValue)
         {
-           // testValue.TestProperty = AdjustValue(testValue.TestProperty);
-            
+            // testValue.TestProperty = AdjustValue(testValue.TestProperty);
+
             AddToDatabase(testValue);
 
             using (var session = _nhibernateFixture.SessionFactory.OpenSession())
@@ -98,6 +117,24 @@ namespace NHibernate.NodaTime.Tests
             {
                 var foundEntities = session.Query<TTestEntity>().Where(lambda).ToList();
                 foundEntities.Should().HaveCountGreaterOrEqualTo(1);
+            }
+        }
+
+        [SkippableTheory]
+        [NodaTimeAutoData]
+        public void CanQueryPropertyWithQueryOver(List<TTestEntity> testEntities)
+        {
+            AddToDatabase(testEntities.ToArray());
+            var testValue = testEntities.Select(x => x.TestProperty).First();
+
+            var param = Expression.Parameter(typeof(TTestEntity));
+            var lambda = Expression.Lambda(Expression.Equal(Expression.Property(param, "TestProperty"), Expression.Constant(testValue)), param) as Expression<Func<TTestEntity, bool>>;
+
+            using (var session = SessionFactory.OpenSession())
+            using (var trans = session.BeginTransaction())
+            {
+                var foundEntities = session.QueryOver<TTestEntity>().Where(lambda).List();
+                foundEntities.Should().HaveCount(testEntities.Count(lambda.Compile()));
             }
         }
 
