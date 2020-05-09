@@ -6,19 +6,19 @@ using Xunit;
 
 namespace NHibernate.NodaTime.Tests
 {
-    public abstract class AbstractOffsetDatePersistenceTests<TUserType> : AbstractPersistenceTests<OffsetDate, TUserType>
+    public abstract class AbstractOffsetTimePersistenceTests<TUserType> : AbstractPersistenceTests<OffsetTime, TUserType>
     where TUserType : new()
     {
-        protected AbstractOffsetDatePersistenceTests(NHibernateFixture nhibernateFixture) : base(nhibernateFixture)
+        protected AbstractOffsetTimePersistenceTests(NHibernateFixture nhibernateFixture) : base(nhibernateFixture)
         {
 
         }
 
         [Theory]
         [NodaTimeAutoData]
-        public void CanQueryByLocalDate(TestEntity<OffsetDate> testValue)
+        public void CanQueryByLocalHour(TestEntity<OffsetTime> testValue)
         {
-            var date = testValue.TestProperty.Date;
+            var date = testValue.TestProperty.Hour;
 
             AddToDatabase(testValue);
 
@@ -26,7 +26,7 @@ namespace NHibernate.NodaTime.Tests
             {
                 using (var trans = session.BeginTransaction())
                 {
-                    var list = session.Query<TestEntity<OffsetDate>>().Where(x => x.TestProperty.Date == date).ToList();
+                    var list = session.Query<TestEntity<OffsetTime>>().Where(x => x.TestProperty.Hour == date).ToList();
                     list.Should().HaveCount(1);
                 }
             }
@@ -34,9 +34,9 @@ namespace NHibernate.NodaTime.Tests
 
         [Theory]
         [NodaTimeAutoData]
-        public void CanQueryByWithOffset(TestEntity<OffsetDate> testValue)
+        public void CanQueryByWithOffset(TestEntity<OffsetTime> testValue)
         {
-            var date = testValue.TestProperty.Date.WithOffset(Offset.FromHours(3));
+            var date = testValue.TestProperty.WithOffset(Offset.FromHours(3));
 
             AddToDatabase(testValue);
 
@@ -44,7 +44,7 @@ namespace NHibernate.NodaTime.Tests
             {
                 using (var trans = session.BeginTransaction())
                 {
-                    var list = session.Query<TestEntity<OffsetDate>>().Where(x => x.TestProperty.Date.WithOffset(Offset.FromHours(3)) == date).ToList();
+                    var list = session.Query<TestEntity<OffsetTime>>().Where(x => x.TestProperty.WithOffset(Offset.FromHours(3)) == date).ToList();
                     list.Should().HaveCount(1);
                 }
             }

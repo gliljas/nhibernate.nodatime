@@ -7,7 +7,7 @@ using Xunit;
 
 namespace NHibernate.NodaTime.Tests
 {
-    public class OffsetTimeAsDateTimeOffsetPersistenceTests : AbstractPersistenceTests<OffsetTime, OffsetTimeAsDateTimeOffsetType>
+    public class OffsetTimeAsDateTimeOffsetPersistenceTests : AbstractOffsetTimePersistenceTests<OffsetTimeAsDateTimeOffsetType>
     {
         public OffsetTimeAsDateTimeOffsetPersistenceTests(NHibernateFixture nhibernateFixture) : base(nhibernateFixture)
         {

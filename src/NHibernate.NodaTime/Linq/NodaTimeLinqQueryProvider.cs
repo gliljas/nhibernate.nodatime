@@ -37,20 +37,6 @@ namespace NHibernate.NodaTime.Linq
             _sessionFactoryImplementor = sessionFactoryImplementor;
         }
 
-        protected override Expression VisitMember(MemberExpression node)
-        {
-            var persister = _sessionFactoryImplementor.TryGetEntityPersister(node.Expression.Type.FullName);
-            if (persister != null)
-            {
-                var t = persister.GetPropertyType(node.Member.Name);
-                if (t != null)
-                {
-                    
-                }
-            }
-            return base.VisitMember(node);
-        }
-
         public static Expression Visit(Expression expression, ISessionFactoryImplementor sessionFactory)
         {
             expression = NhRelinqQueryParser.PreTransform(expression, sessionFactory);
@@ -68,7 +54,9 @@ namespace NHibernate.NodaTime.Linq
                 return Expression.MakeBinary(node.NodeType, Expression.Convert(node.Left, typeof(DateIntervalWrapper)), Visit(node.Right));
             }
             return base.VisitBinary(node);
+        
         }
+
 
     }
 }

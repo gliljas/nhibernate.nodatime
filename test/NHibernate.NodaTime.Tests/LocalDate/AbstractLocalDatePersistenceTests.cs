@@ -43,5 +43,20 @@ namespace NHibernate.NodaTime.Tests
                 var foundEntities = session.Query<TestEntity<LocalDate>>().Where(x => x.TestProperty < minimum).ToList();
             }
         }
+
+        [SkippableTheory]
+        [NodaTimeAutoData]
+        public void CanQueryAtMidnight(TestEntity<LocalDate> testEntity)
+        {
+            AddToDatabase(testEntity);
+
+            var minimum = testEntity.TestProperty.AtMidnight();
+
+            using (var session = SessionFactory.OpenSession())
+            using (var trans = session.BeginTransaction())
+            {
+                var foundEntities = session.Query<TestEntity<LocalDate>>().Where(x => x.TestProperty.AtMidnight() == minimum).ToList();
+            }
+        }
     }
 }

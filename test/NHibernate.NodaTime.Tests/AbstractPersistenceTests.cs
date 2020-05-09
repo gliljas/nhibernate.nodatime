@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using NHibernate.Cfg;
+using NHibernate.Dialect.Function;
 using NHibernate.Mapping.ByCode;
 using NHibernate.NodaTime.Linq;
 using NHibernate.NodaTime.Tests.Fixtures;
@@ -30,8 +31,15 @@ namespace NHibernate.NodaTime.Tests
             _nhibernateFixture = nhibernateFixture;
             _nhibernateFixture.Configure(c =>
             {
+                c.AddSqlFunction("tonodalocaldate", new SQLFunctionTemplate(new CustomType<LocalDateAsDateTimeType>(), "?1"));
+                c.AddSqlFunction("tonodaoffsetdate", new SQLFunctionTemplate(new CustomType<OffsetDateAsDateTimeOffsetType>(), "?1"));
+                c.AddSqlFunction("tonodalocaltime", new SQLFunctionTemplate(new CustomType<LocalTimeAsTimeType>(), "?1"));
+                c.AddSqlFunction("tonodalocaldatetime", new SQLFunctionTemplate(new CustomType<LocalDateTimeAsDateTimeType>(), "?1"));
+                c.AddSqlFunction("tonodainstant", new SQLFunctionTemplate(new CustomType<InstantAsUtcDateTimeType>(), "?1"));
+                c.AddSqlFunction("switchoffset", new SQLFunctionTemplate(NHibernateUtil.DateTimeOffset, "switchoffset(?1,?2)"));
 
                 c.LinqQueryProvider<NodaTimeLinqQueryProvider>();
+                c.LinqToHqlGeneratorsRegistry<LinqFunctions>();
 
                 var mapper = new ModelMapper();
                 mapper.Class<TTestEntity>(m =>
@@ -138,7 +146,7 @@ namespace NHibernate.NodaTime.Tests
             }
         }
 
-        protected void AddToDatabase(params ITestEntity<T>[] testValues)
+        protected void AddToDatabase(params object[] testValues)
         {
             using (var session = _nhibernateFixture.SessionFactory.OpenSession())
             {

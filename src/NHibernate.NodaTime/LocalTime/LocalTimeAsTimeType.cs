@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace NHibernate.NodaTime
 {
-    public class LocalTimeAsTimeType : AbstractStructType<LocalTime, DateTime, TimeType>
+    public class LocalTimeAsTimeType : AbstractLocalTimeType<DateTime, TimeType>
     {
         protected override LocalTime Unwrap(DateTime value) => LocalDateTime.FromDateTime(value).TimeOfDay;
 

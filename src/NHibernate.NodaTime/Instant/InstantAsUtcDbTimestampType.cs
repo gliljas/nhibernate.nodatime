@@ -4,7 +4,7 @@ using System;
 
 namespace NHibernate.NodaTime
 {
-    public class InstantAsUtcDbTimestampType : VersionedAbstractStructType<Instant, DateTime, UtcDbTimestampType>
+    public class InstantAsUtcDbTimestampType : AbstractInstantType<DateTime, UtcDbTimestampType>
     {
         protected override Instant Unwrap(DateTime value) => Instant.FromDateTimeUtc(DateTime.SpecifyKind(value, DateTimeKind.Utc));
 

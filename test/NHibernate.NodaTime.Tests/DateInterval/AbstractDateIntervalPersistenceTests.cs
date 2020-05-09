@@ -19,21 +19,5 @@ namespace NHibernate.NodaTime.Tests
 
         }
 
-        [SkippableTheory]
-        [NodaTimeAutoData]
-        public void CanQueryByLinq2(List<TestEntity<DateInterval>> testEntities)
-        {
-            AddToDatabase(testEntities.ToArray());
-
-            var start = testEntities.First().TestProperty;
-
-            using (var session = SessionFactory.OpenSession())
-            using (var trans = session.BeginTransaction())
-            {
-                var foundEntities = session.Query<TestEntity<DateInterval>>().Where(x => x.TestProperty == (DateIntervalWrapper)start).ToList();
-            }
-        }
-
-        
     }
 }

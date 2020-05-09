@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace NHibernate.NodaTime
 {
-    public class OffsetTimeAsDateTimeOffsetType : AbstractStructType<OffsetTime, DateTimeOffset, DateTimeOffsetType>
+    public class OffsetTimeAsDateTimeOffsetType : AbstractOffsetTimeType<DateTimeOffset, DateTimeOffsetType>
     {
         protected override OffsetTime Unwrap(DateTimeOffset value) => OffsetDateTime.FromDateTimeOffset(value).ToOffsetTime();
 

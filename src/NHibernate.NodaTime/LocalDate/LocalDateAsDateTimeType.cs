@@ -16,6 +16,19 @@ namespace NHibernate.NodaTime
 
         protected override DateTime Wrap(LocalDate value) => value.ToDateTimeUnspecified();
 
+        protected override LocalDate Cast(object value)
+        {
+            if (value is DateTimeOffset dateTimeOffset)
+            {
+                return LocalDate.FromDateTime(dateTimeOffset.UtcDateTime);
+            }
+            if (value is DateTime dateTime)
+            {
+                return LocalDate.FromDateTime(dateTime);
+            }
+            return base.Cast(value);
+        }
+
     }
 
     public class LocalDateVisitor : ExpressionVisitor

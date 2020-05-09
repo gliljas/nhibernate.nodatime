@@ -32,7 +32,6 @@
   <ItemGroup>
     <Folder Include="Interval\" />
     <Folder Include="ZonedDateTime\" />
-    <Folder Include="OffsetDateTime\" />
   </ItemGroup>
 
 </Project>

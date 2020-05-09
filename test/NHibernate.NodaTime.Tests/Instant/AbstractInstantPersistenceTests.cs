@@ -44,5 +44,67 @@ namespace NHibernate.NodaTime.Tests
                 var foundEntities = session.Query<TestEntity<Instant>>().Where(x => x.TestProperty < minimum).ToList();
             }
         }
+
+        [SkippableTheory]
+        [NodaTimeAutoData]
+        public void CanQueryWithPlus(TestEntity<Instant> testEntity)
+        {
+            AddToDatabase(testEntity);
+
+            var minimum = testEntity.TestProperty.Plus(Duration.FromHours(1));
+
+            using (var session = SessionFactory.OpenSession())
+            using (var trans = session.BeginTransaction())
+            {
+                var foundEntities = session.Query<TestEntity<Instant>>().Where(x => x.TestProperty == minimum).ToList();
+            }
+        }
+
+        [SkippableTheory]
+        [NodaTimeAutoData]
+        public void CanQueryWithMinus(TestEntity<Instant> testEntity)
+        {
+            AddToDatabase(testEntity);
+
+            var minimum = testEntity.TestProperty.Minus(Duration.FromHours(1));
+
+            using (var session = SessionFactory.OpenSession())
+            using (var trans = session.BeginTransaction())
+            {
+                var foundEntities = session.Query<TestEntity<Instant>>().Where(x => x.TestProperty.Minus(Duration.FromHours(1)) == minimum).ToList();
+            }
+        }
+
+        [SkippableTheory]
+        [NodaTimeAutoData]
+        public void CanQueryByWithOffset(TestEntity<Instant> testEntity)
+        {
+            AddToDatabase(testEntity);
+
+            var minimum = testEntity.TestProperty.WithOffset(Offset.FromHours(3));
+
+            using (var session = SessionFactory.OpenSession())
+            using (var trans = session.BeginTransaction())
+            {
+                var foundEntities = session.Query<TestEntity<Instant>>().Where(x => x.TestProperty.WithOffset(Offset.FromHours(3)) == minimum).ToList();
+            }
+        }
+
+        [SkippableTheory]
+        [NodaTimeAutoData]
+        public void CanQueryByToDateTimeOffset(TestEntity<Instant> testEntity)
+        {
+            AddToDatabase(testEntity);
+
+            var minimum = testEntity.TestProperty.ToDateTimeOffset();
+
+            using (var session = SessionFactory.OpenSession())
+            using (var trans = session.BeginTransaction())
+            {
+                var foundEntities = session.Query<TestEntity<Instant>>().Where(x => x.TestProperty.ToDateTimeOffset() == minimum).ToList();
+            }
+        }
+
+        
     }
 }

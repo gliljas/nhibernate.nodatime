@@ -35,5 +35,14 @@ namespace NHibernate.NodaTime
         public override IEnumerable<SupportedQueryProperty<DateTimeZone>> SupportedQueryProperties => new[] { 
             new SupportedQueryProperty<DateTimeZone>(x=>x.Id,new PropertyTransformer(""))
         };
+
+        protected override DateTimeZone Cast(object value)
+        {
+            if (value is string zoneId)
+            {
+                return DateTimeZoneProvider[zoneId];
+            }
+            return base.Cast(value);
+        }
     }
 }

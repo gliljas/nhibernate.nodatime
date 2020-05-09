@@ -7,11 +7,24 @@ using System.Collections.Generic;
 
 namespace NHibernate.NodaTime
 {
-    public class AnnualDateAsDateType : AbstractStructType<AnnualDate, DateTime, DateType>
+    public class AnnualDateAsDateType : AbstractAnnualDateType<DateTime, DateType>
     {
         int _baseYear = 1970;
         protected override AnnualDate Unwrap(DateTime value) => new AnnualDate(value.Month, value.Day);
         protected override DateTime Wrap(AnnualDate value) => value.InYear(_baseYear).ToDateTimeUnspecified();
+
+        protected override AnnualDate Cast(object value)
+        {
+            if (value is DateTime dateTime)
+            {
+                return Unwrap(dateTime);
+            }
+            if (value is DateTimeOffset dateTimeOffset)
+            {
+                return Unwrap(dateTimeOffset.UtcDateTime);
+            }
+            return base.Cast(value);
+        }
 
         public override void SetParameterValues(IDictionary<string, string> parameters)
         {

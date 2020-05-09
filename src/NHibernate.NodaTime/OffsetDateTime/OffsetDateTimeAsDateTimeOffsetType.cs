@@ -4,7 +4,7 @@ using System;
 
 namespace NHibernate.NodaTime
 {
-    public class OffsetDateTimeAsDateTimeOffsetType : VersionedAbstractStructType<OffsetDateTime, DateTimeOffset, DateTimeOffsetType>
+    public class OffsetDateTimeAsDateTimeOffsetType : AbstractOffsetDateTimeType<DateTimeOffset, DateTimeOffsetType>
     {
         protected override OffsetDateTime Unwrap(DateTimeOffset value) => OffsetDateTime.FromDateTimeOffset(value);
 

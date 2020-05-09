@@ -5,7 +5,7 @@ using System;
 
 namespace NHibernate.NodaTime
 {
-    public class InstantAsDateTimeOffsetType : VersionedAbstractStructType<Instant, DateTimeOffset, DateTimeOffsetType>
+    public class InstantAsDateTimeOffsetType : AbstractInstantType<DateTimeOffset, DateTimeOffsetType>
     {
         protected override Instant Unwrap(DateTimeOffset value) => Instant.FromDateTimeOffset(value);
 
