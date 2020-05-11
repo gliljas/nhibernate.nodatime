@@ -4,7 +4,7 @@ using NodaTime;
 
 namespace NHibernate.NodaTime
 {
-    public class OffsetAsInt32SecondsType : AbstractStructType<Offset, int, Int32Type>
+    public class OffsetAsInt32SecondsType : AbstractOffsetType<int, Int32Type>
     {
         protected override Offset Unwrap(int value) => Offset.FromSeconds(value);
 

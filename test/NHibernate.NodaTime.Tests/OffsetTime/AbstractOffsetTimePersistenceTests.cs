@@ -16,20 +16,47 @@ namespace NHibernate.NodaTime.Tests
 
         [Theory]
         [NodaTimeAutoData]
-        public void CanQueryByLocalHour(TestEntity<OffsetTime> testValue)
+        public void CanQueryByHour(TestEntity<OffsetTime> testValue)
         {
             var date = testValue.TestProperty.Hour;
 
             AddToDatabase(testValue);
 
-            using (var session = SessionFactory.OpenSession())
+            ExecuteWithQueryable(q =>
             {
-                using (var trans = session.BeginTransaction())
-                {
-                    var list = session.Query<TestEntity<OffsetTime>>().Where(x => x.TestProperty.Hour == date).ToList();
-                    list.Should().HaveCount(1);
-                }
-            }
+                var list = q.Where(x => x.TestProperty.Hour == date).ToList();
+                list.Should().HaveCount(1);
+            });
+        }
+
+        [Theory]
+        [NodaTimeAutoData]
+        public void CanQueryByMinute(TestEntity<OffsetTime> testValue)
+        {
+            var date = testValue.TestProperty.Minute;
+
+            AddToDatabase(testValue);
+
+            ExecuteWithQueryable(q =>
+            {
+                var list = q.Where(x => x.TestProperty.Minute == date).ToList();
+                list.Should().HaveCount(1);
+            });
+        }
+
+        [Theory]
+        [NodaTimeAutoData]
+        public void CanQueryBySecond(TestEntity<OffsetTime> testValue)
+        {
+            var date = testValue.TestProperty.Second;
+
+            AddToDatabase(testValue);
+
+            ExecuteWithQueryable(q =>
+            {
+                var list = q.Where(x => x.TestProperty.Second == date).ToList();
+                list.Should().HaveCount(1);
+            });
         }
 
         [Theory]
@@ -40,14 +67,11 @@ namespace NHibernate.NodaTime.Tests
 
             AddToDatabase(testValue);
 
-            using (var session = SessionFactory.OpenSession())
+            ExecuteWithQueryable(q =>
             {
-                using (var trans = session.BeginTransaction())
-                {
-                    var list = session.Query<TestEntity<OffsetTime>>().Where(x => x.TestProperty.WithOffset(Offset.FromHours(3)) == date).ToList();
-                    list.Should().HaveCount(1);
-                }
-            }
+                var list = q.Where(x => x.TestProperty.WithOffset(Offset.FromHours(3)) == date).ToList();
+                list.Should().HaveCount(1);
+            });
         }
 
     }

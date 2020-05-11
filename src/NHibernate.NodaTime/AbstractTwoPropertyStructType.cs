@@ -34,8 +34,8 @@ namespace NHibernate.NodaTime
         protected IType Property1Type => _property1Type;
         protected IType Property2Type => _property2Type;
 
-        protected abstract int Property1ColumnSpan { get; }
-        protected abstract int Property2ColumnSpan { get; }
+        protected virtual int Property1ColumnSpan => 1;
+        protected virtual int Property2ColumnSpan => 1;
 
 
         protected abstract T Unwrap(TProperty1Persisted property1Value, TProperty2Persisted property2Value);

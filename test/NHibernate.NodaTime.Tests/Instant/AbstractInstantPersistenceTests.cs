@@ -23,11 +23,10 @@ namespace NHibernate.NodaTime.Tests
 
             var minimum = testEntities.Select(x => x.TestProperty).Min();
 
-            using (var session = SessionFactory.OpenSession())
-            using (var trans = session.BeginTransaction())
+            ExecuteWithQueryable(q =>
             {
-                var foundEntities = session.Query<TestEntity<Instant>>().Where(x => x.TestProperty > minimum).ToList();
-            }
+                var foundEntities = q.Where(x => x.TestProperty > minimum).ToList();
+            });
         }
 
         [SkippableTheory]
@@ -38,11 +37,10 @@ namespace NHibernate.NodaTime.Tests
 
             var minimum = testEntities.Select(x => x.TestProperty).Min();
 
-            using (var session = SessionFactory.OpenSession())
-            using (var trans = session.BeginTransaction())
+            ExecuteWithQueryable(q =>
             {
-                var foundEntities = session.Query<TestEntity<Instant>>().Where(x => x.TestProperty < minimum).ToList();
-            }
+                var foundEntities = q.Where(x => x.TestProperty < minimum).ToList();
+            });
         }
 
         [SkippableTheory]
@@ -53,11 +51,10 @@ namespace NHibernate.NodaTime.Tests
 
             var minimum = testEntity.TestProperty.Plus(Duration.FromHours(1));
 
-            using (var session = SessionFactory.OpenSession())
-            using (var trans = session.BeginTransaction())
+            ExecuteWithQueryable(q =>
             {
-                var foundEntities = session.Query<TestEntity<Instant>>().Where(x => x.TestProperty == minimum).ToList();
-            }
+                var foundEntities = q.Where(x => x.TestProperty == minimum).ToList();
+            });
         }
 
         [SkippableTheory]
@@ -68,11 +65,10 @@ namespace NHibernate.NodaTime.Tests
 
             var minimum = testEntity.TestProperty.Minus(Duration.FromHours(1));
 
-            using (var session = SessionFactory.OpenSession())
-            using (var trans = session.BeginTransaction())
+            ExecuteWithQueryable(q =>
             {
-                var foundEntities = session.Query<TestEntity<Instant>>().Where(x => x.TestProperty.Minus(Duration.FromHours(1)) == minimum).ToList();
-            }
+                var foundEntities = q.Where(x => x.TestProperty.Minus(Duration.FromHours(1)) == minimum).ToList();
+            });
         }
 
         [SkippableTheory]
@@ -83,11 +79,10 @@ namespace NHibernate.NodaTime.Tests
 
             var minimum = testEntity.TestProperty.WithOffset(Offset.FromHours(3));
 
-            using (var session = SessionFactory.OpenSession())
-            using (var trans = session.BeginTransaction())
+            ExecuteWithQueryable(q =>
             {
-                var foundEntities = session.Query<TestEntity<Instant>>().Where(x => x.TestProperty.WithOffset(Offset.FromHours(3)) == minimum).ToList();
-            }
+                var foundEntities = q.Where(x => x.TestProperty.WithOffset(Offset.FromHours(3)) == minimum).ToList();
+            });
         }
 
         [SkippableTheory]
@@ -98,11 +93,10 @@ namespace NHibernate.NodaTime.Tests
 
             var minimum = testEntity.TestProperty.ToDateTimeOffset();
 
-            using (var session = SessionFactory.OpenSession())
-            using (var trans = session.BeginTransaction())
+            ExecuteWithQueryable(q =>
             {
-                var foundEntities = session.Query<TestEntity<Instant>>().Where(x => x.TestProperty.ToDateTimeOffset() == minimum).ToList();
-            }
+                var foundEntities = q.Where(x => x.TestProperty.ToDateTimeOffset() == minimum).ToList();
+            });
         }
 
         

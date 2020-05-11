@@ -23,14 +23,11 @@ namespace NHibernate.NodaTime.Tests
 
             AddToDatabase(testValue);
 
-            using (var session = SessionFactory.OpenSession())
+            ExecuteWithQueryable(q =>
             {
-                using (var trans = session.BeginTransaction())
-                {
-                    var list = session.Query<TestEntity<OffsetDate>>().Where(x => x.TestProperty.Date == date).ToList();
+                var list = q.Where(x => x.TestProperty.Date == date).ToList();
                     list.Should().HaveCount(1);
-                }
-            }
+            });
         }
 
         [Theory]
@@ -41,14 +38,12 @@ namespace NHibernate.NodaTime.Tests
 
             AddToDatabase(testValue);
 
-            using (var session = SessionFactory.OpenSession())
+            ExecuteWithQueryable(q =>
             {
-                using (var trans = session.BeginTransaction())
-                {
-                    var list = session.Query<TestEntity<OffsetDate>>().Where(x => x.TestProperty.Date.WithOffset(Offset.FromHours(3)) == date).ToList();
+                var list = q.Where(x => x.TestProperty.Date.WithOffset(Offset.FromHours(3)) == date).ToList();
                     list.Should().HaveCount(1);
-                }
-            }
+                
+            });
         }
 
         [SkippableTheory]
@@ -59,11 +54,10 @@ namespace NHibernate.NodaTime.Tests
 
             var minimum = testEntities.Select(x => x.TestProperty).Min();
 
-            using (var session = SessionFactory.OpenSession())
-            using (var trans = session.BeginTransaction())
+            ExecuteWithQueryable(q =>
             {
-                var foundEntities = session.Query<TestEntity<OffsetDate>>().Where(x => x.TestProperty.Date > minimum.Date).ToList();
-            }
+                var foundEntities = q.Where(x => x.TestProperty.Date > minimum.Date).ToList();
+            });
         }
 
         [SkippableTheory]
@@ -74,11 +68,10 @@ namespace NHibernate.NodaTime.Tests
 
             var minimum = testEntities.Select(x => x.TestProperty).Min();
 
-            using (var session = SessionFactory.OpenSession())
-            using (var trans = session.BeginTransaction())
+            ExecuteWithQueryable(q =>
             {
-                var foundEntities = session.Query<TestEntity<OffsetDate>>().Where(x => x.TestProperty.Date < minimum.Date).ToList();
-            }
+                var foundEntities = q.Where(x => x.TestProperty.Date < minimum.Date).ToList();
+            });
         }
 
     }

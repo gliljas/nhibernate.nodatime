@@ -39,11 +39,10 @@ namespace NHibernate.NodaTime.Tests
 
             var day = testEntities.First().TestProperty.Day;
 
-            using (var session = SessionFactory.OpenSession())
-            using (var trans = session.BeginTransaction())
+            ExecuteWithQueryable(q =>
             {
-                var foundEntities = session.Query<TestEntity<AnnualDate>>().Where(x => x.TestProperty.Day == day).ToList();
-            }
+                var foundEntities = q.Where(x => x.TestProperty.Day == day).ToList();
+            });
         }
 
         protected override object GetTypeParameters()

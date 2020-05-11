@@ -161,6 +161,15 @@ namespace NHibernate.NodaTime.Tests
             }
         }
 
+        protected void ExecuteWithQueryable(Action<IQueryable<TTestEntity>> queryableAction)
+        {
+            using (var session = SessionFactory.OpenSession())
+            using (var trans = session.BeginTransaction())
+            {
+                queryableAction(session.Query<TTestEntity>());
+            }
+        }
+
         protected virtual T AdjustValue(T value)
         {
             return value;

@@ -18,7 +18,17 @@ namespace NHibernate.NodaTime.Linq
 
         public HqlTreeNode BuildHql(MemberInfo member, Expression expression, HqlTreeBuilder treeBuilder, IHqlExpressionVisitor visitor)
         {
-            return treeBuilder.MethodCall("tolocaldate",treeBuilder.MethodCall("date", visitor.Visit(expression).AsExpression()));
+            return treeBuilder.MethodCall("tonodalocaldate",treeBuilder.MethodCall("date", visitor.Visit(expression).AsExpression()));
+        }
+    }
+
+    internal class OffsetDateTimeDatePropertyGenerator : IHqlGeneratorForProperty
+    {
+        public IEnumerable<MemberInfo> SupportedProperties => new[] { ReflectHelper.GetProperty<OffsetDateTime, LocalDate>(x => x.Date) };
+
+        public HqlTreeNode BuildHql(MemberInfo member, Expression expression, HqlTreeBuilder treeBuilder, IHqlExpressionVisitor visitor)
+        {
+            return treeBuilder.MethodCall("tonodalocaldate", treeBuilder.MethodCall("date", visitor.Visit(expression).AsExpression()));
         }
     }
 
@@ -31,7 +41,7 @@ namespace NHibernate.NodaTime.Linq
             var offsetConstant = arguments[0] as ConstantExpression;
             var offset = (Offset)offsetConstant.Value;
             var sessionFactoryImpl = visitor.SessionFactory as SessionFactoryImpl;
-            return treeBuilder.MethodCall("tooffsetdate", treeBuilder.MethodCall("switchoffset", visitor.Visit(targetObject).AsExpression(), treeBuilder.Constant(offset.Seconds / 60)));
+            return treeBuilder.MethodCall("tonodaoffsetdate", treeBuilder.MethodCall("switchoffset", visitor.Visit(targetObject).AsExpression(), treeBuilder.Constant(offset.Seconds / 60)));
         }
     }
 
@@ -54,5 +64,15 @@ namespace NHibernate.NodaTime.Linq
             throw new NotImplementedException();
         }
     }
+
+    //internal class InstantComparerMethodGenerator : IHqlGeneratorForMethod
+    //{
+    //    public IEnumerable<MethodInfo> SupportedMethods => new[] { ReflectHelper.GetMethod(() => OffsetDateTime.Comparer.Instant.Compare(default,default))};
+
+    //    public HqlTreeNode BuildHql(MethodInfo method, Expression targetObject, ReadOnlyCollection<Expression> arguments, HqlTreeBuilder treeBuilder, IHqlExpressionVisitor visitor)
+    //    {
+            
+    //    }
+    //}
 
 }

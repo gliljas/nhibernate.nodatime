@@ -12,6 +12,7 @@ namespace NHibernate.NodaTime.Linq
         public LinqFunctions()
         {
             this.Merge(new OffsetDateDatePropertyGenerator());
+            this.Merge(new OffsetDateTimeDatePropertyGenerator());
             this.Merge(new LocalDateYearPropertyGenerator());
             this.Merge(new LocalDateWithOffsetMethodGenerator());
         }

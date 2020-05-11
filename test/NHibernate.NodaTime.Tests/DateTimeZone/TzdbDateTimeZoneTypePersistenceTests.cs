@@ -21,11 +21,10 @@ namespace NHibernate.NodaTime.Tests
 
             var zoneId = testEntities.First().TestProperty.Id;
 
-            using (var session = SessionFactory.OpenSession())
-            using (var trans = session.BeginTransaction())
+            ExecuteWithQueryable(q =>
             {
-                var foundEntities = session.Query<TestEntity<DateTimeZone>>().Where(x => x.TestProperty.Id == zoneId).ToList();
-            }
+                var foundEntities = q.Where(x => x.TestProperty.Id == zoneId).ToList();
+            });
         }
 
     }
