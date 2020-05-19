@@ -1,5 +1,6 @@
 ﻿using NHibernate.Type;
 using NodaTime;
+using NodaTime.TimeZones;
 using System;
 
 namespace NHibernate.NodaTime

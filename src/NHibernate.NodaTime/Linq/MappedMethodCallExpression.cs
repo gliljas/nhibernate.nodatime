@@ -54,19 +54,20 @@ namespace NHibernate.NodaTime.Linq
         }
     }
 
-    public class SuperMongo : ExpressionVisitor
-    {
-        protected override Expression VisitMember(MemberExpression node)
-        {
-            var mappingMetaData = GetMapping(node);
-            return new MappedMemberExpression(node.Expression, node.Member);
-        }
+    //public class SuperMongo : ExpressionVisitor
+    //{
+    //    protected override Expression VisitMember(MemberExpression node)
+    //    {
+    //        var expression = Visit(node.Expression);
+    //        var mappingMetaData = GetMapping(node);
+    //        return new MappedMemberExpression(node.Expression, node.Member);
+    //    }
 
-        private object GetMapping(MemberExpression node)
-        {
-            if (node.)
-        }
-    }
+    //    private object GetMapping(MemberExpression node)
+    //    {
+    //        if (node.)
+    //    }
+    //}
 
 
 }

@@ -38,6 +38,15 @@ namespace NHibernate.NodaTime
         protected abstract T Unwrap(TPersisted value);
 
         protected virtual T Cast(object value) => (T)value;
+
+        private T DoCast(object value) {
+            if (value is T tValue)
+            {
+                return tValue;
+            }
+            return Cast(value);
+        }
+
         protected virtual object? NullValue => null;
 
         public SqlType[] SqlTypes => new[] { SqlType };
@@ -100,7 +109,7 @@ namespace NHibernate.NodaTime
                 ValueType.NullSafeSet(cmd, null, index, session);
                 return;
             }
-            var actualValue = Cast(value);
+            var actualValue = DoCast(value);
             ValueType.NullSafeSet(cmd, Wrap(actualValue), index, session);
         }
 

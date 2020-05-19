@@ -2,9 +2,9 @@
 
 namespace NHibernate.NodaTime.Tests
 {
-    public class OffsetDateTimeAsDateTimeAndOffsetTypePersistenceTests : AbstractOffsetDateTimePersistenceTests<OffsetDateTimeAsDateTimeAndOffsetType>
+    public class OffsetDateTimeAsLocalDateTimeAndOffsetTypePersistenceTests : AbstractOffsetDateTimePersistenceTests<OffsetDateTimeAsLocalDateTimeAndOffsetType>
     {
-        public OffsetDateTimeAsDateTimeAndOffsetTypePersistenceTests(NHibernateFixture nhibernateFixture) : base(nhibernateFixture)
+        public OffsetDateTimeAsLocalDateTimeAndOffsetTypePersistenceTests(NHibernateFixture nhibernateFixture) : base(nhibernateFixture)
         {
 
         }
