@@ -128,7 +128,7 @@ namespace NHibernate.NodaTime
             throw new NotImplementedException();
         }
 
-        void IParameterizedType.SetParameterValues(IDictionary<string, string> parameters)
+        public void SetParameterValues(IDictionary<string, string> parameters)
         {
             if (parameters != null)
             {

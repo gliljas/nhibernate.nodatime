@@ -12,8 +12,8 @@ namespace NHibernate.NodaTime
     public abstract class AbstractDateIntervalAsLocalDatesType<TLocalDateType> : AbstractTwoPropertyStructType<DateInterval, LocalDate, LocalDate, CustomType<TLocalDateType>, CustomType<TLocalDateType>>
         where TLocalDateType : IUserType
     {
-        protected override string Property1Name => "Start";
-        protected override string Property2Name => "End";
+        protected override string Property1Name => nameof(DateInterval.Start);
+        protected override string Property2Name => nameof(DateInterval.End);
 
         protected override int Property1ColumnSpan => 1;
         protected override int Property2ColumnSpan => 1;

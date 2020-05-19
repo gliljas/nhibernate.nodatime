@@ -7,7 +7,7 @@ namespace NHibernate.NodaTime
     public class OffsetTimeAsTimeAsTimeSpanAndOffsetType : AbstractTwoPropertyStructType<OffsetTime, TimeSpan, Offset, TimeAsTimeSpanType, CustomType<OffsetAsInt32SecondsType>>
     {
         protected override string Property1Name => "TimeSpan";
-        protected override string Property2Name => "Offset";
+        protected override string Property2Name => nameof(OffsetTime.Offset);
 
         protected override TimeSpan GetProperty1Value(OffsetTime value) => TimeSpan.FromTicks(value.TimeOfDay.TickOfDay);
 
