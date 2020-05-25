@@ -54,7 +54,7 @@ namespace NHibernate.NodaTime.Linq
 
         private IReadOnlyList<IType> TryGetMappedTypesFromExpression(Expression expression)
         {
-            return null;
+            return new List<IType>();
         }
     }
 

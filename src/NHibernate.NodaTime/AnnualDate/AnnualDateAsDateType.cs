@@ -7,6 +7,9 @@ using System.Collections.Generic;
 
 namespace NHibernate.NodaTime
 {
+    /// <summary>
+    /// Persists an <see cref="AnnualDate"/> as a <see cref="DateTime"/>, using <see cref="DateType"/>
+    /// </summary>
     public class AnnualDateAsDateType : AbstractAnnualDateType<DateTime, DateType>
     {
         int _baseYear = 1970;

@@ -3,12 +3,17 @@ using NHibernate.Type;
 using NodaTime;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace NHibernate.NodaTime
 {
+    /// <summary>
+    /// Persists an <see cref="OffsetTime"/> as a <see cref="DateTimeOffset"/>, using <see cref="DateTimeOffsetType"/>
+    /// The date portion is set to the Unix Epoch date
+    /// </summary>
     public class OffsetTimeAsDateTimeOffsetType : AbstractOffsetTimeType<DateTimeOffset, DateTimeOffsetType>
     {
         protected override OffsetTime Unwrap(DateTimeOffset value) => OffsetDateTime.FromDateTimeOffset(value).ToOffsetTime();

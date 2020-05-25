@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 
 namespace NHibernate.NodaTime
 {
+    /// <summary>
+    /// Persists a <see cref="DateInterval"/> as two <see cref="LocalDate"/>s, using <see cref="TLocalDateType"/>
+    /// </summary>
+    /// <typeparam name="TLocalDateType"></typeparam>
     public abstract class AbstractDateIntervalAsLocalDatesType<TLocalDateType> : AbstractTwoPropertyStructType<DateInterval, LocalDate, LocalDate, CustomType<TLocalDateType>, CustomType<TLocalDateType>>
         where TLocalDateType : IUserType
     {

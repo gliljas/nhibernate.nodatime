@@ -4,6 +4,9 @@ using NodaTime;
 
 namespace NHibernate.NodaTime
 {
+    /// <summary>
+    /// Persists an <see cref="Interval"/> as two <see cref="Instant"/>s, using <see cref="{TInstantType}"/>
+    /// </summary>
     public abstract class AbstractIntervalAsInstantsType<TInstantType> : AbstractTwoPropertyStructType<Interval, Instant?, Instant?, CustomType<TInstantType>, CustomType<TInstantType>>
     where TInstantType : IUserType
     {

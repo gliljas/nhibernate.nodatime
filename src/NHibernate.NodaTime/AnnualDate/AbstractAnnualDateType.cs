@@ -7,6 +7,4 @@ namespace NHibernate.NodaTime
         where TNullableType : NullableType, new()
     {
     }
-
-
 }

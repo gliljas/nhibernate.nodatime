@@ -4,6 +4,9 @@ using System;
 
 namespace NHibernate.NodaTime
 {
+    /// <summary>
+    /// Persists a <see cref="LocalDate"/> as a <see cref="DateTime"/>, using <see cref="DateType"/>
+    /// </summary>
     public class LocalDateAsDateType : AbstractStructType<LocalDate, DateTime, DateType>
     {
         protected override LocalDate Unwrap(DateTime value) => LocalDate.FromDateTime(value);

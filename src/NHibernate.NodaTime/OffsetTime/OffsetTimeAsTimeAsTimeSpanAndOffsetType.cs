@@ -4,6 +4,11 @@ using System;
 
 namespace NHibernate.NodaTime
 {
+    /// <summary>
+    /// Persists an <see cref="OffsetTime"/> using two columns.
+    /// One for the time, stored as a <see cref="TimeSpan"/>, using <see cref="TimeAsTimeSpanType"/>.
+    /// One for the offset, stored as seconds, using <see cref="OffsetAsInt32SecondsType"/>
+    /// </summary>
     public class OffsetTimeAsTimeAsTimeSpanAndOffsetType : AbstractTwoPropertyStructType<OffsetTime, TimeSpan, Offset, TimeAsTimeSpanType, CustomType<OffsetAsInt32SecondsType>>
     {
         protected override string Property1Name => "TimeSpan";

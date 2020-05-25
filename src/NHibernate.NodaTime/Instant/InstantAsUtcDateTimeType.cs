@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace NHibernate.NodaTime
 {
+    /// <summary>
+    /// Persists an <see cref="Instant"/> as a <see cref="DateTime"/>, using <see cref="UtcDateTimeType"/>
+    /// </summary>
     public class InstantAsUtcDateTimeType : AbstractInstantType<DateTime, UtcDateTimeType>
     {
         protected override Instant Unwrap(DateTime value) => Instant.FromDateTimeUtc(DateTime.SpecifyKind(value, DateTimeKind.Utc));
