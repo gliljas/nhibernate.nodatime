@@ -1,6 +1,7 @@
 ﻿using NHibernate.SqlTypes;
 using NHibernate.Type;
 using NodaTime;
+using System;
 
 namespace NHibernate.NodaTime
 {

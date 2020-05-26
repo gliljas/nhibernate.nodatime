@@ -1,9 +1,4 @@
 ﻿using NodaTime;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NHibernate.NodaTime.Extensions
 {
@@ -16,6 +11,7 @@ namespace NHibernate.NodaTime.Extensions
 
         internal static Instant PlusFromDateTimeOffset(this Instant instance, Duration duration) => instance.Plus(duration);
 
+        internal static Instant MinusFromDateTimeOffset(this Instant instance, Duration duration) => instance.Minus(duration);
 
     }
 }

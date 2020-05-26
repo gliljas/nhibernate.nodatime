@@ -1,8 +1,11 @@
-﻿using NodaTime;
+﻿using NHibernate.UserTypes;
+using NodaTime;
 
 namespace NHibernate.NodaTime
 {
-    public class TzdbZonedDateTimeAsLocalDateTimeAndZoneType : AbstractZonedDateTimeType<LocalDateTime, CustomType<LocalDateTimeAsDateTimeType>, TzdbDateTimeZoneType>
+    public abstract class AbstractZonedDateTimeAsLocalDateTimeAndZoneType<TLocalDateTimeType, TDateTimeZoneType> : AbstractZonedDateTimeType<LocalDateTime, CustomType<TLocalDateTimeType>, TDateTimeZoneType>
+    where TLocalDateTimeType : IUserType
+    where TDateTimeZoneType : IUserType
     {
         protected override string Property1Name => nameof(ZonedDateTime.LocalDateTime);
         protected override int Property1ColumnSpan => 1;

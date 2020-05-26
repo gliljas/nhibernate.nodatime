@@ -11,7 +11,7 @@ namespace NHibernate.NodaTime
     /// <typeparam name="TPersistedType"></typeparam>
     /// <typeparam name="TDateTimeZoneType"></typeparam>
     public abstract class AbstractDateTimeBackedZonedDateTimeType<TPersistedType, TDateTimeZoneType> : AbstractZonedDateTimeType<DateTime, TPersistedType, TDateTimeZoneType>
-        where TPersistedType : IType, new()
+        where TPersistedType : AbstractDateTimeType, new()
         where TDateTimeZoneType : IUserType
     {
         protected override string Property1Name => "DateTime";

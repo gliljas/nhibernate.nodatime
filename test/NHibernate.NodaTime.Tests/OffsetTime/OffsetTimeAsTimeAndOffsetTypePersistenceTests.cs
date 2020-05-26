@@ -3,7 +3,7 @@ using NodaTime;
 
 namespace NHibernate.NodaTime.Tests
 {
-    public class OffsetTimeAsTimeAndOffsetTypePersistenceTests : AbstractOffsetTimePersistenceTests<OffsetTimeAsTimeAsTimeSpanAndOffsetType>
+    public class OffsetTimeAsTimeAndOffsetTypePersistenceTests : AbstractOffsetTimePersistenceTests<OffsetTimeViaLocalTimeAsTimeAsTimeSpanAndOffsetType>
     {
         public OffsetTimeAsTimeAndOffsetTypePersistenceTests(NHibernateFixture nhibernateFixture) : base(nhibernateFixture)
         {

@@ -3,7 +3,6 @@ using NHibernate.NodaTime.Linq;
 using NHibernate.SqlTypes;
 using NHibernate.Type;
 using NHibernate.UserTypes;
-using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
@@ -22,7 +21,9 @@ namespace NHibernate.NodaTime
 
     public abstract class AbstractStructType<T, TPersisted> : IUserType, IParameterizedType, ISupportLinqQueries<T>
     {
+#pragma warning disable IDE0044 // Add readonly modifier
         private NullableType _backingType;
+#pragma warning restore IDE0044 // Add readonly modifier
 
         protected AbstractStructType(NullableType nullableType)
         {

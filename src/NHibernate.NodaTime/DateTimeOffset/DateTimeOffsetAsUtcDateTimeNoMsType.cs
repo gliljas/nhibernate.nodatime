@@ -6,9 +6,7 @@ using System;
 
 namespace NHibernate.NodaTime
 {
-    public class DateTimeOffsetAsUtcDateTimeNoMsType : AbstractDateTimeOffsetType<DateTime, UtcDateTimeNoMsType>
+    public class DateTimeOffsetAsUtcDateTimeNoMsType : AbstractDateTimeOffsetAsDateTimeType<UtcDateTimeNoMsType>
     {
-        protected override DateTimeOffset Unwrap(DateTime value) => DateTime.SpecifyKind(value, DateTimeKind.Utc);
-        protected override DateTime Wrap(DateTimeOffset value) => value.UtcDateTime;
     }
 }
