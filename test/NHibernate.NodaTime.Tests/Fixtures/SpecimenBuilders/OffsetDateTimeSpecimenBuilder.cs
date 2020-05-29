@@ -5,6 +5,6 @@ namespace NHibernate.NodaTime.Tests.Fixtures
 {
     public class OffsetDateTimeSpecimenBuilder : AbstractDateTimeOffsetBasedBuilder<OffsetDateTime>
     {
-        public override OffsetDateTime CreateFromDateTime(DateTimeOffset dateTime) => OffsetDateTime.FromDateTimeOffset(dateTime);
+        public override OffsetDateTime CreateFromDateTimeOffset(DateTimeOffset dateTime) => OffsetDateTime.FromDateTimeOffset(dateTime);
     }
 }

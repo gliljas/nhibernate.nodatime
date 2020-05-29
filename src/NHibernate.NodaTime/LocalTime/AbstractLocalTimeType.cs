@@ -17,6 +17,10 @@ namespace NHibernate.NodaTime
             {
                 return LocalDateTime.FromDateTime(dateTime).TimeOfDay;
             }
+            if (value is TimeSpan timeSpan)
+            {
+                return LocalTime.FromTicksSinceMidnight(timeSpan.Ticks);
+            }
             return base.Cast(value);
         }
     }

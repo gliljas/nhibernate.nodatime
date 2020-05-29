@@ -1,5 +1,4 @@
 ﻿using NodaTime;
-using NodaTime.Calendars;
 
 namespace NHibernate.NodaTime.Extensions
 {

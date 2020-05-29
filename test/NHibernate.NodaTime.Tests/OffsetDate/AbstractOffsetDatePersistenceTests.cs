@@ -1,8 +1,5 @@
-﻿using FluentAssertions;
-using NHibernate.NodaTime.Tests.Fixtures;
+﻿using NHibernate.NodaTime.Tests.Fixtures;
 using NodaTime;
-using System.Collections.Generic;
-using System.Linq;
 using Xunit;
 
 namespace NHibernate.NodaTime.Tests
@@ -15,64 +12,67 @@ namespace NHibernate.NodaTime.Tests
 
         }
 
-        [Theory]
+        [SkippableTheory]
         [NodaTimeAutoData]
-        public void CanQueryByLocalDate(TestEntity<OffsetDate> testValue)
+        public virtual void SupportsToDateTimeOffset(LocalTime time)
         {
-            var date = testValue.TestProperty.Date;
-
-            AddToDatabase(testValue);
-
-            ExecuteWithQueryable(q =>
-            {
-                var list = q.Where(x => x.TestProperty.Date == date).ToList();
-                list.Should().HaveCount(1);
-            });
+            SupportsPropertyOrMethod(x => x.At(time));
         }
 
-        [Theory]
-        [NodaTimeAutoData]
-        public void CanQueryByWithOffset(TestEntity<OffsetDate> testValue)
+        [SkippableFact]
+        public virtual void SupportsDate()
         {
-            var date = testValue.TestProperty.Date.WithOffset(Offset.FromHours(3));
+            SupportsPropertyOrMethod(x => x.Date);
+        }
 
-            AddToDatabase(testValue);
+        [SkippableFact]
+        public virtual void SupportsDay()
+        {
+            SupportsPropertyOrMethod(x => x.Day);
+        }
 
-            ExecuteWithQueryable(q =>
-            {
-                var list = q.Where(x => x.TestProperty.Date.WithOffset(Offset.FromHours(3)) == date).ToList();
-                list.Should().HaveCount(1);
-            });
+        [SkippableFact]
+        public virtual void SupportsDayOfWeek()
+        {
+            SupportsPropertyOrMethod(x => x.DayOfWeek);
+        }
+
+        [SkippableFact]
+        public virtual void SupportsEra()
+        {
+            SupportsPropertyOrMethod(x => x.Era);
+        }
+
+        [SkippableFact]
+        public virtual void SupportsMonth()
+        {
+            SupportsPropertyOrMethod(x => x.Month);
+        }
+
+        [SkippableFact]
+        public virtual void SupportsYear()
+        {
+            SupportsPropertyOrMethod(x => x.Year);
+        }
+
+        [SkippableFact]
+        public virtual void SupportsYearOfEra()
+        {
+            SupportsPropertyOrMethod(x => x.YearOfEra);
         }
 
         [SkippableTheory]
         [NodaTimeAutoData]
-        public void CanQueryWithGreaterThan(List<TestEntity<OffsetDate>> testEntities)
+        public virtual void SupportsEquals(OffsetDate offsetDate)
         {
-            AddToDatabase(testEntities.ToArray());
-
-            var minimum = testEntities.OrderBy(x => x.TestProperty.Date).First().TestProperty;
-
-            using (var session = SessionFactory.OpenSession())
-            using (var trans = session.BeginTransaction())
-            {
-                var foundEntities = session.Query<TestEntity<OffsetDate>>().Where(x => x.TestProperty.Date > minimum.Date).ToList();
-            }
+            SupportsPropertyOrMethod(x => x.Equals(offsetDate));
         }
 
         [SkippableTheory]
         [NodaTimeAutoData]
-        public void CanQueryWithLessThan(List<TestEntity<OffsetDate>> testEntities)
+        public virtual void SupportsWithOffset(Offset offset)
         {
-            AddToDatabase(testEntities.ToArray());
-
-            var minimum = testEntities.Select(x => x.TestProperty.Date).Min();
-
-            using (var session = SessionFactory.OpenSession())
-            using (var trans = session.BeginTransaction())
-            {
-                var foundEntities = session.Query<TestEntity<OffsetDate>>().Where(x => x.TestProperty.Date < minimum).ToList();
-            }
+            SupportsPropertyOrMethod(x => x.WithOffset(offset));
         }
 
     }

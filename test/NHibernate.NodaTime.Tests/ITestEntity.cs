@@ -7,6 +7,7 @@ namespace NHibernate.NodaTime.Tests
         Guid Id { get; set; }
         T TestProperty { get; set; }
         TestComponent<T> TestComponent { get; set; }
+
     }
 
     public class TestComponent<T>

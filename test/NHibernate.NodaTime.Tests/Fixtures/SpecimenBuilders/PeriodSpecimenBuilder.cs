@@ -1,7 +1,6 @@
 ﻿using AutoFixture;
 using AutoFixture.Kernel;
 using NodaTime;
-using NodaTime.Extensions;
 using System;
 
 namespace NHibernate.NodaTime.Tests.Fixtures

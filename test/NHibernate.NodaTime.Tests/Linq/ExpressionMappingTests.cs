@@ -2,11 +2,9 @@
 using NHibernate.Cfg;
 using NHibernate.Dialect;
 using NHibernate.Engine;
-using NHibernate.Linq;
 using NHibernate.Mapping.ByCode;
 using NHibernate.NodaTime.Linq;
 using NodaTime;
-using NSubstitute;
 using System;
 using System.Linq;
 using System.Linq.Expressions;

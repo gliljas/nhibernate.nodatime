@@ -1,11 +1,10 @@
 ﻿using NHibernate.UserTypes;
 using NodaTime;
-using System;
 
 namespace NHibernate.NodaTime
 {
     /// <summary>
-    /// Persists an <see cref="OffsetDateTime"/> as a <see cref="LocalDateTime"/> and an <see cref="Offset"/>, using <see cref="{TLocalDateTimeType}"/> and <see cref="OffsetAsInt32SecondsType"/>
+    /// Persists an <see cref="OffsetDateTime"/> as a <see cref="LocalDateTime"/> and a <see cref="Offset"/>, using <see cref="{TLocalDateTimeType}"/> and <see cref="OffsetAsInt32SecondsType"/>
     /// </summary>
     /// <typeparam name="TLocalDateTimeType"></typeparam>
     public abstract class AbstractOffsetDateTimeViaLocalDateTimeAndOffsetType<TLocalDateTimeType, TOffsetType> : AbstractTwoPropertyStructType<OffsetDateTime, LocalDateTime, Offset, CustomType<TLocalDateTimeType>, CustomType<TOffsetType>>

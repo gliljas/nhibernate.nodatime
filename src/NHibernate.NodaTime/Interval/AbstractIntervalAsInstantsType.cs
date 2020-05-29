@@ -1,5 +1,4 @@
-﻿using NHibernate.Type;
-using NHibernate.UserTypes;
+﻿using NHibernate.UserTypes;
 using NodaTime;
 
 namespace NHibernate.NodaTime

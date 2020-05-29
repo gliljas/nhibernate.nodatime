@@ -1,16 +1,4 @@
-﻿using NHibernate.Hql.Ast;
-using NHibernate.Impl;
-using NHibernate.Linq.Functions;
-using NHibernate.Linq.Visitors;
-using NHibernate.Util;
-using NodaTime;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq.Expressions;
-using System.Reflection;
-
-namespace NHibernate.NodaTime.Linq
+﻿namespace NHibernate.NodaTime.Linq
 {
     //internal class OffsetDateDatePropertyGenerator : IHqlGeneratorForProperty
     //{
@@ -71,7 +59,7 @@ namespace NHibernate.NodaTime.Linq
 
     //    public HqlTreeNode BuildHql(MethodInfo method, Expression targetObject, ReadOnlyCollection<Expression> arguments, HqlTreeBuilder treeBuilder, IHqlExpressionVisitor visitor)
     //    {
-            
+
     //    }
     //}
 

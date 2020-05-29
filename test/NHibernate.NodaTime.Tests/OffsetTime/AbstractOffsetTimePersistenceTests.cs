@@ -1,7 +1,5 @@
-﻿using FluentAssertions;
-using NHibernate.NodaTime.Tests.Fixtures;
+﻿using NHibernate.NodaTime.Tests.Fixtures;
 using NodaTime;
-using System.Linq;
 using Xunit;
 
 namespace NHibernate.NodaTime.Tests
@@ -14,64 +12,85 @@ namespace NHibernate.NodaTime.Tests
 
         }
 
-        [Theory]
+        [SkippableTheory]
         [NodaTimeAutoData]
-        public void CanQueryByHour(TestEntity<OffsetTime> testValue)
+        public virtual void SupportsOn(LocalDate localDate)
         {
-            var date = testValue.TestProperty.Hour;
-
-            AddToDatabase(testValue);
-
-            ExecuteWithQueryable(q =>
-            {
-                var list = q.Where(x => x.TestProperty.Hour == date).ToList();
-                list.Should().HaveCount(1);
-            });
+            SupportsPropertyOrMethod(x => x.On(localDate));
         }
 
-        [Theory]
-        [NodaTimeAutoData]
-        public void CanQueryByMinute(TestEntity<OffsetTime> testValue)
+        [SkippableFact]
+        public virtual void SupportsClockHourOfHalfDay()
         {
-            var date = testValue.TestProperty.Minute;
-
-            AddToDatabase(testValue);
-
-            ExecuteWithQueryable(q =>
-            {
-                var list = q.Where(x => x.TestProperty.Minute == date).ToList();
-                list.Should().HaveCount(1);
-            });
+            SupportsPropertyOrMethod(x => x.ClockHourOfHalfDay);
         }
 
-        [Theory]
-        [NodaTimeAutoData]
-        public void CanQueryBySecond(TestEntity<OffsetTime> testValue)
+        [SkippableFact]
+        public virtual void SupportsHour()
         {
-            var date = testValue.TestProperty.Second;
-
-            AddToDatabase(testValue);
-
-            ExecuteWithQueryable(q =>
-            {
-                var list = q.Where(x => x.TestProperty.Second == date).ToList();
-                list.Should().HaveCount(1);
-            });
+            SupportsPropertyOrMethod(x => x.Hour);
         }
 
-        [Theory]
-        [NodaTimeAutoData]
-        public void CanQueryByWithOffset(TestEntity<OffsetTime> testValue)
+        [SkippableFact]
+        public virtual void SupportsMillisecond()
         {
-            var date = testValue.TestProperty.WithOffset(Offset.FromHours(3));
+            SupportsPropertyOrMethod(x => x.Millisecond);
+        }
 
-            AddToDatabase(testValue);
+        [SkippableFact]
+        public virtual void SupportsMinute()
+        {
+            SupportsPropertyOrMethod(x => x.Minute);
+        }
 
-            ExecuteWithQueryable(q =>
-            {
-                var list = q.Where(x => x.TestProperty.WithOffset(Offset.FromHours(3)) == date).ToList();
-                list.Should().HaveCount(1);
-            });
+        [SkippableFact]
+        public virtual void SupportsNanosecondOfDay()
+        {
+            SupportsPropertyOrMethod(x => x.NanosecondOfDay);
+        }
+
+        [SkippableFact]
+        public virtual void SupportsNanosecondOfSecond()
+        {
+            SupportsPropertyOrMethod(x => x.NanosecondOfSecond);
+        }
+
+        [SkippableFact]
+        public virtual void SupportsSecond()
+        {
+            SupportsPropertyOrMethod(x => x.Second);
+        }
+
+        [SkippableFact]
+        public virtual void SupportsTickOfDay()
+        {
+            SupportsPropertyOrMethod(x => x.TickOfDay);
+        }
+
+        [SkippableFact]
+        public virtual void SupportsTickOfSecond()
+        {
+            SupportsPropertyOrMethod(x => x.TickOfSecond);
+        }
+
+        [SkippableFact]
+        public virtual void SupportsTimeOfDay()
+        {
+            SupportsPropertyOrMethod(x => x.TimeOfDay);
+        }
+
+        [SkippableTheory]
+        [NodaTimeAutoData]
+        public virtual void SupportsEquals(OffsetTime offsetTime)
+        {
+            SupportsPropertyOrMethod(x => x.Equals(offsetTime));
+        }
+
+        [SkippableTheory]
+        [NodaTimeAutoData]
+        public virtual void SupportsWithOffset(Offset offset)
+        {
+            SupportsPropertyOrMethod(x => x.WithOffset(offset));
         }
 
     }

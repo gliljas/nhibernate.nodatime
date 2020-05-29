@@ -1,9 +1,8 @@
 ﻿using NHibernate.NodaTime.Tests.Fixtures;
-using NodaTime;
 
 namespace NHibernate.NodaTime.Tests
 {
-    public class InstantAsUtcTicksTypePersistenceTests : AbstractInstantPersistenceTests<InstantAsUtcDbTimestampType>
+    public class InstantAsUtcTicksTypePersistenceTests : AbstractInstantPersistenceTests<InstantAsUtcTicksType>
     {
         public InstantAsUtcTicksTypePersistenceTests(NHibernateFixture nhibernateFixture) : base(nhibernateFixture)
         {

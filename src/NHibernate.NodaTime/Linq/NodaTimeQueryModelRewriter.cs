@@ -1,17 +1,13 @@
 ﻿using NHibernate.Engine;
-using NHibernate.Linq;
 using NHibernate.Linq.Visitors;
 using NHibernate.Type;
 using NodaTime;
 using Remotion.Linq;
 using Remotion.Linq.Clauses;
 using Remotion.Linq.Clauses.Expressions;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NHibernate.NodaTime.Linq
 {

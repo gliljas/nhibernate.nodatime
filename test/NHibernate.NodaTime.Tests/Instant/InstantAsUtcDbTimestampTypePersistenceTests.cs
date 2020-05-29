@@ -1,5 +1,4 @@
 ﻿using NHibernate.NodaTime.Tests.Fixtures;
-using NodaTime;
 
 namespace NHibernate.NodaTime.Tests
 {

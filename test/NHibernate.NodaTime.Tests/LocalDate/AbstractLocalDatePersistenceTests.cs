@@ -1,7 +1,7 @@
-﻿using NHibernate.NodaTime.Tests.Fixtures;
+﻿using FluentAssertions;
+using NHibernate.NodaTime.Tests.Fixtures;
 using NodaTime;
-using System.Collections.Generic;
-using System.Linq;
+using System;
 using Xunit;
 
 namespace NHibernate.NodaTime.Tests
@@ -14,46 +14,170 @@ namespace NHibernate.NodaTime.Tests
 
         }
 
-        [SkippableTheory]
-        [NodaTimeAutoData]
-        public void CanQueryWithGreaterThan(List<TestEntity<LocalDate>> testEntities)
+        [SkippableFact]
+        public virtual void SupportsAtMidnight()
         {
-            AddToDatabase(testEntities.ToArray());
-
-            var minimum = testEntities.Select(x => x.TestProperty).Min();
-
-            ExecuteWithQueryable(q =>
-            {
-                var foundEntities = q.Where(x => x.TestProperty > minimum).ToList();
-            });
+            SupportsPropertyOrMethod(x => x.AtMidnight());
         }
 
-        [SkippableTheory]
+        [SkippableFact]
         [NodaTimeAutoData]
-        public void CanQueryWithLessThan(List<TestEntity<LocalDate>> testEntities)
+        public virtual void SupportsAtStartOfDayInZone(DateTimeZone dateTimeZone)
         {
-            AddToDatabase(testEntities.ToArray());
-
-            var minimum = testEntities.Select(x => x.TestProperty).Min();
-
-            ExecuteWithQueryable(q =>
-            {
-                var foundEntities = q.Where(x => x.TestProperty < minimum).ToList();
-            });
+            SupportsPropertyOrMethod(x => x.AtStartOfDayInZone(dateTimeZone));
         }
 
-        [SkippableTheory]
-        [NodaTimeAutoData]
-        public void CanQueryAtMidnight(TestEntity<LocalDate> testEntity)
+        [SkippableFact]
+        public virtual void SupportsToDateTimeUnspecified()
         {
-            AddToDatabase(testEntity);
+            SupportsPropertyOrMethod(x => x.ToDateTimeUnspecified(), x => x.Kind.Should().Be(DateTimeKind.Unspecified));
+        }
 
-            var minimum = testEntity.TestProperty.AtMidnight();
+        [SkippableFact]
+        public virtual void SupportsDay()
+        {
+            SupportsPropertyOrMethod(x => x.Day);
+        }
 
-            ExecuteWithQueryable(q =>
-            {
-                var foundEntities = q.Where(x => x.TestProperty.AtMidnight() == minimum).ToList();
-            });
+        [SkippableFact]
+        public virtual void SupportsDayOfWeek()
+        {
+            SupportsPropertyOrMethod(x => x.DayOfWeek);
+        }
+
+        [SkippableFact]
+        public virtual void SupportsDayOfYear()
+        {
+            SupportsPropertyOrMethod(x => x.DayOfYear);
+        }
+
+        [SkippableFact]
+        public virtual void SupportsEra()
+        {
+            SupportsPropertyOrMethod(x => x.Era);
+        }
+
+        [SkippableFact]
+        public virtual void SupportsMonth()
+        {
+            SupportsPropertyOrMethod(x => x.Month);
+        }
+
+        [SkippableFact]
+        public virtual void SupportsYear()
+        {
+            SupportsPropertyOrMethod(x => x.Year);
+        }
+
+        [SkippableFact]
+        public virtual void SupportsYearOfEra()
+        {
+            SupportsPropertyOrMethod(x => x.YearOfEra);
+        }
+
+        [SkippableFact]
+        [NodaTimeAutoData]
+        public virtual void SupportsCompareTo(LocalDate localDate)
+        {
+            SupportsPropertyOrMethod(x => x.CompareTo(localDate));
+        }
+
+        [SkippableFact]
+        [NodaTimeAutoData]
+        public virtual void SupportsEquals(LocalDate localDate)
+        {
+            SupportsPropertyOrMethod(x => x.Equals(localDate));
+        }
+
+        //[SkippableFact]
+        //[NodaTimeAutoData]
+        //public virtual void SupportsFromDateTime(DateTime dateTime)
+        //{
+        //    SupportsPropertyOrMethod(x => x.Equals(localDateTime));
+        //}
+
+        [SkippableFact]
+        [NodaTimeAutoData]
+        public virtual void SupportsMax(LocalDate localDate)
+        {
+            SupportsPropertyOrMethod(x => LocalDate.Max(x, localDate));
+        }
+
+        [SkippableFact]
+        [NodaTimeAutoData]
+        public virtual void SupportsMin(LocalDate localDate)
+        {
+            SupportsPropertyOrMethod(x => LocalDate.Min(x, localDate));
+        }
+
+        [SkippableFact]
+        [NodaTimeAutoData]
+        public virtual void SupportsMinusLocalDate(LocalDate localDate)
+        {
+            SupportsPropertyOrMethod(x => x.Minus(localDate));
+        }
+
+        [SkippableFact]
+        [NodaTimeAutoData]
+        public virtual void SupportsMinusLocalDateOperator(LocalDate localDate)
+        {
+            SupportsPropertyOrMethod(x => x - localDate);
+        }
+
+        [SkippableFact]
+        [NodaTimeAutoData]
+        public virtual void SupportsMinusPeriod(Period period)
+        {
+            SupportsPropertyOrMethod(x => x.Minus(period));
+        }
+
+        [SkippableFact]
+        [NodaTimeAutoData]
+        public virtual void SupportsMinusPeriodOperator(Period period)
+        {
+            SupportsPropertyOrMethod(x => x - period);
+        }
+
+        [SkippableFact]
+        [NodaTimeAutoData]
+        public virtual void SupportsNext(IsoDayOfWeek isoDayOfWeek)
+        {
+            SupportsPropertyOrMethod(x => x.Next(isoDayOfWeek));
+        }
+
+        [SkippableFact]
+        [NodaTimeAutoData]
+        public virtual void SupportsPlusPeriod(Period period)
+        {
+            SupportsPropertyOrMethod(x => x.Plus(period));
+        }
+
+        [SkippableFact]
+        [NodaTimeAutoData]
+        public virtual void SupportsPlusPeriodOperator(Period period)
+        {
+            SupportsPropertyOrMethod(x => x + period);
+        }
+
+        [SkippableFact]
+        [NodaTimeAutoData]
+        public virtual void SupportsPlusDays(int days)
+        {
+            SupportsPropertyOrMethod(x => x.PlusDays(days));
+        }
+
+        [SkippableFact]
+        [NodaTimeAutoData]
+        public virtual void SupportsPlusMonths(int months)
+        {
+            SupportsPropertyOrMethod(x => x.PlusMonths(months));
+        }
+
+        [SkippableFact]
+        [NodaTimeAutoData]
+        public virtual void SupportsPlusYears(int years)
+        {
+            SupportsPropertyOrMethod(x => x.PlusYears(years));
         }
     }
 }

@@ -9,5 +9,10 @@ namespace NHibernate.NodaTime.Tests
         {
 
         }
+
+        protected override Instant AdjustValue(Instant value)
+        {
+            return value.Minus(Duration.FromMilliseconds(value.ToDateTimeUtc().Millisecond));
+        }
     }
 }

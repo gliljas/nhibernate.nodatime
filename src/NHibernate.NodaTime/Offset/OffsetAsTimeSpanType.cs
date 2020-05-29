@@ -1,6 +1,7 @@
 ﻿using NHibernate.Type;
 using NodaTime;
 using System;
+using System.Linq.Expressions;
 
 namespace NHibernate.NodaTime
 {
@@ -12,6 +13,10 @@ namespace NHibernate.NodaTime
         protected override Offset Unwrap(TimeSpan value) => Offset.FromTimeSpan(value);
 
         protected override TimeSpan Wrap(Offset value) => value.ToTimeSpan();
+
+        public override Expression<Func<Offset, TimeSpan>>[] ExpressionsExposingPersisted => new Expression<Func<Offset, TimeSpan>>[] {
+            x => x.ToTimeSpan()
+        };
     }
 
 }

@@ -17,7 +17,7 @@ namespace NHibernate.NodaTime
         {
         }
     }
-    public abstract class AbstractTwoPropertyStructType<T, TProperty1Persisted, TProperty2Persisted> : ICompositeUserType, ISupportLinqQueries<T>, IParameterizedType
+    public abstract class AbstractTwoPropertyStructType<T, TProperty1Persisted, TProperty2Persisted> : ICompositeUserType, ISupportLinqQueries<T>, IParameterizedType, INodaTimeType
     {
         private readonly IType _property1Type;
         private readonly IType _property2Type;
@@ -66,6 +66,8 @@ namespace NHibernate.NodaTime
 
         public virtual IEnumerable<SupportedQueryProperty<T>> SupportedQueryProperties => Enumerable.Empty<SupportedQueryProperty<T>>();
         public virtual IEnumerable<SupportedQueryMethod<T>> SupportedQueryMethods => Enumerable.Empty<SupportedQueryMethod<T>>();
+
+        public System.Type ReturnedType => typeof(T);
 
         object ICompositeUserType.Assemble(object cached, ISessionImplementor session, object owner) => cached;
 
@@ -152,5 +154,9 @@ namespace NHibernate.NodaTime
                 }
             }
         }
+
+        //public virtual Expression<Func<T, TProperty1Persisted>>[] ExpressionsExposingPersistedProperty1 { get; } = new Expression<Func<T, TProperty1Persisted>>[] { };
+        //public virtual Expression<Func<T, TProperty2Persisted>>[] ExpressionsExposingPersistedProperty2 { get; } = new Expression<Func<T, TProperty2Persisted>>[] { };
+
     }
 }

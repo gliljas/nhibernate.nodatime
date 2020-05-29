@@ -1,8 +1,6 @@
-﻿using NHibernate.NodaTime.Linq;
-using NHibernate.Type;
+﻿using NHibernate.Type;
 using NHibernate.UserTypes;
 using NodaTime;
-using System.Collections.Generic;
 
 namespace NHibernate.NodaTime
 {

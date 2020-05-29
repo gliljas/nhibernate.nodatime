@@ -9,10 +9,6 @@ namespace NHibernate.NodaTime
     {
         protected override OffsetTime Cast(object value)
         {
-            if (value is OffsetTime offsetTime)
-            {
-                return offsetTime;
-            }
             if (value is DateTimeOffset dateTimeOffset)
             {
                 return OffsetDateTime.FromDateTimeOffset(dateTimeOffset).ToOffsetTime();

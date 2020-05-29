@@ -1,8 +1,7 @@
-﻿using FluentAssertions;
-using NHibernate.Cfg;
-using NHibernate.Dialect.Function;
+﻿using AutoFixture;
+using FluentAssertions;
+using NHibernate.Linq.Visitors;
 using NHibernate.Mapping.ByCode;
-using NHibernate.NodaTime.Linq;
 using NHibernate.NodaTime.Tests.Fixtures;
 using NHibernate.UserTypes;
 using System;
@@ -24,27 +23,21 @@ namespace NHibernate.NodaTime.Tests
         where TUserType : new()
         where TTestEntity : class, ITestEntity<T>
     {
+        private readonly IFixture _nodaFixture;
         private readonly NHibernateFixture _nhibernateFixture;
 
         protected AbstractPersistenceTests(NHibernateFixture nhibernateFixture)
         {
+            _nodaFixture = new Fixture().Customize(new NodaTimeCustomization());
             _nhibernateFixture = nhibernateFixture;
             _nhibernateFixture.Configure(c =>
             {
-                c.AddSqlFunction("tonodalocaldate", new SQLFunctionTemplate(new CustomType<LocalDateAsDateTimeType>(), "?1"));
-                c.AddSqlFunction("tonodaoffsetdate", new SQLFunctionTemplate(new CustomType<OffsetDateAsDateTimeOffsetType>(), "?1"));
-                c.AddSqlFunction("tonodalocaltime", new SQLFunctionTemplate(new CustomType<LocalTimeAsTimeType>(), "?1"));
-                c.AddSqlFunction("tonodalocaldatetime", new SQLFunctionTemplate(new CustomType<LocalDateTimeAsDateTimeType>(), "?1"));
-                c.AddSqlFunction("tonodainstant", new SQLFunctionTemplate(new CustomType<InstantAsUtcDateTimeType>(), "?1"));
-                c.AddSqlFunction("switchoffset", new SQLFunctionTemplate(NHibernateUtil.DateTimeOffset, "switchoffset(?1,?2)"));
-
-                c.LinqQueryProvider<NodaTimeLinqQueryProvider>();
-                c.LinqToHqlGeneratorsRegistry<LinqFunctions>();
-
+                c.AddNodaTime();
+                
                 var mapper = new ModelMapper();
                 mapper.Class<TTestEntity>(m =>
                 {
-                    m.Table("`" + GetType().Name + "_" + typeof(TUserType).Name + "`");
+                    m.Table("`" + typeof(TUserType).Name + "`");
                     m.Id(p => p.Id, p => p.Generator(Generators.Guid));
                     m.Property(p => p.TestProperty,
                         p =>
@@ -95,8 +88,6 @@ namespace NHibernate.NodaTime.Tests
         [NodaTimeAutoData]
         public void CanSave(TTestEntity testValue)
         {
-            // testValue.TestProperty = AdjustValue(testValue.TestProperty);
-
             AddToDatabase(testValue);
 
             using (var session = _nhibernateFixture.SessionFactory.OpenSession())
@@ -146,6 +137,49 @@ namespace NHibernate.NodaTime.Tests
             }
         }
 
+        protected void SupportsPropertyOrMethod<TValue>(Expression<Func<T, TValue>> expression, params Action<TValue>[] extraValueChecks)
+        {
+            var func = expression.Compile();
+
+            var testEntities = _nodaFixture.Create<List<TTestEntity>>();
+
+            AddToDatabase(testEntities.ToArray());
+
+            TValue testValue = func(testEntities[0].TestProperty);
+
+            var param = Expression.Parameter(typeof(TTestEntity));
+            var equalityLambda = Expression.Lambda(
+                Expression.Equal(
+                    expression.Body.Replace(expression.Parameters.First(), Expression.Property(param, "TestProperty")),
+                    Expression.Constant(testValue))
+                , param) as Expression<Func<TTestEntity, bool>>;
+
+            var selectParam = Expression.Parameter(typeof(TTestEntity));
+            var selectLambda = Expression.Lambda(
+               
+                   expression.Body.Replace(expression.Parameters.First(), Expression.Property(param, "TestProperty"))
+               , param) as Expression<Func<TTestEntity, TValue>>;
+
+            var expectedCount = testEntities.Count(equalityLambda.Compile());
+
+            expectedCount.Should().NotBe(0);
+
+            ExecuteWithQueryable(q =>
+            {
+                var firstEntity = q.Where(x => x.Id == testEntities[0].Id).Single();
+                var loadedTestValue = func(testEntities[0].TestProperty);
+                loadedTestValue.Should().Be(testValue);
+                var foundEntities = q.Where(equalityLambda).Select(selectLambda).ToList();
+                foundEntities.Should().HaveCount(expectedCount);
+                foundEntities[0].Should().Be(testValue);
+                foreach (var extraValueCheck in extraValueChecks)
+                {
+                    extraValueCheck(foundEntities[0]);
+                }
+            });
+
+        }
+
         protected void AddToDatabase(params object[] testValues)
         {
             using (var session = _nhibernateFixture.SessionFactory.OpenSession())
@@ -167,6 +201,15 @@ namespace NHibernate.NodaTime.Tests
             using (var trans = session.BeginTransaction())
             {
                 queryableAction(session.Query<TTestEntity>());
+            }
+        }
+
+        protected void ExecuteWithQueryable<TElement>(Action<IQueryable<TElement>> queryableAction)
+        {
+            using (var session = SessionFactory.OpenSession())
+            using (var trans = session.BeginTransaction())
+            {
+                queryableAction(session.Query<TElement>());
             }
         }
 

@@ -19,10 +19,10 @@ namespace NHibernate.NodaTime.Tests.Fixtures
             }
 
             var dateTime = context.Create<DateTimeOffset>();
-            return CreateFromDateTime(dateTime);
+            return CreateFromDateTimeOffset(dateTime);
         }
 
-        public abstract T CreateFromDateTime(DateTimeOffset dateTimeOffset);
+        public abstract T CreateFromDateTimeOffset(DateTimeOffset dateTimeOffset);
 
     }
 }

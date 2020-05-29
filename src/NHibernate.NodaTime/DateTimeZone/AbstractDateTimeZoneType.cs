@@ -1,7 +1,9 @@
 ﻿using NHibernate.NodaTime.Linq;
 using NHibernate.Type;
 using NodaTime;
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace NHibernate.NodaTime
 {
@@ -10,7 +12,7 @@ namespace NHibernate.NodaTime
         DateTimeZone? _nullValue = null;
         public AbstractDateTimeZoneType() : base(TypeFactory.GetStringType(30))
         {
-            
+
         }
         protected abstract IDateTimeZoneProvider DateTimeZoneProvider { get; }
 
@@ -32,7 +34,7 @@ namespace NHibernate.NodaTime
             }
         }
 
-        public override IEnumerable<SupportedQueryProperty<DateTimeZone>> SupportedQueryProperties => new[] { 
+        public override IEnumerable<SupportedQueryProperty<DateTimeZone>> SupportedQueryProperties => new[] {
             new SupportedQueryProperty<DateTimeZone>(x=>x.Id,new PropertyTransformer(""))
         };
 
@@ -44,5 +46,11 @@ namespace NHibernate.NodaTime
             }
             return base.Cast(value);
         }
+
+        public override Expression<Func<DateTimeZone, string>>[] ExpressionsExposingPersisted => new Expression<Func<DateTimeZone, string>>[] 
+        { 
+            x => x.Id , 
+            x => x.ToString()
+        };
     }
 }

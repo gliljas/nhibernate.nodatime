@@ -1,6 +1,7 @@
 ﻿using NHibernate.Type;
 using NodaTime;
 using System;
+using System.Linq.Expressions;
 
 namespace NHibernate.NodaTime
 {
@@ -13,5 +14,9 @@ namespace NHibernate.NodaTime
 
         protected override DateTime Wrap(LocalDate value) => value.ToDateTimeUnspecified();
 
+        public override Expression<Func<LocalDate, DateTime>>[] ExpressionsExposingPersisted => new Expression<Func<LocalDate, DateTime>>[]
+        {
+            x => x.ToDateTimeUnspecified()
+        };
     }
 }

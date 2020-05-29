@@ -1,5 +1,4 @@
 ﻿using NHibernate.NodaTime.Linq;
-using NHibernate.SqlTypes;
 using NHibernate.Type;
 using NodaTime;
 using System;

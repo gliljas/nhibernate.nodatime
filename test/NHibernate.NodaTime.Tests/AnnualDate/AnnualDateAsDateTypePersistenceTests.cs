@@ -1,10 +1,7 @@
 ﻿using NHibernate.NodaTime.Tests.Fixtures;
 using NodaTime;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace NHibernate.NodaTime.Tests
@@ -18,7 +15,7 @@ namespace NHibernate.NodaTime.Tests
 
         [SkippableTheory]
         [NodaTimeAutoData]
-        public void CanQueryByMonth(List<TestEntity<AnnualDate>> testEntities)
+        public virtual void SupportsMonth(List<TestEntity<AnnualDate>> testEntities)
         {
             AddToDatabase(testEntities.ToArray());
 
@@ -33,7 +30,7 @@ namespace NHibernate.NodaTime.Tests
 
         [SkippableTheory]
         [NodaTimeAutoData]
-        public void CanQueryByDay(List<TestEntity<AnnualDate>> testEntities)
+        public virtual void SupportsDay(List<TestEntity<AnnualDate>> testEntities)
         {
             AddToDatabase(testEntities.ToArray());
 

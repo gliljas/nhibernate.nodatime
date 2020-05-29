@@ -15,7 +15,7 @@ namespace NHibernate.NodaTime.Tests
 
         [SkippableTheory]
         [NodaTimeAutoData]
-        public void CanQueryByZoneId(List<TestEntity<DateTimeZone>> testEntities)
+        public virtual void SupportsZoneId(List<TestEntity<DateTimeZone>> testEntities)
         {
             AddToDatabase(testEntities.ToArray());
 

@@ -3,9 +3,11 @@ using NHibernate.NodaTime.Linq;
 using NHibernate.SqlTypes;
 using NHibernate.Type;
 using NHibernate.UserTypes;
+using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace NHibernate.NodaTime
 {
@@ -19,7 +21,7 @@ namespace NHibernate.NodaTime
         }
     }
 
-    public abstract class AbstractStructType<T, TPersisted> : IUserType, IParameterizedType, ISupportLinqQueries<T>
+    public abstract class AbstractStructType<T, TPersisted> : IUserType, IParameterizedType, ISupportLinqQueries<T>, INodaTimeType
     {
 #pragma warning disable IDE0044 // Add readonly modifier
         private NullableType _backingType;
@@ -125,6 +127,8 @@ namespace NHibernate.NodaTime
                 parameterizedType.SetParameterValues(parameters);
             }
         }
+
+        public virtual Expression<Func<T, TPersisted>>[] ExpressionsExposingPersisted { get; } = new Expression<Func<T, TPersisted>>[] { };
 
 
     }
