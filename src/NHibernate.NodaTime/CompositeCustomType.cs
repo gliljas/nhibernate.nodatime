@@ -7,7 +7,6 @@ namespace NHibernate.NodaTime
     {
         public CompositeCustomType() : base(typeof(T), null)
         {
-
         }
     }
 }

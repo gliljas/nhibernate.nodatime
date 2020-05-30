@@ -4,7 +4,7 @@ using System;
 
 namespace NHibernate.NodaTime
 {
-    public abstract class AbstractDurationType<TPersisted,TNullableType> : AbstractStructType<Duration, TPersisted, TNullableType>
+    public abstract class AbstractDurationType<TPersisted, TNullableType> : AbstractStructType<Duration, TPersisted, TNullableType>
         where TNullableType : NullableType, new()
     {
         protected override Duration Cast(object value)
@@ -20,5 +20,4 @@ namespace NHibernate.NodaTime
             return base.Cast(value);
         }
     }
-
 }

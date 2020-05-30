@@ -9,6 +9,5 @@ namespace NHibernate.NodaTime
     /// </summary>
     public class TzdbZonedDateTimeAsUtcDateTimeType : AbstractDateTimeBackedZonedDateTimeType<UtcDateTimeType, TzdbDateTimeZoneType>
     {
-       
     }
 }

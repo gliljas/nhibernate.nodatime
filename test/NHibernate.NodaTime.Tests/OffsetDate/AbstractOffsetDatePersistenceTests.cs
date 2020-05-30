@@ -9,14 +9,6 @@ namespace NHibernate.NodaTime.Tests
     {
         protected AbstractOffsetDatePersistenceTests(NHibernateFixture nhibernateFixture) : base(nhibernateFixture)
         {
-
-        }
-
-        [SkippableTheory]
-        [NodaTimeAutoData]
-        public virtual void SupportsToDateTimeOffset(LocalTime time)
-        {
-            SupportsPropertyOrMethod(x => x.At(time));
         }
 
         [SkippableFact]
@@ -37,6 +29,13 @@ namespace NHibernate.NodaTime.Tests
             SupportsPropertyOrMethod(x => x.DayOfWeek);
         }
 
+        [SkippableTheory]
+        [NodaTimeAutoData]
+        public virtual void SupportsEquals(OffsetDate offsetDate)
+        {
+            SupportsPropertyOrMethod(x => x.Equals(offsetDate));
+        }
+
         [SkippableFact]
         public virtual void SupportsEra()
         {
@@ -47,6 +46,19 @@ namespace NHibernate.NodaTime.Tests
         public virtual void SupportsMonth()
         {
             SupportsPropertyOrMethod(x => x.Month);
+        }
+
+        [SkippableTheory]
+        [NodaTimeAutoData]
+        public virtual void SupportsToDateTimeOffset(LocalTime time)
+        {
+            SupportsPropertyOrMethod(x => x.At(time));
+        }
+        [SkippableTheory]
+        [NodaTimeAutoData]
+        public virtual void SupportsWithOffset(Offset offset)
+        {
+            SupportsPropertyOrMethod(x => x.WithOffset(offset));
         }
 
         [SkippableFact]
@@ -60,20 +72,5 @@ namespace NHibernate.NodaTime.Tests
         {
             SupportsPropertyOrMethod(x => x.YearOfEra);
         }
-
-        [SkippableTheory]
-        [NodaTimeAutoData]
-        public virtual void SupportsEquals(OffsetDate offsetDate)
-        {
-            SupportsPropertyOrMethod(x => x.Equals(offsetDate));
-        }
-
-        [SkippableTheory]
-        [NodaTimeAutoData]
-        public virtual void SupportsWithOffset(Offset offset)
-        {
-            SupportsPropertyOrMethod(x => x.WithOffset(offset));
-        }
-
     }
 }

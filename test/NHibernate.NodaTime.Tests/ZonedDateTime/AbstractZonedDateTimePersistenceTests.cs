@@ -4,10 +4,10 @@ using Xunit;
 
 namespace NHibernate.NodaTime.Tests
 {
-    public abstract class AbstractOffsetDateTimePersistenceTests<TUserType> : AbstractPersistenceTests<OffsetDateTime, TUserType>
+    public abstract class AbstractZonedDateTimePersistenceTests<TUserType> : AbstractPersistenceTests<ZonedDateTime, TUserType>
     where TUserType : new()
     {
-        protected AbstractOffsetDateTimePersistenceTests(NHibernateFixture nhibernateFixture) : base(nhibernateFixture)
+        protected AbstractZonedDateTimePersistenceTests(NHibernateFixture nhibernateFixture) : base(nhibernateFixture)
         {
         }
 
@@ -55,6 +55,18 @@ namespace NHibernate.NodaTime.Tests
         }
 
         [SkippableFact]
+        public virtual void SupportsIsDaylightSavingTime()
+        {
+            SupportsPropertyOrMethod(x => x.IsDaylightSavingTime());
+        }
+
+        [SkippableFact]
+        public virtual void SupportsLocalDateTime()
+        {
+            SupportsPropertyOrMethod(x => x.LocalDateTime);
+        }
+
+        [SkippableFact]
         public virtual void SupportsMillisecond()
         {
             SupportsPropertyOrMethod(x => x.Millisecond);
@@ -76,16 +88,16 @@ namespace NHibernate.NodaTime.Tests
 
         [SkippableTheory]
         [NodaTimeAutoData]
-        public virtual void SupportsMinusOffsetDateTime(OffsetDateTime offsetDateTime)
+        public virtual void SupportsMinusZonedDateTime(ZonedDateTime zonedDateTime)
         {
-            SupportsPropertyOrMethod(x => x.Minus(offsetDateTime));
+            SupportsPropertyOrMethod(x => x.Minus(zonedDateTime));
         }
 
         [SkippableTheory]
         [NodaTimeAutoData]
-        public virtual void SupportsMinusOffsetDateTimeOperator(OffsetDateTime offsetDateTime)
+        public virtual void SupportsMinusZonedDateTimeOperator(ZonedDateTime zonedDateTime)
         {
-            SupportsPropertyOrMethod(x => x - offsetDateTime);
+            SupportsPropertyOrMethod(x => x - zonedDateTime);
         }
 
         [SkippableFact]
@@ -183,6 +195,17 @@ namespace NHibernate.NodaTime.Tests
         {
             SupportsPropertyOrMethod(x => x.ToDateTimeOffset());
         }
+        [SkippableFact]
+        public virtual void SupportsToDateTimeUnspecified()
+        {
+            SupportsPropertyOrMethod(x => x.ToDateTimeUnspecified());
+        }
+
+        [SkippableFact]
+        public virtual void SupportsToDateTimeUtc()
+        {
+            SupportsPropertyOrMethod(x => x.ToDateTimeUtc());
+        }
 
         [SkippableFact]
         public virtual void SupportsToInstant()
@@ -190,23 +213,23 @@ namespace NHibernate.NodaTime.Tests
             SupportsPropertyOrMethod(x => x.ToInstant());
         }
 
+        //[SkippableFact]
+        //[NodaTimeAutoData]
+        //public virtual void SupportsFromDateTime(DateTime dateTime)
+        //{
+        //    SupportsPropertyOrMethod(x => x.Equals(offsetDateTime));
+        //}
         [SkippableFact]
-        public virtual void SupportsToOffsetDate()
+        public virtual void SupportsToOffsetDateTime()
         {
-            SupportsPropertyOrMethod(x => x.ToOffsetDate());
-        }
-
-        [SkippableFact]
-        public virtual void SupportsToOffsetTime()
-        {
-            SupportsPropertyOrMethod(x => x.ToOffsetTime());
+            SupportsPropertyOrMethod(x => x.ToOffsetDateTime());
         }
 
         [SkippableTheory]
         [NodaTimeAutoData]
-        public virtual void SupportsWithOffset(Offset offset)
+        public virtual void SupportsWithZone(DateTimeZone zone)
         {
-            SupportsPropertyOrMethod(x => x.WithOffset(offset));
+            SupportsPropertyOrMethod(x => x.WithZone(zone));
         }
 
         [SkippableFact]
@@ -219,6 +242,11 @@ namespace NHibernate.NodaTime.Tests
         public virtual void SupportsYearOfEra()
         {
             SupportsPropertyOrMethod(x => x.YearOfEra);
+        }
+        [SkippableFact]
+        public virtual void SupportsZone()
+        {
+            SupportsPropertyOrMethod(x => x.Zone);
         }
     }
 }

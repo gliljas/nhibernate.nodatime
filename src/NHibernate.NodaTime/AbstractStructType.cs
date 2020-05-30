@@ -11,13 +11,11 @@ using System.Linq.Expressions;
 
 namespace NHibernate.NodaTime
 {
-
     public abstract class AbstractStructType<T, TPersisted, TNullableType> : AbstractStructType<T, TPersisted>
         where TNullableType : NullableType, new()
     {
         public AbstractStructType() : base(new TNullableType())
         {
-
         }
     }
 
@@ -31,7 +29,7 @@ namespace NHibernate.NodaTime
         {
             _backingType = nullableType;
         }
-    
+
         protected NullableType ValueType => _backingType;
 
         protected virtual SqlType SqlType => ValueType.SqlType;
@@ -42,7 +40,8 @@ namespace NHibernate.NodaTime
 
         protected virtual T Cast(object value) => (T)value;
 
-        private T DoCast(object value) {
+        private T DoCast(object value)
+        {
             if (value is T tValue)
             {
                 return tValue;
@@ -116,8 +115,6 @@ namespace NHibernate.NodaTime
             ValueType.NullSafeSet(cmd, Wrap(actualValue), index, session);
         }
 
-
-
         public object Replace(object original, object target, object owner) => original;
 
         public virtual void SetParameterValues(IDictionary<string, string> parameters)
@@ -129,7 +126,5 @@ namespace NHibernate.NodaTime
         }
 
         public virtual Expression<Func<T, TPersisted>>[] ExpressionsExposingPersisted { get; } = new Expression<Func<T, TPersisted>>[] { };
-
-
     }
 }

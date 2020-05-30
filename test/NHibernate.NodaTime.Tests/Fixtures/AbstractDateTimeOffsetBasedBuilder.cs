@@ -23,6 +23,5 @@ namespace NHibernate.NodaTime.Tests.Fixtures
         }
 
         public abstract T CreateFromDateTimeOffset(DateTimeOffset dateTimeOffset);
-
     }
 }

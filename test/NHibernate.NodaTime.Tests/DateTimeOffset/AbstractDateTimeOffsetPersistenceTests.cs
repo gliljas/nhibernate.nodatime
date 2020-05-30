@@ -11,7 +11,61 @@ namespace NHibernate.NodaTime.Tests
     {
         protected AbstractDateTimeOffsetPersistenceTests(NHibernateFixture nhibernateFixture) : base(nhibernateFixture)
         {
+        }
 
+        [SkippableTheory]
+        [NodaTimeAutoData]
+        public virtual void SupportsAdd(TimeSpan timeSpan)
+        {
+            SupportsPropertyOrMethod(x => x.Add(timeSpan));
+        }
+
+        [SkippableTheory]
+        [NodaTimeAutoData]
+        public virtual void SupportsAddDays(double days)
+        {
+            SupportsPropertyOrMethod(x => x.AddDays(days));
+        }
+
+        [SkippableTheory]
+        [NodaTimeAutoData]
+        public virtual void SupportsAddMilliseconds(double milliseconds)
+        {
+            SupportsPropertyOrMethod(x => x.AddMilliseconds(milliseconds));
+        }
+
+        [SkippableTheory]
+        [NodaTimeAutoData]
+        public virtual void SupportsAddMinutes(double minutes)
+        {
+            SupportsPropertyOrMethod(x => x.AddMinutes(minutes));
+        }
+
+        [SkippableTheory]
+        [NodaTimeAutoData]
+        public virtual void SupportsAddSeconds(double seconds)
+        {
+            SupportsPropertyOrMethod(x => x.AddSeconds(seconds));
+        }
+
+        [SkippableTheory]
+        [NodaTimeAutoData]
+        public virtual void SupportsAddTicks(long ticks)
+        {
+            SupportsPropertyOrMethod(x => x.AddTicks(ticks));
+        }
+
+        [SkippableTheory]
+        [NodaTimeAutoData]
+        public virtual void SupportsAddYears(int years)
+        {
+            SupportsPropertyOrMethod(x => x.AddYears(years));
+        }
+
+        [SkippableFact]
+        public virtual void SupportsDateTime()
+        {
+            SupportsPropertyOrMethod(x => x.DateTime);
         }
 
         [SkippableFact]
@@ -31,72 +85,16 @@ namespace NHibernate.NodaTime.Tests
         {
             SupportsPropertyOrMethod(x => x.DayOfYear);
         }
-
-        [SkippableFact]
-        public virtual void SupportsDateTime()
-        {
-            SupportsPropertyOrMethod(x => x.DateTime);
-        }
-
-        [SkippableFact]
-        public virtual void SupportsUtcDateTime()
-        {
-            SupportsPropertyOrMethod(x => x.UtcDateTime, x => x.Kind.Should().Be(DateTimeKind.Utc));
-        }
-
-        [SkippableTheory]
-        [NodaTimeAutoData]
-        public virtual void SupportsAddDays(double days)
-        {
-            SupportsPropertyOrMethod(x => x.AddDays(days));
-        }
-
-        [SkippableTheory]
-        [NodaTimeAutoData]
-        public virtual void SupportsAddMinutes(double minutes)
-        {
-            SupportsPropertyOrMethod(x => x.AddMinutes(minutes));
-        }
-
-        [SkippableTheory]
-        [NodaTimeAutoData]
-        public virtual void SupportsAddSeconds(double seconds)
-        {
-            SupportsPropertyOrMethod(x => x.AddSeconds(seconds));
-        }
-
-        [SkippableTheory]
-        [NodaTimeAutoData]
-        public virtual void SupportsAddMilliseconds(double milliseconds)
-        {
-            SupportsPropertyOrMethod(x => x.AddMilliseconds(milliseconds));
-        }
-
-        [SkippableTheory]
-        [NodaTimeAutoData]
-        public virtual void SupportsAddTicks(long ticks)
-        {
-            SupportsPropertyOrMethod(x => x.AddTicks(ticks));
-        }
-
-        [SkippableTheory]
-        [NodaTimeAutoData]
-        public virtual void SupportsAddYears(int years)
-        {
-            SupportsPropertyOrMethod(x => x.AddYears(years));
-        }
-
-        [SkippableTheory]
-        [NodaTimeAutoData]
-        public virtual void SupportsAdd(TimeSpan timeSpan)
-        {
-            SupportsPropertyOrMethod(x => x.Add(timeSpan));
-        }
-
         [SkippableFact]
         public virtual void SupportsLocalDateTime()
         {
             SupportsPropertyOrMethod(x => x.LocalDateTime);
+        }
+
+        [SkippableFact]
+        public virtual void SupportsMonth()
+        {
+            SupportsPropertyOrMethod(x => x.Month);
         }
 
         [SkippableFact]
@@ -134,18 +132,6 @@ namespace NHibernate.NodaTime.Tests
         }
 
         [SkippableFact]
-        public virtual void SupportsToUnixTimeSeconds()
-        {
-            SupportsPropertyOrMethod(x => x.ToUnixTimeSeconds());
-        }
-
-        [SkippableFact]
-        public virtual void SupportsToUnixTimeMilliseconds()
-        {
-            SupportsPropertyOrMethod(x => x.ToUnixTimeMilliseconds());
-        }
-
-        [SkippableFact]
         public virtual void SupportsTicks()
         {
             SupportsPropertyOrMethod(x => x.Ticks);
@@ -161,12 +147,6 @@ namespace NHibernate.NodaTime.Tests
         public virtual void SupportsToFileTime()
         {
             SupportsPropertyOrMethod(x => x.ToFileTime());
-        }
-
-        [SkippableFact]
-        public virtual void SupportsToUniversalTime()
-        {
-            SupportsPropertyOrMethod(x => x.ToUniversalTime());
         }
 
         [SkippableFact]
@@ -195,17 +175,34 @@ namespace NHibernate.NodaTime.Tests
         }
 
         [SkippableFact]
+        public virtual void SupportsToUniversalTime()
+        {
+            SupportsPropertyOrMethod(x => x.ToUniversalTime());
+        }
+
+        [SkippableFact]
+        public virtual void SupportsToUnixTimeMilliseconds()
+        {
+            SupportsPropertyOrMethod(x => x.ToUnixTimeMilliseconds());
+        }
+
+        [SkippableFact]
+        public virtual void SupportsToUnixTimeSeconds()
+        {
+            SupportsPropertyOrMethod(x => x.ToUnixTimeSeconds());
+        }
+
+        [SkippableFact]
         public virtual void SupportsToZonedDateTime()
         {
             SupportsPropertyOrMethod(x => x.ToZonedDateTime());
         }
 
         [SkippableFact]
-        public virtual void SupportsMonth()
+        public virtual void SupportsUtcDateTime()
         {
-            SupportsPropertyOrMethod(x => x.Month);
+            SupportsPropertyOrMethod(x => x.UtcDateTime, x => x.Kind.Should().Be(DateTimeKind.Utc));
         }
-
         [SkippableFact]
         public virtual void SupportsYear()
         {

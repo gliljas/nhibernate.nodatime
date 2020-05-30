@@ -9,9 +9,8 @@ namespace NHibernate.NodaTime
     /// </summary>
     /// <typeparam name="TPersisted"></typeparam>
     /// <typeparam name="TNullableType"></typeparam>
-    public abstract class AbstractDateTimeOffsetType<TPersisted,TNullableType> : VersionedAbstractStructType<DateTimeOffset, TPersisted, TNullableType>
+    public abstract class AbstractDateTimeOffsetType<TPersisted, TNullableType> : VersionedAbstractStructType<DateTimeOffset, TPersisted, TNullableType>
         where TNullableType : NullableType, IVersionType, new()
     {
-
     }
 }

@@ -15,7 +15,6 @@ namespace NHibernate.NodaTime
         {
             x => x.ToInt64Nanoseconds()
         };
-
     }
 
     public class DurationAsTicksType : AbstractDurationType<long, Int64Type>
@@ -28,7 +27,5 @@ namespace NHibernate.NodaTime
         {
             x => (long)x.BclCompatibleTicks
         };
-
     }
-
 }

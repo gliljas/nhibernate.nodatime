@@ -14,6 +14,7 @@ namespace NHibernate.NodaTime.Linq
             _expression = expression;
             _member = member;
         }
+
         //public override System.Type Type => _member.;
         public MemberInfo Member => _member;
 
@@ -27,6 +28,7 @@ namespace NHibernate.NodaTime.Linq
             }
             throw new ArgumentException($"Can only be visited by a {nameof(MappedExpressionVisitor)}");
         }
+
         public override ExpressionType NodeType => CustomExpressionTypes.MappedMemberAccess;
 
         public MappedMemberExpression Update(Expression expression)
@@ -39,12 +41,10 @@ namespace NHibernate.NodaTime.Linq
         }
     }
 
-
     public static class CustomExpressionTypes
     {
         public static ExpressionType MappedMemberAccess = (ExpressionType)90000;
     }
-
 
     public class MappedExpressionVisitor : ExpressionVisitor
     {
@@ -68,6 +68,4 @@ namespace NHibernate.NodaTime.Linq
     //        if (node.)
     //    }
     //}
-
-
 }

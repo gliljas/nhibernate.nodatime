@@ -2,7 +2,6 @@
 {
     /// <inheritdoc/>
     public class IntervalAsDateTimeOffsetType : AbstractIntervalAsInstantsType<InstantAsDateTimeOffsetType>
-    {   
-
+    {
     }
 }

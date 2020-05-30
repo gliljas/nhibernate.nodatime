@@ -28,7 +28,6 @@ namespace NHibernate.NodaTime
         {
             x => x.ToDateTimeUnspecified()
         };
-
     }
 
     public class LocalDateVisitor : ExpressionVisitor

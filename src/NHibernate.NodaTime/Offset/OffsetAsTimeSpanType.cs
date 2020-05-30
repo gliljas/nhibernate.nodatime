@@ -18,5 +18,4 @@ namespace NHibernate.NodaTime
             x => x.ToTimeSpan()
         };
     }
-
 }

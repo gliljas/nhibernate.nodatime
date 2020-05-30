@@ -7,7 +7,6 @@ namespace NHibernate.NodaTime.Tests
     {
         public InstantAsUtcDateTimeNoMsTypePersistenceTests(NHibernateFixture nhibernateFixture) : base(nhibernateFixture)
         {
-
         }
 
         protected override Instant AdjustValue(Instant value)

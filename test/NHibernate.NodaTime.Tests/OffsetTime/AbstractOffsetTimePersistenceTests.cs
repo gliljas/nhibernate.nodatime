@@ -9,7 +9,6 @@ namespace NHibernate.NodaTime.Tests
     {
         protected AbstractOffsetTimePersistenceTests(NHibernateFixture nhibernateFixture) : base(nhibernateFixture)
         {
-
         }
 
         [SkippableTheory]
@@ -92,6 +91,5 @@ namespace NHibernate.NodaTime.Tests
         {
             SupportsPropertyOrMethod(x => x.WithOffset(offset));
         }
-
     }
 }

@@ -20,6 +20,5 @@ namespace NHibernate.NodaTime
 
         protected override int Property1ColumnSpan => 1;
         protected override int Property2ColumnSpan => 1;
-
     }
 }

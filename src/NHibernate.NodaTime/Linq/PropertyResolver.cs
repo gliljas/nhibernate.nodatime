@@ -6,7 +6,6 @@ namespace NHibernate.NodaTime
     {
         public PropertyResolver(string propertyName)
         {
-
         }
     }
 }

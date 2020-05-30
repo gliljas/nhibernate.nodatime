@@ -12,6 +12,5 @@ namespace NHibernate.NodaTime
         protected override LocalTime Unwrap(TimeSpan value) => LocalTime.FromTicksSinceMidnight(value.Ticks);
 
         protected override TimeSpan Wrap(LocalTime value) => TimeSpan.FromTicks(value.TickOfDay);
-
     }
 }

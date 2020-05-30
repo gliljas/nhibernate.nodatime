@@ -8,12 +8,10 @@ namespace NHibernate.NodaTime.Linq
     {
         public SupportedQueryMethod(MethodInfo method, IHqlMethodTransformer transformer)
         {
-
         }
 
-        public SupportedQueryMethod(Expression<Func<T,object>> method, IHqlMethodTransformer transformer)
+        public SupportedQueryMethod(Expression<Func<T, object>> method, IHqlMethodTransformer transformer)
         {
-
         }
     }
 }

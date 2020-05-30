@@ -13,7 +13,7 @@ namespace NHibernate.NodaTime.Linq
 {
     public class NodaTimeQueryModelVisitor : QueryModelVisitorBase
     {
-       // override 
+        // override
     }
 
     public class NodaTimeQueryModelRewriterFactory : IQueryModelRewriterFactory
@@ -39,7 +39,6 @@ namespace NHibernate.NodaTime.Linq
                         {
                             if (customType.UserType is IPropertyRewriter propertyRewriter)
                             {
-                                
                             }
                         }
                     }
@@ -58,10 +57,12 @@ namespace NHibernate.NodaTime.Linq
     {
         private readonly ISessionFactoryImplementor _sessionFactoryImplementor;
         private Dictionary<Expression, IReadOnlyList<IType>> _cache = new Dictionary<Expression, IReadOnlyList<IType>>();
+
         public ExpressionMapping(ISessionFactoryImplementor sessionFactoryImplementor)
         {
             _sessionFactoryImplementor = sessionFactoryImplementor;
         }
+
         public IReadOnlyList<IType> TryGetMappedTypesFromExpression(Expression expression)
         {
             if (_cache.TryGetValue(expression, out var types))
@@ -82,6 +83,7 @@ namespace NHibernate.NodaTime.Linq
                 _sessionFactoryImplementor = sessionFactoryImplementor;
                 ExtractedTypes = new List<IType>();
             }
+
             public List<IType> ExtractedTypes { get; internal set; }
 
             protected override Expression VisitQuerySourceReference(QuerySourceReferenceExpression expression)
@@ -101,7 +103,6 @@ namespace NHibernate.NodaTime.Linq
 
             protected override Expression VisitConditional(ConditionalExpression node)
             {
-                
                 return base.VisitConditional(node);
             }
 
@@ -118,7 +119,6 @@ namespace NHibernate.NodaTime.Linq
             {
                 return base.VisitMember(node);
             }
-
         }
     }
 }

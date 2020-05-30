@@ -1,4 +1,5 @@
 ﻿#if NETFRAMEWORK
+
 using NHibernate.Type;
 
 namespace NHibernate.NodaTime
@@ -7,4 +8,5 @@ namespace NHibernate.NodaTime
     {
     }
 }
+
 #endif

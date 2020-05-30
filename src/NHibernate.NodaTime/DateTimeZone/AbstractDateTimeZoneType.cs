@@ -9,11 +9,12 @@ namespace NHibernate.NodaTime
 {
     public abstract class AbstractDateTimeZoneType : AbstractStructType<DateTimeZone, string>
     {
-        DateTimeZone? _nullValue = null;
+        private DateTimeZone? _nullValue = null;
+
         public AbstractDateTimeZoneType() : base(TypeFactory.GetStringType(30))
         {
-
         }
+
         protected abstract IDateTimeZoneProvider DateTimeZoneProvider { get; }
 
         protected override string Wrap(DateTimeZone value) => value.Id;
@@ -47,9 +48,9 @@ namespace NHibernate.NodaTime
             return base.Cast(value);
         }
 
-        public override Expression<Func<DateTimeZone, string>>[] ExpressionsExposingPersisted => new Expression<Func<DateTimeZone, string>>[] 
-        { 
-            x => x.Id , 
+        public override Expression<Func<DateTimeZone, string>>[] ExpressionsExposingPersisted => new Expression<Func<DateTimeZone, string>>[]
+        {
+            x => x.Id ,
             x => x.ToString()
         };
     }

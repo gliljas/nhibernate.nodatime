@@ -7,13 +7,13 @@ using System.Runtime.CompilerServices;
 namespace NHibernate.NodaTime
 {
     public abstract class VersionedAbstractStructType<T, TPersisted, TNullableType> : AbstractStructType<T, TPersisted, TNullableType>, IUserVersionType
-        where TNullableType : NullableType , IVersionType, new()
+        where TNullableType : NullableType, IVersionType, new()
     {
         public virtual int Compare(object x, object y)
         {
             if (ValueType is IVersionType versionType)
             {
-               return versionType.Compare(Wrap((T)x), Wrap((T)y));
+                return versionType.Compare(Wrap((T)x), Wrap((T)y));
             };
             throw new NotImplementedException();
         }
@@ -40,11 +40,11 @@ namespace NHibernate.NodaTime
     public class FactoryLocal<T> where T : class
     {
         private ConditionalWeakTable<ISessionFactoryImplementor, T> _conditionalWeakTable = new ConditionalWeakTable<ISessionFactoryImplementor, T>();
+
         public FactoryLocal()
         {
-                
         }
+
         public T GetOrAdd(ISessionFactoryImplementor factory, Func<ISessionFactoryImplementor, T> factoryFunc) => _conditionalWeakTable.GetValue(factory, new ConditionalWeakTable<ISessionFactoryImplementor, T>.CreateValueCallback(factoryFunc));
-        
     }
 }

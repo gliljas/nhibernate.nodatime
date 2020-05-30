@@ -1,6 +1,6 @@
 ﻿namespace NHibernate.NodaTime.Linq
 {
-    class TestDialect
+    internal class TestDialect
     {
     }
 }

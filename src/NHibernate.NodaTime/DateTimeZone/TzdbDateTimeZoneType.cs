@@ -3,7 +3,7 @@
 namespace NHibernate.NodaTime
 {
     /// <summary>
-    /// Persists a <see cref="DateTimeZone"/> as a string 
+    /// Persists a <see cref="DateTimeZone"/> as a string
     /// </summary>
     public class TzdbDateTimeZoneType : AbstractDateTimeZoneType
     {

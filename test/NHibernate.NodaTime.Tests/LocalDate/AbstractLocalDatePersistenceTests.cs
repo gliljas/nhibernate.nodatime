@@ -11,7 +11,6 @@ namespace NHibernate.NodaTime.Tests
     {
         protected AbstractLocalDatePersistenceTests(NHibernateFixture nhibernateFixture) : base(nhibernateFixture)
         {
-
         }
 
         [SkippableFact]
@@ -28,9 +27,10 @@ namespace NHibernate.NodaTime.Tests
         }
 
         [SkippableFact]
-        public virtual void SupportsToDateTimeUnspecified()
+        [NodaTimeAutoData]
+        public virtual void SupportsCompareTo(LocalDate localDate)
         {
-            SupportsPropertyOrMethod(x => x.ToDateTimeUnspecified(), x => x.Kind.Should().Be(DateTimeKind.Unspecified));
+            SupportsPropertyOrMethod(x => x.CompareTo(localDate));
         }
 
         [SkippableFact]
@@ -52,49 +52,17 @@ namespace NHibernate.NodaTime.Tests
         }
 
         [SkippableFact]
-        public virtual void SupportsEra()
-        {
-            SupportsPropertyOrMethod(x => x.Era);
-        }
-
-        [SkippableFact]
-        public virtual void SupportsMonth()
-        {
-            SupportsPropertyOrMethod(x => x.Month);
-        }
-
-        [SkippableFact]
-        public virtual void SupportsYear()
-        {
-            SupportsPropertyOrMethod(x => x.Year);
-        }
-
-        [SkippableFact]
-        public virtual void SupportsYearOfEra()
-        {
-            SupportsPropertyOrMethod(x => x.YearOfEra);
-        }
-
-        [SkippableFact]
-        [NodaTimeAutoData]
-        public virtual void SupportsCompareTo(LocalDate localDate)
-        {
-            SupportsPropertyOrMethod(x => x.CompareTo(localDate));
-        }
-
-        [SkippableFact]
         [NodaTimeAutoData]
         public virtual void SupportsEquals(LocalDate localDate)
         {
             SupportsPropertyOrMethod(x => x.Equals(localDate));
         }
 
-        //[SkippableFact]
-        //[NodaTimeAutoData]
-        //public virtual void SupportsFromDateTime(DateTime dateTime)
-        //{
-        //    SupportsPropertyOrMethod(x => x.Equals(localDateTime));
-        //}
+        [SkippableFact]
+        public virtual void SupportsEra()
+        {
+            SupportsPropertyOrMethod(x => x.Era);
+        }
 
         [SkippableFact]
         [NodaTimeAutoData]
@@ -103,6 +71,12 @@ namespace NHibernate.NodaTime.Tests
             SupportsPropertyOrMethod(x => LocalDate.Max(x, localDate));
         }
 
+        //[SkippableFact]
+        //[NodaTimeAutoData]
+        //public virtual void SupportsFromDateTime(DateTime dateTime)
+        //{
+        //    SupportsPropertyOrMethod(x => x.Equals(localDateTime));
+        //}
         [SkippableFact]
         [NodaTimeAutoData]
         public virtual void SupportsMin(LocalDate localDate)
@@ -139,24 +113,16 @@ namespace NHibernate.NodaTime.Tests
         }
 
         [SkippableFact]
+        public virtual void SupportsMonth()
+        {
+            SupportsPropertyOrMethod(x => x.Month);
+        }
+
+        [SkippableFact]
         [NodaTimeAutoData]
         public virtual void SupportsNext(IsoDayOfWeek isoDayOfWeek)
         {
             SupportsPropertyOrMethod(x => x.Next(isoDayOfWeek));
-        }
-
-        [SkippableFact]
-        [NodaTimeAutoData]
-        public virtual void SupportsPlusPeriod(Period period)
-        {
-            SupportsPropertyOrMethod(x => x.Plus(period));
-        }
-
-        [SkippableFact]
-        [NodaTimeAutoData]
-        public virtual void SupportsPlusPeriodOperator(Period period)
-        {
-            SupportsPropertyOrMethod(x => x + period);
         }
 
         [SkippableFact]
@@ -175,9 +141,40 @@ namespace NHibernate.NodaTime.Tests
 
         [SkippableFact]
         [NodaTimeAutoData]
+        public virtual void SupportsPlusPeriod(Period period)
+        {
+            SupportsPropertyOrMethod(x => x.Plus(period));
+        }
+
+        [SkippableFact]
+        [NodaTimeAutoData]
+        public virtual void SupportsPlusPeriodOperator(Period period)
+        {
+            SupportsPropertyOrMethod(x => x + period);
+        }
+
+        [SkippableFact]
+        [NodaTimeAutoData]
         public virtual void SupportsPlusYears(int years)
         {
             SupportsPropertyOrMethod(x => x.PlusYears(years));
+        }
+
+        [SkippableFact]
+        public virtual void SupportsToDateTimeUnspecified()
+        {
+            SupportsPropertyOrMethod(x => x.ToDateTimeUnspecified(), x => x.Kind.Should().Be(DateTimeKind.Unspecified));
+        }
+        [SkippableFact]
+        public virtual void SupportsYear()
+        {
+            SupportsPropertyOrMethod(x => x.Year);
+        }
+
+        [SkippableFact]
+        public virtual void SupportsYearOfEra()
+        {
+            SupportsPropertyOrMethod(x => x.YearOfEra);
         }
     }
 }

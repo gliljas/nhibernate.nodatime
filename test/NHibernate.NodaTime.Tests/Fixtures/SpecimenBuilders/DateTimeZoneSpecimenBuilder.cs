@@ -21,9 +21,7 @@ namespace NHibernate.NodaTime.Tests.Fixtures
             }
             var zones = DateTimeZoneProviders.Tzdb.GetAllZones().ToArray();
 
-            return zones[new Random().Next(0,zones.Length-1)];
+            return zones[new Random().Next(0, zones.Length - 1)];
         }
-
-
     }
 }

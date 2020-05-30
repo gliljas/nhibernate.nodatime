@@ -14,6 +14,7 @@ namespace NHibernate.NodaTime
         protected override string Property2Name => nameof(YearMonth.Month);
 
         protected override short GetProperty1Value(YearMonth value) => (short)value.Year;
+
         protected override short GetProperty2Value(YearMonth value) => (short)value.Month;
 
         protected override YearMonth Unwrap(short property1Value, short property2Value) => new YearMonth(property1Value, property2Value);
@@ -30,8 +31,5 @@ namespace NHibernate.NodaTime
             }
             return base.Cast(value);
         }
-
     }
-
-
 }

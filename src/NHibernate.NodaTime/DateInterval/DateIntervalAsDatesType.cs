@@ -3,6 +3,5 @@
     /// <inheritdoc/>
     public class DateIntervalAsDatesType : AbstractDateIntervalAsLocalDatesType<LocalDateAsDateType>
     {
-       
     }
 }

@@ -10,45 +10,39 @@ namespace NHibernate.NodaTime.Tests
     {
         public AnnualDateAsDateTypePersistenceTests(NHibernateFixture nhibernateFixture) : base(nhibernateFixture)
         {
+        }
 
+        [SkippableFact]
+        public virtual void SupportsDay()
+        {
+            SupportsPropertyOrMethod(x => x.Day);
         }
 
         [SkippableTheory]
         [NodaTimeAutoData]
-        public virtual void SupportsMonth(List<TestEntity<AnnualDate>> testEntities)
+        public virtual void SupportsInYear(int year)
         {
-            AddToDatabase(testEntities.ToArray());
-
-            var month = testEntities.First().TestProperty.Month;
-
-            using (var session = SessionFactory.OpenSession())
-            using (var trans = session.BeginTransaction())
-            {
-                var foundEntities = session.Query<TestEntity<AnnualDate>>().Where(x=>x.TestProperty.Month == month).ToList();
-            }
+            SupportsPropertyOrMethod(x => x.InYear(year));
         }
 
         [SkippableTheory]
         [NodaTimeAutoData]
-        public virtual void SupportsDay(List<TestEntity<AnnualDate>> testEntities)
+        public virtual void SupportsIsValidYear(int year)
         {
-            AddToDatabase(testEntities.ToArray());
-
-            var day = testEntities.First().TestProperty.Day;
-
-            ExecuteWithQueryable(q =>
-            {
-                var foundEntities = q.Where(x => x.TestProperty.Day == day).ToList();
-            });
+            SupportsPropertyOrMethod(x => x.IsValidYear(year));
         }
 
+        [SkippableFact]
+        public virtual void SupportsMonth()
+        {
+            SupportsPropertyOrMethod(x => x.Month);
+        }
         protected override object GetTypeParameters()
         {
-            return new { 
+            return new
+            {
                 BaseYear = 2000
             };
         }
     }
-
-
 }

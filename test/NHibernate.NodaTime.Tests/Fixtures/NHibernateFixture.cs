@@ -15,7 +15,6 @@ namespace NHibernate.NodaTime.Tests.Fixtures
         {
             _configuration = new Lazy<Configuration>(() => CreateConfiguration());
             _sessionFactory = new Lazy<ISessionFactory>(() => CreateSessionFactory());
-
         }
 
         private ISessionFactory CreateSessionFactory()

@@ -11,8 +11,10 @@ namespace NHibernate.NodaTime
     /// </summary>
     public class AnnualDateAsDateType : AbstractAnnualDateType<DateTime, DateType>
     {
-        int _baseYear = 1970;
+        private int _baseYear = 1970;
+
         protected override AnnualDate Unwrap(DateTime value) => new AnnualDate(value.Month, value.Day);
+
         protected override DateTime Wrap(AnnualDate value) => value.InYear(_baseYear).ToDateTimeUnspecified();
 
         protected override AnnualDate Cast(object value)
@@ -40,13 +42,9 @@ namespace NHibernate.NodaTime
             }
         }
 
-        public override IEnumerable<SupportedQueryProperty<AnnualDate>> SupportedQueryProperties => new[] { 
+        public override IEnumerable<SupportedQueryProperty<AnnualDate>> SupportedQueryProperties => new[] {
             new SupportedQueryProperty<AnnualDate>(x=>x.Month, new FunctionTransformer("month")),
             new SupportedQueryProperty<AnnualDate>(x=>x.Day, new FunctionTransformer("day")),
         };
-
-
     }
-
-
 }

@@ -11,8 +11,6 @@ namespace NHibernate.NodaTime
     {
         protected override OffsetDate Unwrap(DateTimeOffset value) => OffsetDateTime.FromDateTimeOffset(value).ToOffsetDate();
 
-
         protected override DateTimeOffset Wrap(OffsetDate value) => value.At(LocalTime.MinValue).ToDateTimeOffset();
-
     }
 }

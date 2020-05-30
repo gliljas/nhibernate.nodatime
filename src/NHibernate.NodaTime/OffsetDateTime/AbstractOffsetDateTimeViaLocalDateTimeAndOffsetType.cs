@@ -21,6 +21,5 @@ namespace NHibernate.NodaTime
         protected override Offset GetProperty2Value(OffsetDateTime value) => value.Offset;
 
         protected override OffsetDateTime Unwrap(LocalDateTime property1Value, Offset property2Value) => new OffsetDateTime(property1Value, property2Value);
-
     }
 }

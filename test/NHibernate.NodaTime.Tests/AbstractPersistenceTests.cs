@@ -19,6 +19,7 @@ namespace NHibernate.NodaTime.Tests
         {
         }
     }
+
     public abstract class AbstractPersistenceTests<T, TUserType, TTestEntity> : IClassFixture<NHibernateFixture>
         where TUserType : new()
         where TTestEntity : class, ITestEntity<T>
@@ -33,7 +34,7 @@ namespace NHibernate.NodaTime.Tests
             _nhibernateFixture.Configure(c =>
             {
                 c.AddNodaTime();
-                
+
                 var mapper = new ModelMapper();
                 mapper.Class<TTestEntity>(m =>
                 {
@@ -49,12 +50,12 @@ namespace NHibernate.NodaTime.Tests
                                 p.Columns(compositeUserType.PropertyNames.Select(
                                     pn => new Action<IColumnMapper>(cm => cm.Name("TestProperty" + pn + "Col"))
                                     ).ToArray());
-
                             }
                         }
                     );
                     m.Component(component => component.TestComponent,
-                        cm => {
+                        cm =>
+                        {
                             cm.Property(p => p.TestComponentProperty,
                             p =>
                             {
@@ -65,7 +66,6 @@ namespace NHibernate.NodaTime.Tests
                                     p.Columns(compositeUserType.PropertyNames.Select(
                                         pn => new Action<IColumnMapper>(ccm => ccm.Name("TestComponentPropertyTestComponent" + pn + "Col"))
                                         ).ToArray());
-
                                 }
                             });
                         }
@@ -73,7 +73,6 @@ namespace NHibernate.NodaTime.Tests
                 });
                 var mapping = mapper.CompileMappingForAllExplicitlyAddedEntities();
                 c.AddMapping(mapping);
-
             });
         }
 
@@ -156,7 +155,7 @@ namespace NHibernate.NodaTime.Tests
 
             var selectParam = Expression.Parameter(typeof(TTestEntity));
             var selectLambda = Expression.Lambda(
-               
+
                    expression.Body.Replace(expression.Parameters.First(), Expression.Property(param, "TestProperty"))
                , param) as Expression<Func<TTestEntity, TValue>>;
 
@@ -177,7 +176,6 @@ namespace NHibernate.NodaTime.Tests
                     extraValueCheck(foundEntities[0]);
                 }
             });
-
         }
 
         protected void AddToDatabase(params object[] testValues)

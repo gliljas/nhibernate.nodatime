@@ -8,12 +8,10 @@ namespace NHibernate.NodaTime.Linq
     {
         public SupportedQueryProperty(MemberInfo member, IHqlPropertyTransformer transformer)
         {
-
         }
 
-        public SupportedQueryProperty(Expression<Func<T,object>> member, IHqlPropertyTransformer transformer)
+        public SupportedQueryProperty(Expression<Func<T, object>> member, IHqlPropertyTransformer transformer)
         {
-
         }
     }
 }

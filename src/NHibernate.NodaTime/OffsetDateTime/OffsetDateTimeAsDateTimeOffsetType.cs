@@ -17,6 +17,5 @@ namespace NHibernate.NodaTime
         public override Expression<Func<OffsetDateTime, DateTimeOffset>>[] ExpressionsExposingPersisted => new Expression<Func<OffsetDateTime, DateTimeOffset>>[] {
             x => x.ToDateTimeOffset()
         };
-
     }
 }

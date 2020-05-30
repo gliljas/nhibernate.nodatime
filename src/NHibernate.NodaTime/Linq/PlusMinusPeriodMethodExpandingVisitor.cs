@@ -17,7 +17,6 @@ namespace NHibernate.NodaTime.Linq
         private static readonly MethodInfo _localTimePlusNanoseconds = ReflectHelper.GetMethod<LocalTime>(x => x.PlusNanoseconds(0));
         private static readonly MethodInfo _localTimeMinus = ReflectHelper.GetMethod<LocalTime>(x => x.Minus(Period.Zero));
 
-
         private static readonly MethodInfo _localDateTimePlus = ReflectHelper.GetMethod<LocalDateTime>(x => x.Plus(Period.Zero));
         private static readonly MethodInfo _localDateTimePlusYears = ReflectHelper.GetMethod<LocalDateTime>(x => x.PlusYears(0));
         private static readonly MethodInfo _localDateTimePlusMonths = ReflectHelper.GetMethod<LocalDateTime>(x => x.PlusMonths(0));
@@ -31,7 +30,6 @@ namespace NHibernate.NodaTime.Linq
         private static readonly MethodInfo _localDateTimePlusNanoseconds = ReflectHelper.GetMethod<LocalDateTime>(x => x.PlusNanoseconds(0));
         private static readonly MethodInfo _localDateTimeMinus = ReflectHelper.GetMethod<LocalDateTime>(x => x.Minus(Period.Zero));
 
-
         private static readonly MethodInfo _localDatePlus = ReflectHelper.GetMethod<LocalDate>(x => x.Plus(Period.Zero));
         private static readonly MethodInfo _localDatePlusYears = ReflectHelper.GetMethod<LocalDate>(x => x.PlusYears(0));
         private static readonly MethodInfo _localDatePlusMonths = ReflectHelper.GetMethod<LocalDate>(x => x.PlusMonths(0));
@@ -39,7 +37,6 @@ namespace NHibernate.NodaTime.Linq
         private static readonly MethodInfo _localDatePlusDays = ReflectHelper.GetMethod<LocalDate>(x => x.PlusDays(0));
         private static readonly MethodInfo _localDateMinus = ReflectHelper.GetMethod<LocalDate>(x => x.Minus(Period.Zero));
 
-        
         protected override Expression VisitBinary(BinaryExpression node)
         {
             if (node.Left.Type == typeof(LocalDateTime) && node.Right.Type == typeof(Period))
@@ -77,12 +74,12 @@ namespace NHibernate.NodaTime.Linq
                     return Visit(Expression.Call(node.Left, _localTimeMinus, node.Right));
                 }
             }
-            
+
             return base.VisitBinary(node);
         }
+
         protected override Expression VisitMethodCall(MethodCallExpression node)
         {
-           
             if ((node.Method == _localDateTimePlus || node.Method == _localDateTimeMinus) && node.Arguments.FirstOrDefault() is ConstantExpression constantPeriodExpressionLocalDateTime)
             {
                 return LocalDateTimePlusToComponents(node, constantPeriodExpressionLocalDateTime);
@@ -99,7 +96,6 @@ namespace NHibernate.NodaTime.Linq
             }
 
             return base.VisitMethodCall(node);
-
         }
 
         private Expression LocalTimePlusToComponents(MethodCallExpression node, ConstantExpression constantExpression)
@@ -107,7 +103,7 @@ namespace NHibernate.NodaTime.Linq
             var objectExpression = Visit(node.Object);
             var period = (Period)constantExpression.Value;
             int factor = (node.Method == _localTimeMinus) ? -1 : 1;
-            
+
             if (period.Hours != 0)
             {
                 objectExpression = Expression.Call(objectExpression, _localTimePlusHours, Expression.Constant(factor * period.Hours));
@@ -204,7 +200,7 @@ namespace NHibernate.NodaTime.Linq
             {
                 objectExpression = Expression.Call(objectExpression, _localDatePlusDays, Expression.Constant(factor * period.Days));
             }
-            
+
             return objectExpression;
         }
     }

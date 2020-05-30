@@ -10,22 +10,44 @@ namespace NHibernate.NodaTime.Tests
     {
         public TzdbDateTimeZoneTypePersistenceTests(NHibernateFixture nhibernateFixture) : base(nhibernateFixture)
         {
-
         }
 
         [SkippableTheory]
         [NodaTimeAutoData]
-        public virtual void SupportsZoneId(List<TestEntity<DateTimeZone>> testEntities)
+        public virtual void SupportsAtLeniently(LocalDateTime localDateTime)
         {
-            AddToDatabase(testEntities.ToArray());
-
-            var zoneId = testEntities.First().TestProperty.Id;
-
-            ExecuteWithQueryable(q =>
-            {
-                var foundEntities = q.Where(x => x.TestProperty.Id == zoneId).ToList();
-            });
+            SupportsPropertyOrMethod(x => x.AtLeniently(localDateTime));
         }
 
+        [SkippableTheory]
+        [NodaTimeAutoData]
+        public virtual void SupportsAtStartOfDay(LocalDate localDate)
+        {
+            SupportsPropertyOrMethod(x => x.AtStartOfDay(localDate));
+        }
+
+        [SkippableFact]
+        public virtual void SupportsAtStrictly(LocalDateTime localDateTime)
+        {
+            SupportsPropertyOrMethod(x => x.AtStrictly(localDateTime));
+        }
+
+        [SkippableFact]
+        public virtual void SupportsId()
+        {
+            SupportsPropertyOrMethod(x => x.Id);
+        }
+
+        [SkippableFact]
+        public virtual void SupportsMaxOffset()
+        {
+            SupportsPropertyOrMethod(x => x.MaxOffset);
+        }
+
+        [SkippableFact]
+        public virtual void SupportsMinOffset()
+        {
+            SupportsPropertyOrMethod(x => x.MinOffset);
+        }
     }
 }

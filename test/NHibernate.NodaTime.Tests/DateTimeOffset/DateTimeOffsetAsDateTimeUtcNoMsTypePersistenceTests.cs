@@ -7,12 +7,11 @@ namespace NHibernate.NodaTime.Tests
     {
         public DateTimeOffsetAsDateTimeUtcNoMsTypePersistenceTests(NHibernateFixture nhibernateFixture) : base(nhibernateFixture)
         {
-
         }
 
         protected override DateTimeOffset AdjustValue(DateTimeOffset value)
         {
-            return new DateTimeOffset(value.DateTime.Ticks - (value.DateTime.Ticks % TimeSpan.TicksPerSecond),value.Offset);
+            return new DateTimeOffset(value.DateTime.Ticks - (value.DateTime.Ticks % TimeSpan.TicksPerSecond), value.Offset);
         }
     }
 }

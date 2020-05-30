@@ -17,6 +17,7 @@ namespace NHibernate.NodaTime
         {
         }
     }
+
     public abstract class AbstractTwoPropertyStructType<T, TProperty1Persisted, TProperty2Persisted> : ICompositeUserType, ISupportLinqQueries<T>, IParameterizedType, INodaTimeType
     {
         private readonly IType _property1Type;
@@ -28,7 +29,7 @@ namespace NHibernate.NodaTime
             {
                 throw new ArgumentException($"The {nameof(IType.ReturnedClass)} of {property1Type.GetType()} was expected to be {typeof(TProperty1Persisted)}, but was {property1Type.ReturnedClass}", nameof(property1Type));
             }
-            
+
             if (property2Type.ReturnedClass != typeof(TProperty2Persisted))
             {
                 throw new ArgumentException($"The {nameof(IType.ReturnedClass)} of {property2Type.GetType()} was expected to be {typeof(TProperty1Persisted)}, but was {property2Type.ReturnedClass}", nameof(property2Type));
@@ -36,8 +37,8 @@ namespace NHibernate.NodaTime
 
             _property1Type = property1Type;
             _property2Type = property2Type;
-           
         }
+
         protected abstract string Property1Name { get; }
         protected abstract string Property2Name { get; }
 
@@ -47,14 +48,13 @@ namespace NHibernate.NodaTime
         protected virtual int Property1ColumnSpan => 1;
         protected virtual int Property2ColumnSpan => 1;
 
-
         protected abstract T Unwrap(TProperty1Persisted property1Value, TProperty2Persisted property2Value);
 
         protected abstract TProperty1Persisted GetProperty1Value(T value);
+
         protected abstract TProperty2Persisted GetProperty2Value(T value);
 
         protected virtual T Cast(object value) => (T)value;
-
 
         string[] ICompositeUserType.PropertyNames => new[] { Property1Name, Property2Name };
 
@@ -157,6 +157,5 @@ namespace NHibernate.NodaTime
 
         //public virtual Expression<Func<T, TProperty1Persisted>>[] ExpressionsExposingPersistedProperty1 { get; } = new Expression<Func<T, TProperty1Persisted>>[] { };
         //public virtual Expression<Func<T, TProperty2Persisted>>[] ExpressionsExposingPersistedProperty2 { get; } = new Expression<Func<T, TProperty2Persisted>>[] { };
-
     }
 }

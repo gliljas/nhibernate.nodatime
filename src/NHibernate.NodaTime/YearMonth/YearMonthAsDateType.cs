@@ -10,9 +10,10 @@ namespace NHibernate.NodaTime
     /// </summary>
     public class YearMonthAsDateType : AbstractYearMonthType<DateTime, DateType>
     {
-        int _dayOfMonth = 1;
+        private int _dayOfMonth = 1;
 
         protected override YearMonth Unwrap(DateTime value) => new YearMonth(value.Year, value.Month);
+
         protected override DateTime Wrap(YearMonth value)
         {
             if (_dayOfMonth > 28)
@@ -54,9 +55,5 @@ namespace NHibernate.NodaTime
                 base.SetParameterValues(parameters);
             }
         }
-
-
     }
-
-
 }

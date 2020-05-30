@@ -19,7 +19,6 @@ namespace NHibernate.NodaTime.Tests.Fixtures
             fixture.Customizations.Add(new OffsetTimeSpecimenBuilder());
             fixture.Customizations.Add(new PeriodSpecimenBuilder());
             fixture.Customizations.Add(new YearMonthSpecimenBuilder());
-
         }
     }
 }

@@ -12,7 +12,7 @@ namespace NHibernate.NodaTime
 
         protected override DateTime Wrap(LocalDateTime value) => value.ToDateTimeUnspecified();
 
-        public override Expression<Func<LocalDateTime, DateTime>>[] ExpressionsExposingPersisted => new Expression<Func<LocalDateTime, DateTime>>[] 
+        public override Expression<Func<LocalDateTime, DateTime>>[] ExpressionsExposingPersisted => new Expression<Func<LocalDateTime, DateTime>>[]
         {
             x => x.ToDateTimeUnspecified()
         };

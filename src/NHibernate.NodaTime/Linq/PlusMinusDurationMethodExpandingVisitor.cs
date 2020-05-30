@@ -60,7 +60,6 @@ namespace NHibernate.NodaTime.Linq
                 return Expression.Call(_instantWithOffsetSecondsExtension, objectExpression, Expression.Constant((int)(period.Seconds)));
             }
 
-
             return base.VisitMethodCall(node);
         }
 
@@ -95,7 +94,7 @@ namespace NHibernate.NodaTime.Linq
             {
                 objectExpression = Expression.Call(_instantPlusMillisecondsExtension, objectExpression, Expression.Constant(factor * duration.Milliseconds));
             }
-            
+
             //if (period.Days != 0)
             //{
             //    objectExpression = Expression.Call(objectExpression, _localDatePlusDays, Expression.Constant(factor * period.Days));
@@ -108,8 +107,6 @@ namespace NHibernate.NodaTime.Linq
             //{
             //    objectExpression = Expression.Call(_instantPlusMinutesExtension, objectExpression, Expression.Constant((factor * period.Minutes)));
             //}
-
-
 
             return objectExpression;
         }
@@ -124,7 +121,6 @@ namespace NHibernate.NodaTime.Linq
                 objectExpression = Expression.Call(objectExpression, _zonedDateTimePlusNanoseconds, Expression.Constant(factor * period.TotalNanoseconds));
             }
 
-
             return objectExpression;
         }
 
@@ -137,7 +133,6 @@ namespace NHibernate.NodaTime.Linq
             {
                 objectExpression = Expression.Call(objectExpression, _offsetDateTimePlusNanoseconds, Expression.Constant(factor * period.TotalNanoseconds));
             }
-
 
             return objectExpression;
         }

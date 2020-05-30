@@ -30,5 +30,4 @@ namespace NHibernate.NodaTime
             x => x.ToDateTimeUtc()
         };
     }
-
 }

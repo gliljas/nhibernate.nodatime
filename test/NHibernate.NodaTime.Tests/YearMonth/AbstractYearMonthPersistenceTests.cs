@@ -1,4 +1,5 @@
-﻿using NHibernate.NodaTime.Tests.Fixtures;
+﻿using AutoFixture.Xunit2;
+using NHibernate.NodaTime.Tests.Fixtures;
 using NodaTime;
 using Xunit;
 
@@ -9,13 +10,25 @@ namespace NHibernate.NodaTime.Tests
     {
         protected AbstractYearMonthPersistenceTests(NHibernateFixture nhibernateFixture) : base(nhibernateFixture)
         {
-
         }
 
         [SkippableFact]
         public virtual void SupportsMonth()
         {
             SupportsPropertyOrMethod(x => x.Month);
+        }
+
+        [SkippableTheory]
+        [AutoData]
+        public virtual void SupportsOnDayOfMonth(int day)
+        {
+            SupportsPropertyOrMethod(x => x.OnDayOfMonth(day));
+        }
+
+        [SkippableFact]
+        public virtual void SupportsToDateInterval()
+        {
+            SupportsPropertyOrMethod(x => x.ToDateInterval());
         }
 
         [SkippableFact]

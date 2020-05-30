@@ -6,9 +6,6 @@ namespace NHibernate.NodaTime.Tests
     {
         public OffsetDateTimeAsDateTimeOffsetTypePersistenceTests(NHibernateFixture nhibernateFixture) : base(nhibernateFixture)
         {
-
         }
-
-        
     }
 }

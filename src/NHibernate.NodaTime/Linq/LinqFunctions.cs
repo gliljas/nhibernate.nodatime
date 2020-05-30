@@ -21,20 +21,31 @@ namespace NHibernate.NodaTime.Linq
             //this.Merge(new OffsetDateTimeDatePropertyGenerator());
             //this.Merge(new LocalDateYearPropertyGenerator());
             //this.Merge(new LocalDateWithOffsetMethodGenerator());
+
             this.Merge(new InstantPlusHoursGenerator());
             this.Merge(new InstantPlusMinutesGenerator());
             this.Merge(new InstantPlusSecondsGenerator());
             this.Merge(new InstantMaxGenerator());
             this.Merge(new InstantMinGenerator());
+
+            this.Merge(new DateTimeOffsetOffsetGenerator());
             this.Merge(new DateTimeOffsetSubtractGenerator());
             this.Merge(new DateTimeOffsetSubtractTimeSpanGenerator());
             this.Merge(new DateTimeOffsetAddTicksGenerator());
             this.Merge(new DateTimeOffsetAddDaysGenerator());
             this.Merge(new DateTimeOffsetAddYearsGenerator());
+            this.Merge(new DateTimeOffsetAddMinutesGenerator());
+            this.Merge(new DateTimeOffsetAddSecondsGenerator());
+            this.Merge(new DateTimeOffsetAddMillisecondsGenerator());
             this.Merge(new DateTimeOffsetDayOfWeekGenerator());
             this.Merge(new DateTimeOffsetDayOfYearGenerator());
+            this.Merge(new DateTimeOffsetDateTimeGenerator());
             this.Merge(new DateTimeOffsetToInstantGenerator());
             this.Merge(new DateTimeOffsetToLocalTimeGenerator());
+            this.Merge(new DateTimeOffsetTicksGenerator());
+            this.Merge(new DateTimeOffsetUtcDateTimeGenerator());
+            this.Merge(new DateTimeOffsetToUnixTimeSecondsGenerator());
+            this.Merge(new DateTimeOffsetToUnixTimeMillisecondsGenerator());
 
             this.Merge(new LocalDateTimeToDateTimeUnspecifiedGenerator());
             this.Merge(new YearMonthYearGenerator());
@@ -47,6 +58,28 @@ namespace NHibernate.NodaTime.Linq
         }
     }
 
+    public class DateTimeOffsetTicksGenerator : IHqlGeneratorForProperty
+    {
+        public IEnumerable<MemberInfo> SupportedProperties => new[] { ReflectHelper.GetProperty(() => new DateTimeOffset().Ticks) };
+
+        public HqlTreeNode BuildHql(MemberInfo member, Expression expression, HqlTreeBuilder treeBuilder, IHqlExpressionVisitor visitor)
+        {
+            var source = visitor.Visit(expression).AsExpression();
+            return
+               treeBuilder.MethodCall("nodaticksfromdatetimeoffset", source);
+        }
+    }
+
+    public class DateTimeOffsetUtcDateTimeGenerator : IHqlGeneratorForProperty
+    {
+        public IEnumerable<MemberInfo> SupportedProperties => new[] { ReflectHelper.GetProperty(() => new DateTimeOffset().UtcDateTime) };
+
+        public HqlTreeNode BuildHql(MemberInfo member, Expression expression, HqlTreeBuilder treeBuilder, IHqlExpressionVisitor visitor)
+        {
+            var source = visitor.Visit(expression).AsExpression();
+            return treeBuilder.Cast(treeBuilder.MethodCall("switchoffset", source, treeBuilder.Constant("+00:00")), typeof(DateTime));
+        }
+    }
 
     public class DateTimeOffsetDayOfYearGenerator : IHqlGeneratorForProperty
     {
@@ -62,13 +95,35 @@ namespace NHibernate.NodaTime.Linq
 
     public class DateTimeOffsetDayOfWeekGenerator : IHqlGeneratorForProperty
     {
-        public IEnumerable<MemberInfo> SupportedProperties => new[] { ReflectHelper.GetProperty(()=> new DateTimeOffset().DayOfWeek) };
+        public IEnumerable<MemberInfo> SupportedProperties => new[] { ReflectHelper.GetProperty(() => new DateTimeOffset().DayOfWeek) };
 
         public HqlTreeNode BuildHql(MemberInfo member, Expression expression, HqlTreeBuilder treeBuilder, IHqlExpressionVisitor visitor)
         {
             var source = visitor.Visit(expression).AsExpression();
             return
                treeBuilder.MethodCall("nodaisoweekday", source);
+        }
+    }
+
+    public class DateTimeOffsetDateTimeGenerator : IHqlGeneratorForProperty
+    {
+        public IEnumerable<MemberInfo> SupportedProperties => new[] { ReflectHelper.GetProperty(() => new DateTimeOffset().DateTime) };
+
+        public HqlTreeNode BuildHql(MemberInfo member, Expression expression, HqlTreeBuilder treeBuilder, IHqlExpressionVisitor visitor)
+        {
+            var source = visitor.Visit(expression).AsExpression();
+            return treeBuilder.Cast(source, typeof(DateTime));
+        }
+    }
+
+    public class DateTimeOffsetOffsetGenerator : IHqlGeneratorForProperty
+    {
+        public IEnumerable<MemberInfo> SupportedProperties => new[] { ReflectHelper.GetProperty(() => new DateTimeOffset().Offset) };
+
+        public HqlTreeNode BuildHql(MemberInfo member, Expression expression, HqlTreeBuilder treeBuilder, IHqlExpressionVisitor visitor)
+        {
+            var source = visitor.Visit(expression).AsExpression();
+            return treeBuilder.MethodCall("nodaminutestotimespan", treeBuilder.MethodCall("nodagetoffsetfromdatetimeoffsetasminutes", source));
         }
     }
 
@@ -93,9 +148,32 @@ namespace NHibernate.NodaTime.Linq
             return treeBuilder.MethodCall("nodafromdatetimeoffsettolocaltime", source);
         }
     }
+
+    public class DateTimeOffsetToUnixTimeSecondsGenerator : IHqlGeneratorForMethod
+    {
+        public IEnumerable<MethodInfo> SupportedMethods => new[] { ReflectHelper.GetMethod<DateTimeOffset>(x => x.ToUnixTimeSeconds()) };
+
+        public HqlTreeNode BuildHql(MethodInfo method, Expression targetObject, ReadOnlyCollection<Expression> arguments, HqlTreeBuilder treeBuilder, IHqlExpressionVisitor visitor)
+        {
+            var source = visitor.Visit(targetObject).AsExpression();
+            return treeBuilder.MethodCall("nodafromdatetimeoffsettounixtimeseconds", source);
+        }
+    }
+
+    public class DateTimeOffsetToUnixTimeMillisecondsGenerator : IHqlGeneratorForMethod
+    {
+        public IEnumerable<MethodInfo> SupportedMethods => new[] { ReflectHelper.GetMethod<DateTimeOffset>(x => x.ToUnixTimeMilliseconds()) };
+
+        public HqlTreeNode BuildHql(MethodInfo method, Expression targetObject, ReadOnlyCollection<Expression> arguments, HqlTreeBuilder treeBuilder, IHqlExpressionVisitor visitor)
+        {
+            var source = visitor.Visit(targetObject).AsExpression();
+            return treeBuilder.MethodCall("nodafromdatetimeoffsettounixtimemilliseconds", source);
+        }
+    }
+
     public class DateTimeOffsetSubtractGenerator : IHqlGeneratorForMethod
     {
-        public IEnumerable<MethodInfo> SupportedMethods => new[] { ReflectHelper.GetMethod<DateTimeOffset>(x => x.Subtract(default(DateTimeOffset)))};
+        public IEnumerable<MethodInfo> SupportedMethods => new[] { ReflectHelper.GetMethod<DateTimeOffset>(x => x.Subtract(default(DateTimeOffset))) };
 
         public HqlTreeNode BuildHql(MethodInfo method, Expression targetObject, ReadOnlyCollection<Expression> arguments, HqlTreeBuilder treeBuilder, IHqlExpressionVisitor visitor)
         {
@@ -120,7 +198,6 @@ namespace NHibernate.NodaTime.Linq
             var arg1 = visitor.Visit(arguments[0]).AsExpression();
             return
                 treeBuilder.MethodCall("addyearstodatetime", source, arg1);
-
         }
     }
 
@@ -134,7 +211,6 @@ namespace NHibernate.NodaTime.Linq
             var arg1 = visitor.Visit(arguments[0]).AsExpression();
             return
                 treeBuilder.MethodCall("addtickstodatetime", source, arg1);
-
         }
     }
 
@@ -148,7 +224,58 @@ namespace NHibernate.NodaTime.Linq
             var arg1 = visitor.Visit(arguments[0]).AsExpression();
             return
                 treeBuilder.MethodCall("adddaystodatetime", source, arg1);
-                
+        }
+    }
+
+    public class DateTimeOffsetAddMinutesGenerator : IHqlGeneratorForMethod
+    {
+        public IEnumerable<MethodInfo> SupportedMethods => new[] { ReflectHelper.GetMethod<DateTimeOffset>(x => x.AddMinutes(0)) };
+
+        public HqlTreeNode BuildHql(MethodInfo method, Expression targetObject, ReadOnlyCollection<Expression> arguments, HqlTreeBuilder treeBuilder, IHqlExpressionVisitor visitor)
+        {
+            var source = visitor.Visit(targetObject).AsExpression();
+            var arg1 = visitor.Visit(arguments[0]).AsExpression();
+            return
+                treeBuilder.MethodCall("addminutestodatetime", source, arg1);
+        }
+    }
+
+    public class DateTimeOffsetAddSecondsGenerator : IHqlGeneratorForMethod
+    {
+        public IEnumerable<MethodInfo> SupportedMethods => new[] { ReflectHelper.GetMethod<DateTimeOffset>(x => x.AddSeconds(0)) };
+
+        public HqlTreeNode BuildHql(MethodInfo method, Expression targetObject, ReadOnlyCollection<Expression> arguments, HqlTreeBuilder treeBuilder, IHqlExpressionVisitor visitor)
+        {
+            var source = visitor.Visit(targetObject).AsExpression();
+            var arg1 = visitor.Visit(arguments[0]).AsExpression();
+            return
+                treeBuilder.MethodCall("addsecondstodatetime", source, arg1);
+        }
+    }
+
+    public class DateTimeOffsetAddMillisecondsGenerator : IHqlGeneratorForMethod
+    {
+        public IEnumerable<MethodInfo> SupportedMethods => new[] { ReflectHelper.GetMethod<DateTimeOffset>(x => x.AddMilliseconds(0)) };
+
+        public HqlTreeNode BuildHql(MethodInfo method, Expression targetObject, ReadOnlyCollection<Expression> arguments, HqlTreeBuilder treeBuilder, IHqlExpressionVisitor visitor)
+        {
+            var source = visitor.Visit(targetObject).AsExpression();
+            var arg1 = visitor.Visit(arguments[0]).AsExpression();
+            return
+                treeBuilder.MethodCall("addmillisecondstodatetime", source, arg1);
+        }
+    }
+
+    public class DateTimeOffsetAddGenerator : IHqlGeneratorForMethod
+    {
+        public IEnumerable<MethodInfo> SupportedMethods => new[] { ReflectHelper.GetMethod<DateTimeOffset>(x => x.Add(TimeSpan.Zero)) };
+
+        public HqlTreeNode BuildHql(MethodInfo method, Expression targetObject, ReadOnlyCollection<Expression> arguments, HqlTreeBuilder treeBuilder, IHqlExpressionVisitor visitor)
+        {
+            var source = visitor.Visit(targetObject).AsExpression();
+            var arg1 = visitor.Visit(arguments[0]).AsExpression();
+            return
+                treeBuilder.MethodCall("adddaystodatetime", source, arg1);
         }
     }
 
@@ -158,7 +285,6 @@ namespace NHibernate.NodaTime.Linq
 
         public HqlTreeNode BuildHql(MethodInfo method, Expression targetObject, ReadOnlyCollection<Expression> arguments, HqlTreeBuilder treeBuilder, IHqlExpressionVisitor visitor)
         {
-
             //Just use DATEADD
             var source = visitor.Visit(targetObject).AsExpression();
             var arg1 = visitor.Visit(arguments[0]).AsExpression();
@@ -270,7 +396,6 @@ namespace NHibernate.NodaTime.Linq
         }
     }
 
-
     public class LocalDateTimeToDateTimeUnspecifiedGenerator : IHqlGeneratorForMethod
     {
         public IEnumerable<MethodInfo> SupportedMethods => new[] { ReflectHelper.GetMethod<LocalDateTime>(x => x.ToDateTimeUnspecified()) };
@@ -280,7 +405,6 @@ namespace NHibernate.NodaTime.Linq
             var source = visitor.Visit(targetObject).AsExpression();
 
             return treeBuilder.MethodCall("todatetime", source);
-
         }
     }
 
@@ -292,7 +416,6 @@ namespace NHibernate.NodaTime.Linq
         {
             var source = visitor.Visit(expression).AsExpression();
             return treeBuilder.MethodCall("year", source);
-
         }
     }
 
@@ -316,7 +439,6 @@ namespace NHibernate.NodaTime.Linq
             var source = visitor.Visit(targetObject).AsExpression();
 
             return treeBuilder.MethodCall("nodafromutctickstoutcdatetime", source);
-
         }
     }
 
@@ -329,7 +451,6 @@ namespace NHibernate.NodaTime.Linq
             var source = visitor.Visit(targetObject).AsExpression();
 
             return treeBuilder.MethodCall("nodafromutctickstounixtimemilliseconds", source);
-
         }
     }
 
@@ -342,7 +463,6 @@ namespace NHibernate.NodaTime.Linq
             var source = visitor.Visit(targetObject).AsExpression();
 
             return treeBuilder.MethodCall("nodafromutctickstounixtimeseconds", source);
-
         }
     }
 
@@ -356,7 +476,6 @@ namespace NHibernate.NodaTime.Linq
 
             return treeBuilder.TransparentCast(treeBuilder.Subtract(source, treeBuilder.Constant(NodaConstants.UnixEpoch.ToDateTimeUtc().Ticks)), typeof(long));
             //return treeBuilder.MethodCall("nodafromutctickstounixtimeticks", source);
-
         }
     }
 
@@ -371,7 +490,6 @@ namespace NHibernate.NodaTime.Linq
 
             return treeBuilder.MethodCall("nodafromtickstoduration", treeBuilder.Subtract(source, arg1));
             //return treeBuilder.MethodCall("nodafromutctickstounixtimeticks", source);
-
         }
     }
 
@@ -408,7 +526,4 @@ namespace NHibernate.NodaTime.Linq
                         treeBuilder.LessThanOrEqual(source, arg1), source) }, arg1);
         }
     }
-
-
-
 }

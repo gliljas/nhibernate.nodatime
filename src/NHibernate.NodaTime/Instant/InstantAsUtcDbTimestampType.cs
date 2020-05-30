@@ -9,7 +9,5 @@ namespace NHibernate.NodaTime
     /// </summary>
     public class InstantAsUtcDbTimestampType : AbstractInstantAsDateTimeType<UtcDbTimestampType>
     {
-    
     }
-
 }

@@ -7,5 +7,4 @@ namespace NHibernate.NodaTime.Tests.Fixtures
     {
         public override OffsetTime CreateFromDateTimeOffset(DateTimeOffset dateTimeOffset) => OffsetDateTime.FromDateTimeOffset(dateTimeOffset).ToOffsetTime();
     }
-
 }

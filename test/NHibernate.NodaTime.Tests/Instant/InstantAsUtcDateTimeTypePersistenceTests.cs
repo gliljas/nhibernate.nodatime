@@ -6,7 +6,6 @@ namespace NHibernate.NodaTime.Tests
     {
         public InstantAsUtcDateTimeTypePersistenceTests(NHibernateFixture nhibernateFixture) : base(nhibernateFixture)
         {
-
         }
     }
 }

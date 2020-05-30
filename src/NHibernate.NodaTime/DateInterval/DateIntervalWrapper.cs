@@ -3,7 +3,7 @@
 namespace NHibernate.NodaTime
 {
     /// <summary>
-    /// This class is used to mascerade DateInterval as a non IEnumerable class, 
+    /// This class is used to mascerade DateInterval as a non IEnumerable class,
     /// since otherwise DateInterval parameters would be treated as parameter lists
     /// </summary>
     internal class DateIntervalWrapper

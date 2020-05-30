@@ -3,6 +3,5 @@
     /// <inheritdoc/>
     public class IntervalAsDateTimeUtcType : AbstractIntervalAsInstantsType<InstantAsUtcDateTimeType>
     {
-        
     }
 }

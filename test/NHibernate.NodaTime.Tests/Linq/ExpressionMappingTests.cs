@@ -23,10 +23,9 @@ namespace NHibernate.NodaTime.Tests.Linq
             cfg.Properties[Cfg.Environment.Dialect] = typeof(SQLiteDialect).AssemblyQualifiedName;
             cfg.Properties[Cfg.Environment.ConnectionString] = "Data Source=:memory:;Version=3;New=True;";
             var mapper = new ModelMapper();
-            mapper.Class<MappingTestClass>(cm => {
-
+            mapper.Class<MappingTestClass>(cm =>
+            {
                 cm.Id(x => x.Id, m => m.Generator(Generators.Assigned));
-
             });
 
             var mapping = mapper.CompileMappingForAllExplicitlyAddedEntities();
@@ -42,12 +41,11 @@ namespace NHibernate.NodaTime.Tests.Linq
         public void GetsTypeFromProperty()
         {
             var expression = GetExpression(x => x.TestProperty);
-            var result =  _sut.TryGetMappedTypesFromExpression(expression);
+            var result = _sut.TryGetMappedTypesFromExpression(expression);
             result.Should().HaveCount(1);
             //result[0].Should().Be()
-            
 
-          //  type.Should().BeOfType<NHibernate.Type.CustomType>();
+            //  type.Should().BeOfType<NHibernate.Type.CustomType>();
         }
 
         private Expression GetExpression<T>(Expression<Func<MappingTestClass, T>> expression)
@@ -60,9 +58,6 @@ namespace NHibernate.NodaTime.Tests.Linq
 
         private T Extract<T>(T instance) => instance;
 
-
-
-
         public class MappingTestClass
         {
             public virtual int Id { get; set; }
@@ -71,5 +66,4 @@ namespace NHibernate.NodaTime.Tests.Linq
             public virtual Instant TestProperty2 { get; set; }
         }
     }
-
 }

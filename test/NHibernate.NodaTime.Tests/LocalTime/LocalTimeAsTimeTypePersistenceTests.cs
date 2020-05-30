@@ -6,8 +6,6 @@ namespace NHibernate.NodaTime.Tests
     {
         public LocalTimeAsTimeTypePersistenceTests(NHibernateFixture nhibernateFixture) : base(nhibernateFixture)
         {
-
         }
-
     }
 }

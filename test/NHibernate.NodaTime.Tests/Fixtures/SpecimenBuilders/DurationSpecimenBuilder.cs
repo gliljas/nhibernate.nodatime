@@ -21,7 +21,5 @@ namespace NHibernate.NodaTime.Tests.Fixtures
 
             return Duration.FromHours(context.Create<int>()).Plus(Duration.FromSeconds(context.Create<long>()));//.Plus(Duration.FromTimeSpan(context.Create<TimeSpan>()));
         }
-
-
     }
 }

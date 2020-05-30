@@ -33,7 +33,6 @@ namespace NHibernate.NodaTime.Linq
 
         public static Expression Rewrite(Expression expression, ISessionFactoryImplementor sessionFactory)
         {
-            
             var visitor = _factoryLocalVisitor.GetOrAdd(sessionFactory, s => CreateVisitorFromMapping(s));
             return visitor.Visit(expression);
         }
