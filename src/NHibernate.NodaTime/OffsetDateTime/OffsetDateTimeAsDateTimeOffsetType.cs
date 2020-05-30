@@ -6,9 +6,9 @@ using System.Linq.Expressions;
 namespace NHibernate.NodaTime
 {
     /// <summary>
-    /// Persists an <see cref="OffsetDateTime"/> as a <see cref="DateTimeOffset"/>, using <see cref="DateTimeOffsetType"/>
+    /// Persists an <see cref="OffsetDateTime"/> as a <see cref="DateTimeOffset"/>, using <see cref="EnhancedDateTimeOffsetType"/>
     /// </summary>
-    public class OffsetDateTimeAsDateTimeOffsetType : AbstractOffsetDateTimeType<DateTimeOffset, DateTimeOffsetType>
+    public class OffsetDateTimeAsDateTimeOffsetType : AbstractOffsetDateTimeType<DateTimeOffset, EnhancedDateTimeOffsetType>
     {
         protected override OffsetDateTime Unwrap(DateTimeOffset value) => OffsetDateTime.FromDateTimeOffset(value);
 

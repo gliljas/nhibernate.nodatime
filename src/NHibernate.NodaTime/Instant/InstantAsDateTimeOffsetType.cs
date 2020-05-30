@@ -6,9 +6,9 @@ using System.Linq.Expressions;
 namespace NHibernate.NodaTime
 {
     /// <summary>
-    /// Persists an <see cref="Instant"/> as a <see cref="DateTimeOffset"/>, using <see cref="DateTimeOffsetType"/>
+    /// Persists an <see cref="Instant"/> as a <see cref="DateTimeOffset"/>, using <see cref="EnhancedDateTimeOffsetType"/>
     /// </summary>
-    public class InstantAsDateTimeOffsetType : AbstractInstantType<DateTimeOffset, DateTimeOffsetType>
+    public class InstantAsDateTimeOffsetType : AbstractInstantType<DateTimeOffset, EnhancedDateTimeOffsetType>
     {
         protected override Instant Unwrap(DateTimeOffset value) => Instant.FromDateTimeOffset(value);
 

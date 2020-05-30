@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace NHibernate.NodaTime
 {
-    public class BclZonedDateTimeAsDateTimeOffsetType : AbstractZonedDateTimeType<DateTimeOffset, DateTimeOffsetType, BclDateTimeZoneType>
+    public class BclZonedDateTimeAsDateTimeOffsetType : AbstractZonedDateTimeType<DateTimeOffset, EnhancedDateTimeOffsetType, BclDateTimeZoneType>
     {
         protected override string Property1Name => "DateTimeOffset";
         protected override int Property1ColumnSpan => 1;
