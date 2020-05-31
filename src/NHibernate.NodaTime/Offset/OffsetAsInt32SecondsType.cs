@@ -18,4 +18,5 @@ namespace NHibernate.NodaTime
             x => x.Seconds
         };
     }
+
 }

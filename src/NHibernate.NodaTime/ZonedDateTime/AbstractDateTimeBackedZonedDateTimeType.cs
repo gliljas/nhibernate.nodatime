@@ -21,4 +21,6 @@ namespace NHibernate.NodaTime
 
         protected override DateTime GetProperty1Value(ZonedDateTime value) => value.ToDateTimeUtc();
     }
+
+
 }

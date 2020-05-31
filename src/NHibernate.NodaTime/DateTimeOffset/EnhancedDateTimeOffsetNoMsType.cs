@@ -5,7 +5,7 @@ using System.Data.Common;
 
 namespace NHibernate.NodaTime
 {
-    internal class EnhancedDateTimeOffsetNoMsType : EnhancedDateTimeOffsetType
+    public class EnhancedDateTimeOffsetNoMsType : EnhancedDateTimeOffsetType
     {
         /// <summary>
         /// Default constructor.

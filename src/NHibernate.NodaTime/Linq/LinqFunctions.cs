@@ -2,6 +2,7 @@
 using NHibernate.Linq.Functions;
 using NHibernate.Linq.Visitors;
 using NHibernate.NodaTime.Extensions;
+using NHibernate.Type;
 using NHibernate.Util;
 using NodaTime;
 using NodaTime.Extensions;
@@ -47,6 +48,13 @@ namespace NHibernate.NodaTime.Linq
             this.Merge(new DateTimeOffsetToUnixTimeSecondsGenerator());
             this.Merge(new DateTimeOffsetToUnixTimeMillisecondsGenerator());
 
+            
+            this.Merge(new OffsetSecondsGenerator());
+            this.Merge(new OffsetMillisecondsGenerator());
+            this.Merge(new OffsetNanosecondsGenerator());
+            this.Merge(new OffsetTicksGenerator());
+            this.Merge(new OffsetToTimeSpanGenerator());
+
             this.Merge(new LocalDateTimeToDateTimeUnspecifiedGenerator());
             this.Merge(new YearMonthYearGenerator());
             this.Merge(new YearMonthMonthGenerator());
@@ -57,6 +65,50 @@ namespace NHibernate.NodaTime.Linq
             this.Merge(new InstantMinusGenerator());
         }
     }
+
+    public class OffsetMillisecondsGenerator : IHqlGeneratorForProperty
+    {
+        public IEnumerable<MemberInfo> SupportedProperties => new[] { ReflectHelper.GetProperty(() => new Offset().Milliseconds ) };
+
+        public HqlTreeNode BuildHql(MemberInfo member, Expression expression, HqlTreeBuilder treeBuilder, IHqlExpressionVisitor visitor)
+        {
+            var source = visitor.Visit(expression).AsExpression();
+            return treeBuilder.TransparentCast(treeBuilder.Multiply(source, treeBuilder.Constant(NodaConstants.MillisecondsPerSecond)), typeof(long));
+        }
+    }
+
+    public class OffsetNanosecondsGenerator : IHqlGeneratorForProperty
+    {
+        public IEnumerable<MemberInfo> SupportedProperties => new[] { ReflectHelper.GetProperty(() => new Offset().Nanoseconds) };
+
+        public HqlTreeNode BuildHql(MemberInfo member, Expression expression, HqlTreeBuilder treeBuilder, IHqlExpressionVisitor visitor)
+        {
+            var source = visitor.Visit(expression).AsExpression();
+            return treeBuilder.TransparentCast(treeBuilder.Multiply(source, treeBuilder.Constant(NodaConstants.NanosecondsPerSecond)), typeof(long));
+        }
+    }
+    public class OffsetTicksGenerator : IHqlGeneratorForProperty
+    {
+        public IEnumerable<MemberInfo> SupportedProperties => new[] { ReflectHelper.GetProperty(() => new Offset().Ticks) };
+
+        public HqlTreeNode BuildHql(MemberInfo member, Expression expression, HqlTreeBuilder treeBuilder, IHqlExpressionVisitor visitor)
+        {
+            var source = visitor.Visit(expression).AsExpression();
+            return treeBuilder.TransparentCast(treeBuilder.Multiply(source, treeBuilder.Constant(NodaConstants.TicksPerSecond)), typeof(long));
+        }
+    }
+
+    public class OffsetToTimeSpanGenerator : IHqlGeneratorForMethod
+    {
+        public IEnumerable<MethodInfo> SupportedMethods => new[] { ReflectHelper.GetMethod(() => new Offset().ToTimeSpan()) };
+        
+        public HqlTreeNode BuildHql(MethodInfo method, Expression targetObject, ReadOnlyCollection<Expression> arguments, HqlTreeBuilder treeBuilder, IHqlExpressionVisitor visitor)
+        {
+            var source = visitor.Visit(targetObject).AsExpression();
+            return treeBuilder.MethodCall("nodatickstotimespan",treeBuilder.Multiply(source, treeBuilder.Cast(treeBuilder.Constant(NodaConstants.TicksPerSecond), typeof(long))));
+        }
+    }
+
 
     public class DateTimeOffsetTicksGenerator : IHqlGeneratorForProperty
     {
@@ -69,6 +121,8 @@ namespace NHibernate.NodaTime.Linq
                treeBuilder.MethodCall("nodaticksfromdatetimeoffset", source);
         }
     }
+
+
 
     public class DateTimeOffsetUtcDateTimeGenerator : IHqlGeneratorForProperty
     {
@@ -408,6 +462,42 @@ namespace NHibernate.NodaTime.Linq
         }
     }
 
+    public class ZonedDateTimeToInstantGenerator : IHqlGeneratorForMethod
+    {
+        public IEnumerable<MethodInfo> SupportedMethods => new[] { ReflectHelper.GetMethod<ZonedDateTime>(x => x.ToInstant()) };
+
+        public HqlTreeNode BuildHql(MethodInfo method, Expression targetObject, ReadOnlyCollection<Expression> arguments, HqlTreeBuilder treeBuilder, IHqlExpressionVisitor visitor)
+        {
+            var source = visitor.Visit(targetObject).AsExpression();
+
+            return treeBuilder.MethodCall("todatetime", source);
+        }
+    }
+
+    public class ZonedDateTimeToDateTimeOffsetGenerator : IHqlGeneratorForMethod
+    {
+        public IEnumerable<MethodInfo> SupportedMethods => new[] { ReflectHelper.GetMethod<ZonedDateTime>(x => x.ToDateTimeOffset()) };
+
+        public HqlTreeNode BuildHql(MethodInfo method, Expression targetObject, ReadOnlyCollection<Expression> arguments, HqlTreeBuilder treeBuilder, IHqlExpressionVisitor visitor)
+        {
+            var source = visitor.Visit(targetObject).AsExpression();
+
+            return treeBuilder.MethodCall("todatetime", source);
+        }
+    }
+
+    public class ZonedDateTimeToOffsetDateTimeGenerator : IHqlGeneratorForMethod
+    {
+        public IEnumerable<MethodInfo> SupportedMethods => new[] { ReflectHelper.GetMethod<ZonedDateTime>(x => x.ToOffsetDateTime()) };
+
+        public HqlTreeNode BuildHql(MethodInfo method, Expression targetObject, ReadOnlyCollection<Expression> arguments, HqlTreeBuilder treeBuilder, IHqlExpressionVisitor visitor)
+        {
+            var source = visitor.Visit(targetObject).AsExpression();
+
+            return treeBuilder.MethodCall("todatetime", source);
+        }
+    }
+
     public class YearMonthYearGenerator : IHqlGeneratorForProperty
     {
         public IEnumerable<MemberInfo> SupportedProperties => new[] { ReflectHelper.GetProperty((YearMonth x) => x.Year) };
@@ -526,4 +616,13 @@ namespace NHibernate.NodaTime.Linq
                         treeBuilder.LessThanOrEqual(source, arg1), source) }, arg1);
         }
     }
+
+    //public static class HqlTreeBuilderExtensions
+    //{
+    //    public static HqlExpression CastToNHibernateType(this HqlTreeBuilder treeBuilder, HqlExpression expression, IType type)
+    //    {
+    //        return new HqlTransparentITypeCast(treeBuilder.Into().Factory, expression, type);
+            
+    //    }
+    //}
 }

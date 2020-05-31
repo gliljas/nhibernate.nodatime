@@ -11,6 +11,7 @@ using System.Linq.Expressions;
 
 namespace NHibernate.NodaTime
 {
+
     public abstract class AbstractStructType<T, TPersisted, TNullableType> : AbstractStructType<T, TPersisted>
         where TNullableType : NullableType, new()
     {

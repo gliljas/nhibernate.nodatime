@@ -213,12 +213,6 @@ namespace NHibernate.NodaTime.Tests
             SupportsPropertyOrMethod(x => x.ToInstant());
         }
 
-        //[SkippableFact]
-        //[NodaTimeAutoData]
-        //public virtual void SupportsFromDateTime(DateTime dateTime)
-        //{
-        //    SupportsPropertyOrMethod(x => x.Equals(offsetDateTime));
-        //}
         [SkippableFact]
         public virtual void SupportsToOffsetDateTime()
         {
