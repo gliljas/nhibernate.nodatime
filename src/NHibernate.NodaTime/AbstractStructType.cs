@@ -58,9 +58,9 @@ namespace NHibernate.NodaTime
 
         public bool IsMutable => false;
 
-        public virtual IEnumerable<SupportedQueryProperty<T>> SupportedQueryProperties => Enumerable.Empty<SupportedQueryProperty<T>>();
+        public virtual IEnumerable<ISupportedQueryProperty<T>> SupportedQueryProperties => Enumerable.Empty<SupportedQueryProperty<T>>();
 
-        public virtual IEnumerable<SupportedQueryMethod<T>> SupportedQueryMethods => Enumerable.Empty<SupportedQueryMethod<T>>();
+        public virtual IEnumerable<ISupportedQueryMethod<T>> SupportedQueryMethods => Enumerable.Empty<SupportedQueryMethod<T>>();
 
         public object Assemble(object cached, object owner) => cached;
 

@@ -8,14 +8,26 @@ namespace NHibernate.NodaTime
     /// </summary>
     internal class DateIntervalWrapper
     {
+        private DateInterval _dateInterval;
+
         public DateIntervalWrapper(DateInterval dateInterval)
         {
-            Start = dateInterval.Start;
-            End = dateInterval.End;
+            _dateInterval = dateInterval;
         }
 
-        public LocalDate Start { get; }
-        public LocalDate End { get; }
+        public LocalDate Start => _dateInterval.Start;
+
+
+
+        public LocalDate End => _dateInterval.End;
+
+        public bool Contains(LocalDate localDate) => _dateInterval.Contains(localDate);
+        public bool Contains(DateIntervalWrapper dateInterval) => _dateInterval.Contains((DateInterval)dateInterval);
+
+        public DateIntervalWrapper? Intersection(DateIntervalWrapper dateInterval) => (DateIntervalWrapper)_dateInterval.Intersection((DateInterval)dateInterval);
+
+
+
 
         public override bool Equals(object obj)
         {

@@ -21,7 +21,8 @@ namespace NHibernate.NodaTime.Linq
         protected override NhLinqExpression PrepareQuery(Expression expression, out IQuery query)
         {
             expression = NhRelinqQueryParser.PreTransform(expression, _session.Factory);
-            expression = new PlusMinusDurationMethodExpandingVisitor().Visit(expression);
+          //  expression = new PlusMinusDurationMethodExpandingVisitor().Visit(expression);
+            expression = DateIntervalVisitor.Visit(expression, _session.Factory);
             expression = Blapp.Rewrite(expression, _session.Factory);
             return base.PrepareQuery(expression, out query);
         }
@@ -97,17 +98,36 @@ namespace NHibernate.NodaTime.Linq
             return new DateIntervalVisitor(sessionFactory).Visit(expression);
         }
 
-        protected override Expression VisitBinary(BinaryExpression node)
+        protected override Expression VisitConstant(ConstantExpression node)
         {
-            if (node.Left.NodeType != ExpressionType.Constant && node.Right.NodeType == ExpressionType.Constant && node.Right.Type == typeof(DateInterval))
+            if (node.Type == typeof(DateInterval))
             {
-                return Expression.MakeBinary(node.NodeType, Visit(node.Left), Expression.Convert(node.Right, typeof(DateIntervalWrapper)));
+                return Expression.Convert(node, typeof(DateIntervalWrapper));// Expression.Convert(Expression.Constant(new DateIntervalWrapper((DateInterval)node.Value)), typeof(DateInterval));
             }
-            if (node.Right.NodeType != ExpressionType.Constant && node.Left.NodeType == ExpressionType.Constant && node.Left.Type == typeof(DateInterval))
-            {
-                return Expression.MakeBinary(node.NodeType, Expression.Convert(node.Left, typeof(DateIntervalWrapper)), Visit(node.Right));
-            }
-            return base.VisitBinary(node);
+            return base.VisitConstant(node);
         }
+
+        protected override Expression VisitMember(MemberExpression node)
+        {
+            if (node.Type == typeof(DateInterval))
+            {
+                return Expression.Convert(node, typeof(DateIntervalWrapper));// Expression.Convert(Expression.Constant(new DateIntervalWrapper((DateInterval)node.Value)), typeof(DateInterval));
+            }
+            return base.VisitMember(node);
+        }
+
+
+        //protected override Expression VisitBinary(BinaryExpression node)
+        //{
+        //    if (node.Left.NodeType != ExpressionType.Constant && node.Right.NodeType == ExpressionType.Constant && node.Right.Type == typeof(DateInterval))
+        //    {
+        //        return Expression.MakeBinary(node.NodeType, Visit(node.Left), Expression.Convert(node.Right, typeof(DateIntervalWrapper)));
+        //    }
+        //    if (node.Right.NodeType != ExpressionType.Constant && node.Left.NodeType == ExpressionType.Constant && node.Left.Type == typeof(DateInterval))
+        //    {
+        //        return Expression.MakeBinary(node.NodeType, Expression.Convert(node.Left, typeof(DateIntervalWrapper)), Visit(node.Right));
+        //    }
+        //    return base.VisitBinary(node);
+        //}
     }
 }

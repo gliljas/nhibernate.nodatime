@@ -2,9 +2,11 @@
 
 namespace NHibernate.NodaTime.Linq
 {
-    public interface ISupportLinqQueries<T>
+    public interface ISupportLinqQueries
     {
-        IEnumerable<SupportedQueryProperty<T>> SupportedQueryProperties { get; }
-        IEnumerable<SupportedQueryMethod<T>> SupportedQueryMethods { get; }
+        IEnumerable<ISupportedQueryProperty> SupportedQueryProperties { get; }
+        IEnumerable<ISupportedQueryMethod> SupportedQueryMethods { get; }
     }
+
+
 }

@@ -1,21 +1,19 @@
 ﻿using NHibernate.Hql.Ast;
 using NHibernate.Linq.Visitors;
 using NHibernate.NodaTime.Linq;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq.Expressions;
 using System.Reflection;
 
 namespace NHibernate.NodaTime
 {
-    internal class PropertyResolver : IHqlMethodTransformer
+    internal class ToDateTimeOffsetTransformer : IHqlMethodTransformer
     {
-        public PropertyResolver(string propertyName)
-        {
-        }
-
         public HqlTreeNode BuildHql(MethodInfo method, Expression expression, ReadOnlyCollection<Expression> arguments, HqlTreeBuilder treeBuilder, IHqlExpressionVisitor visitor)
         {
-            throw new System.NotImplementedException();
+            var source = visitor.Visit(expression).AsExpression();
+            return treeBuilder.Cast(source, typeof(DateTimeOffset));
         }
     }
 }

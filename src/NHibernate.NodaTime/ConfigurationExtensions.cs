@@ -53,6 +53,9 @@ namespace NHibernate.NodaTime
 
             cfg.AddSqlFunction("withoffsetseconds", new SQLFunctionTemplate(new CompositeCustomType<OffsetDateTimeViaLocalDateTimeAsDateTimeNoMsAndOffsetAsInt32SecondsType>(), "?1,?2"));
 
+            cfg.AddSqlFunction("nodadatediffdays", new SQLFunctionTemplate(NHibernateUtil.Int32, "DATEDIFF(day,?1,?2)"));
+
+
             cfg.LinqQueryProvider<NodaTimeLinqQueryProvider>();
             cfg.LinqToHqlGeneratorsRegistry<LinqFunctions>();
 

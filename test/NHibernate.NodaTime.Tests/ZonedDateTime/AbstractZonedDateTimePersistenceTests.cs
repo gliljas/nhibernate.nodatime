@@ -237,6 +237,7 @@ namespace NHibernate.NodaTime.Tests
         {
             SupportsPropertyOrMethod(x => x.YearOfEra);
         }
+
         [SkippableFact]
         public virtual void SupportsZone()
         {

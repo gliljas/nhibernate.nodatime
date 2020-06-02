@@ -1,6 +1,8 @@
-﻿using NHibernate.Type;
+﻿using NHibernate.NodaTime.Linq;
+using NHibernate.Type;
 using NodaTime;
 using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace NHibernate.NodaTime
@@ -18,5 +20,12 @@ namespace NHibernate.NodaTime
         {
             x => x.ToDateTimeOffset()
         };
+
+        public override IEnumerable<ISupportedQueryMethod<Instant>> SupportedQueryMethods { get {
+               // yield return new SupportedQueryMethod<Instant>(x => x.Plus(default), new PlusDurationTransformer());
+                yield return new SupportedQueryMethod<Instant>(x => x.ToDateTimeOffset(), new ToDateTimeOffsetTransformer());
+
+            }
+        }
     }
 }

@@ -100,22 +100,10 @@ namespace NHibernate.NodaTime.Tests
             }
         }
 
-        [SkippableTheory]
-        [NodaTimeAutoData]
-        public void CanQueryPropertyWithLinq(List<TTestEntity> testEntities)
+        [SkippableFact]
+        public void CanQueryPropertyWithLinq()
         {
-            AddToDatabase(testEntities.ToArray());
-            var testValue = testEntities.Select(x => x.TestProperty).First();
-
-            var param = Expression.Parameter(typeof(TTestEntity));
-            var lambda = Expression.Lambda(Expression.Equal(Expression.Property(param, "TestProperty"), Expression.Constant(testValue)), param) as Expression<Func<TTestEntity, bool>>;
-
-            using (var session = SessionFactory.OpenSession())
-            using (var trans = session.BeginTransaction())
-            {
-                var foundEntities = session.Query<TTestEntity>().Where(lambda).ToList();
-                foundEntities.Should().HaveCountGreaterOrEqualTo(1);
-            }
+            SupportsPropertyOrMethod(x => x);
         }
 
         [SkippableTheory]
@@ -144,7 +132,7 @@ namespace NHibernate.NodaTime.Tests
 
             AddToDatabase(testEntities.ToArray());
 
-            TValue testValue = func(testEntities[0].TestProperty);
+            TValue testValue = func(AdjustValue(testEntities[0].TestProperty));
 
             var param = Expression.Parameter(typeof(TTestEntity));
             var equalityLambda = Expression.Lambda(
@@ -166,7 +154,7 @@ namespace NHibernate.NodaTime.Tests
             ExecuteWithQueryable(q =>
             {
                 var firstEntity = q.Where(x => x.Id == testEntities[0].Id).Single();
-                var loadedTestValue = func(testEntities[0].TestProperty);
+                var loadedTestValue = func(firstEntity.TestProperty);
                 loadedTestValue.Should().Be(testValue);
                 var foundEntities = q.Where(equalityLambda).Select(selectLambda).ToList();
                 foundEntities.Should().HaveCount(expectedCount);

@@ -34,15 +34,19 @@ namespace NHibernate.NodaTime
         {
             if (parameters != null)
             {
-                if (parameters.TryGetValue("BaseYear", out var baseYearString) && int.TryParse(baseYearString, out int baseYear))
+                if (parameters.TryGetValue("BaseYear", out var baseYearString))
                 {
+                    if (!int.TryParse(baseYearString, out int baseYear))
+                    {
+                        throw new ArgumentException("Invalid BaseYear");
+                    }
                     _baseYear = baseYear;
                 }
                 base.SetParameterValues(parameters);
             }
         }
 
-        public override IEnumerable<SupportedQueryProperty<AnnualDate>> SupportedQueryProperties => new[] {
+        public override IEnumerable<ISupportedQueryProperty<AnnualDate>> SupportedQueryProperties => new[] {
             new SupportedQueryProperty<AnnualDate>(x=>x.Month, new FunctionTransformer("month")),
             new SupportedQueryProperty<AnnualDate>(x=>x.Day, new FunctionTransformer("day")),
         };

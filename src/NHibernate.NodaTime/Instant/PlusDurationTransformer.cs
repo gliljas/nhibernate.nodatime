@@ -7,12 +7,8 @@ using System.Reflection;
 
 namespace NHibernate.NodaTime
 {
-    internal class PropertyResolver : IHqlMethodTransformer
+    internal class PlusDurationTransformer : IHqlMethodTransformer
     {
-        public PropertyResolver(string propertyName)
-        {
-        }
-
         public HqlTreeNode BuildHql(MethodInfo method, Expression expression, ReadOnlyCollection<Expression> arguments, HqlTreeBuilder treeBuilder, IHqlExpressionVisitor visitor)
         {
             throw new System.NotImplementedException();
