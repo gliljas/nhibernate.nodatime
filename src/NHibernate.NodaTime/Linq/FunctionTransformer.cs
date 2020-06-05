@@ -2,13 +2,13 @@
 
 namespace NHibernate.NodaTime
 {
-    internal class FunctionTransformer : IHqlPropertyTransformer
-    {
-        private string _functionName;
+    //internal class FunctionTransformer : IHqlMemberTransformer
+    //{
+    //    private string _functionName;
 
-        public FunctionTransformer(string functionName)
-        {
-            _functionName = functionName;
-        }
-    }
+    //    public FunctionTransformer(string functionName)
+    //    {
+    //        _functionName = functionName;
+    //    }
+    //}
 }

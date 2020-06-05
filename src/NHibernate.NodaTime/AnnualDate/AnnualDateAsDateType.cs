@@ -46,9 +46,14 @@ namespace NHibernate.NodaTime
             }
         }
 
-        public override IEnumerable<ISupportedQueryProperty<AnnualDate>> SupportedQueryProperties => new[] {
-            new SupportedQueryProperty<AnnualDate>(x=>x.Month, new FunctionTransformer("month")),
-            new SupportedQueryProperty<AnnualDate>(x=>x.Day, new FunctionTransformer("day")),
+        public override IEnumerable<ISupportedQueryMember> SupportedQueryMembers => new[] {
+            SupportedQueryMember.ForProperty<AnnualDate,int>(x=>x.Month, new FunctionTransformer("month")),
+            SupportedQueryMember.ForProperty<AnnualDate,int>(x=>x.Day, new FunctionTransformer("day")),
         };
+
+        //public override IEnumerable<ISupportedQueryMember> SupportedQueryMethods => new[] {
+        //    //SupportedQueryMethod.For<AnnualDate,LocalDate>(x=>x.InYear(0)), new Da("month")),
+        //    //SupportedQueryMember.ForProperty<AnnualDate,int>(x=>x.Day, new FunctionTransformer("day")),
+        //};
     }
 }

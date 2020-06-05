@@ -1,6 +1,8 @@
-﻿using NHibernate.Type;
+﻿using NHibernate.NodaTime.Linq;
+using NHibernate.Type;
 using NodaTime;
 using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace NHibernate.NodaTime
@@ -17,6 +19,11 @@ namespace NHibernate.NodaTime
         public override Expression<Func<Offset, int>>[] ExpressionsExposingPersisted => new Expression<Func<Offset, int>>[] {
             x => x.Seconds
         };
+
+        public override IEnumerable<ISupportedQueryMember> SupportedQueryMembers => new[] {
+            SupportedQueryMember.ForProperty<Offset,long>(x=>x.Ticks,new MultiplicationTransformer(NodaConstants.TicksPerSecond)),
+            SupportedQueryMember.ForMethod<Offset,TimeSpan>(x=>x.ToTimeSpan(),new MultiplicationTransformer(NodaConstants.TicksPerSecond) > new LoadAsTransformer(NHibernateUtil.TimeSpan))
+         };
     }
 
 }

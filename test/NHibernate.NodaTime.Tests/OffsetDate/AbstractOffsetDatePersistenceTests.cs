@@ -50,7 +50,7 @@ namespace NHibernate.NodaTime.Tests
 
         [SkippableTheory]
         [NodaTimeAutoData]
-        public virtual void SupportsToDateTimeOffset(LocalTime time)
+        public virtual void SupportsAt(LocalTime time)
         {
             SupportsPropertyOrMethod(x => x.At(time));
         }

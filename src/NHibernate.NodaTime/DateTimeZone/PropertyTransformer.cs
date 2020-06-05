@@ -2,13 +2,13 @@
 
 namespace NHibernate.NodaTime
 {
-    public class PropertyTransformer : IHqlPropertyTransformer
-    {
-        private readonly string _propertyName;
+    //public class PropertyTransformer : IHqlMemberTransformer
+    //{
+    //    private readonly string _propertyName;
 
-        public PropertyTransformer(string propertyName)
-        {
-            _propertyName = propertyName;
-        }
-    }
+    //    public PropertyTransformer(string propertyName)
+    //    {
+    //        _propertyName = propertyName;
+    //    }
+    //}
 }

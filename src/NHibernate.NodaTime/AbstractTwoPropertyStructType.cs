@@ -18,22 +18,22 @@ namespace NHibernate.NodaTime
         }
     }
 
-    public abstract class AbstractTwoPropertyStructType<T, TProperty1Persisted, TProperty2Persisted> : ICompositeUserType, ISupportLinqQueries<T>, IParameterizedType, INodaTimeType
+    public abstract class AbstractTwoPropertyStructType<T, TProperty1Persisted, TProperty2Persisted> : ICompositeUserType, ISupportLinqQueries, IParameterizedType, INodaTimeType
     {
         private readonly IType _property1Type;
         private readonly IType _property2Type;
 
         protected AbstractTwoPropertyStructType(IType property1Type, IType property2Type)
         {
-            if (property1Type.ReturnedClass != typeof(TProperty1Persisted))
-            {
-                throw new ArgumentException($"The {nameof(IType.ReturnedClass)} of {property1Type.GetType()} was expected to be {typeof(TProperty1Persisted)}, but was {property1Type.ReturnedClass}", nameof(property1Type));
-            }
+            //if (property1Type.ReturnedClass != typeof(TProperty1Persisted) && property1Type.ReturnedClass != typeof(Nullable<TProperty1Persisted>))
+            //{
+            //    throw new ArgumentException($"The {nameof(IType.ReturnedClass)} of {property1Type.GetType()} was expected to be {typeof(TProperty1Persisted)}, but was {property1Type.ReturnedClass}", nameof(property1Type));
+            //}
 
-            if (property2Type.ReturnedClass != typeof(TProperty2Persisted))
-            {
-                throw new ArgumentException($"The {nameof(IType.ReturnedClass)} of {property2Type.GetType()} was expected to be {typeof(TProperty1Persisted)}, but was {property2Type.ReturnedClass}", nameof(property2Type));
-            }
+            //if (property2Type.ReturnedClass != typeof(TProperty2Persisted))
+            //{
+            //    throw new ArgumentException($"The {nameof(IType.ReturnedClass)} of {property2Type.GetType()} was expected to be {typeof(TProperty1Persisted)}, but was {property2Type.ReturnedClass}", nameof(property2Type));
+            //}
 
             _property1Type = property1Type;
             _property2Type = property2Type;
@@ -64,9 +64,7 @@ namespace NHibernate.NodaTime
 
         bool ICompositeUserType.IsMutable => false;
 
-        public virtual IEnumerable<ISupportedQueryProperty<T>> SupportedQueryProperties => Enumerable.Empty<SupportedQueryProperty<T>>();
-        public virtual IEnumerable<ISupportedQueryMethod<T>> SupportedQueryMethods => Enumerable.Empty<SupportedQueryMethod<T>>();
-
+        public virtual IEnumerable<ISupportedQueryMember> SupportedQueryMembers => Enumerable.Empty<ISupportedQueryMember>();
         public System.Type ReturnedType => typeof(T);
 
         object ICompositeUserType.Assemble(object cached, ISessionImplementor session, object owner) => cached;

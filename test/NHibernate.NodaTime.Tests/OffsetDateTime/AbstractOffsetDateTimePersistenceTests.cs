@@ -55,6 +55,13 @@ namespace NHibernate.NodaTime.Tests
         }
 
         [SkippableFact]
+        public virtual void SupportsLocalDateTime()
+        {
+            SupportsPropertyOrMethod(x => x.LocalDateTime);
+        }
+
+
+        [SkippableFact]
         public virtual void SupportsMillisecond()
         {
             SupportsPropertyOrMethod(x => x.Millisecond);

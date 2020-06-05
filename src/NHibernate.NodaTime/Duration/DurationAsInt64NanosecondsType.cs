@@ -1,4 +1,5 @@
-﻿using NHibernate.Type;
+﻿using NHibernate.Hql.Ast;
+using NHibernate.Type;
 using NodaTime;
 using System;
 using System.Linq.Expressions;
@@ -15,6 +16,30 @@ namespace NHibernate.NodaTime
         {
             x => x.ToInt64Nanoseconds()
         };
+
+        private static NHTypeConverter<DurationAsInt64NanosecondsType, DurationAsTicksType> ToDurationAsTicksType()
+        {
+            return new MultiplicationConverter<DurationAsInt64NanosecondsType, DurationAsTicksType>(10);
+        }
+    }
+
+    public abstract class NHTypeConverter<TInput, TOutput>
+    {
+        public abstract HqlExpression Convert(HqlTreeBuilder treeBuilder, HqlExpression input);
+    }
+
+    public class MultiplicationConverter<TInput, TOutput> : NHTypeConverter<TInput, TOutput>
+    {
+        private readonly int _factor;
+
+        public MultiplicationConverter(int factor)
+        {
+            _factor = factor;
+        }
+        public override HqlExpression Convert(HqlTreeBuilder treeBuilder, HqlExpression input)
+        {
+            return treeBuilder.Multiply(input, treeBuilder.Constant(_factor));
+        }
     }
 
     public class DurationAsTicksType : AbstractDurationType<long, Int64Type>

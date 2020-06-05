@@ -12,6 +12,6 @@ namespace NHibernate.NodaTime
     {
         protected override OffsetTime Unwrap(DateTimeOffset value) => OffsetDateTime.FromDateTimeOffset(value).ToOffsetTime();
 
-        protected override DateTimeOffset Wrap(OffsetTime value) => value.On(new LocalDate(1970, 1, 1)).ToDateTimeOffset();
+        protected override DateTimeOffset Wrap(OffsetTime value) => value.On(new LocalDate(1900, 1, 1)).ToDateTimeOffset();
     }
 }

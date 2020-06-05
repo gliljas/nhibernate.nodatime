@@ -130,6 +130,8 @@ namespace NHibernate.NodaTime.Tests
 
             var testEntities = _nodaFixture.Create<List<TTestEntity>>();
 
+            AdjustValues(testEntities);
+
             AddToDatabase(testEntities.ToArray());
 
             TValue testValue = func(AdjustValue(testEntities[0].TestProperty));
@@ -149,7 +151,7 @@ namespace NHibernate.NodaTime.Tests
 
             var expectedCount = testEntities.Count(equalityLambda.Compile());
 
-            expectedCount.Should().NotBe(0);
+            expectedCount.Should().NotBe(0,$"testValue:{testValue}");
 
             ExecuteWithQueryable(q =>
             {
@@ -164,6 +166,14 @@ namespace NHibernate.NodaTime.Tests
                     extraValueCheck(foundEntities[0]);
                 }
             });
+        }
+
+        private void AdjustValues(List<TTestEntity> testEntities)
+        {
+            foreach (var testEntity in testEntities)
+            {
+                testEntity.TestProperty = AdjustValue(testEntity.TestProperty);
+            }
         }
 
         protected void AddToDatabase(params object[] testValues)

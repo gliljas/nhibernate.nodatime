@@ -20,7 +20,7 @@ namespace NHibernate.NodaTime
         }
     }
 
-    public abstract class AbstractStructType<T, TPersisted> : IUserType, IParameterizedType, ISupportLinqQueries<T>, INodaTimeType
+    public abstract class AbstractStructType<T, TPersisted> : IUserType, IParameterizedType, ISupportLinqQueries, INodaTimeType
     {
 #pragma warning disable IDE0044 // Add readonly modifier
         private NullableType _backingType;
@@ -31,7 +31,7 @@ namespace NHibernate.NodaTime
             _backingType = nullableType;
         }
 
-        protected NullableType ValueType => _backingType;
+        public NullableType ValueType => _backingType;
 
         protected virtual SqlType SqlType => ValueType.SqlType;
 
@@ -58,9 +58,7 @@ namespace NHibernate.NodaTime
 
         public bool IsMutable => false;
 
-        public virtual IEnumerable<ISupportedQueryProperty<T>> SupportedQueryProperties => Enumerable.Empty<SupportedQueryProperty<T>>();
-
-        public virtual IEnumerable<ISupportedQueryMethod<T>> SupportedQueryMethods => Enumerable.Empty<SupportedQueryMethod<T>>();
+        public virtual IEnumerable<ISupportedQueryMember> SupportedQueryMembers => Enumerable.Empty<ISupportedQueryMember>();
 
         public object Assemble(object cached, object owner) => cached;
 

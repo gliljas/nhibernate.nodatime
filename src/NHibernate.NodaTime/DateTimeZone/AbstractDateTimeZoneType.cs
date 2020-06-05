@@ -35,7 +35,7 @@ namespace NHibernate.NodaTime
             }
         }
 
-        //public override IEnumerable<ISupportedQueryProperty<DateTimeZone>> SupportedQueryProperties => new[] {
+        //public override IEnumerable<ISupportedQueryMember<DateTimeZone>> SupportedQueryProperties => new[] {
         //    new SupportedQueryProperty<DateTimeZone>(x=>x.Id,new PropertyTransformer(""))
         //};
 
