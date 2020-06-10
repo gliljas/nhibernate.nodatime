@@ -12,10 +12,10 @@ namespace NHibernate.NodaTime
 
         protected override long Wrap(Duration value) => value.ToInt64Nanoseconds();
 
-        public override Expression<Func<Duration, long>>[] ExpressionsExposingPersisted => new Expression<Func<Duration, long>>[]
-        {
-            x => x.ToInt64Nanoseconds()
-        };
+        //public override Expression<Func<Duration, long>>[] ExpressionsExposingPersisted => new Expression<Func<Duration, long>>[]
+        //{
+        //    x => x.ToInt64Nanoseconds()
+        //};
 
         private static NHTypeConverter<DurationAsInt64NanosecondsType, DurationAsTicksType> ToDurationAsTicksType()
         {
@@ -48,9 +48,9 @@ namespace NHibernate.NodaTime
 
         protected override long Wrap(Duration value) => value.BclCompatibleTicks;
 
-        public override Expression<Func<Duration, long>>[] ExpressionsExposingPersisted => new Expression<Func<Duration, long>>[]
-        {
-            x => (long)x.BclCompatibleTicks
-        };
+        //public override Expression<Func<Duration, long>>[] ExpressionsExposingPersisted => new Expression<Func<Duration, long>>[]
+        //{
+        //    x => (long)x.BclCompatibleTicks
+        //};
     }
 }

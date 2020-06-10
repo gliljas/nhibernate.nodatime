@@ -17,9 +17,9 @@ namespace NHibernate.NodaTime
 
         protected override DateTimeOffset Wrap(OffsetDateTime value) => value.ToDateTimeOffset();
 
-        public override Expression<Func<OffsetDateTime, DateTimeOffset>>[] ExpressionsExposingPersisted => new Expression<Func<OffsetDateTime, DateTimeOffset>>[] {
-            x => x.ToDateTimeOffset()
-        };
+        //public override Expression<Func<OffsetDateTime, DateTimeOffset>>[] ExpressionsExposingPersisted => new Expression<Func<OffsetDateTime, DateTimeOffset>>[] {
+        //    x => x.ToDateTimeOffset()
+        //};
 
         public override IEnumerable<ISupportedQueryMember> SupportedQueryMembers => new[] {
             SupportedQueryMember.ForMethod<OffsetDateTime,Instant>(x=>x.ToInstant(),new LoadAsTransformer(new CustomType<InstantAsDateTimeOffsetType>())),

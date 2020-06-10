@@ -5,15 +5,62 @@ using NodaTime;
 using Remotion.Linq;
 using Remotion.Linq.Clauses;
 using Remotion.Linq.Clauses.Expressions;
+using Remotion.Linq.Parsing;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
 namespace NHibernate.NodaTime.Linq
 {
-    public class NodaTimeQueryModelVisitor : QueryModelVisitorBase
+    public class NodaTimeQueryModelVisitor : NhQueryModelVisitorBase
     {
-        // override
+        public override void VisitQueryModel(QueryModel queryModel)
+        {
+            //var v = new CompositeTypeExpandingModelVisitor();
+            //v.VisitQueryModel(queryModel);
+            //if (v.TheCongas.MethodCalls.Any())
+            //{
+            //}
+        }
+    }
+
+    public class CompositeTypeExpandingModelVisitor : NhQueryModelVisitorBase
+    {
+        public readonly Congas TheCongas;
+
+        public CompositeTypeExpandingModelVisitor()
+        {
+            TheCongas = new Congas();
+        }
+        public override void VisitWhereClause(WhereClause whereClause, QueryModel queryModel, int index)
+        {
+            TheCongas.Visit(whereClause.Predicate);
+        }
+    }
+
+    //public class CompositeTypeReplacingModelVisitor : NhQueryModelVisitorBase
+    //{
+    //    public CompositeTypeExpandingModelVisitor()
+    //    {
+    //        _congas = new Congas();
+    //    }
+    //    public override void VisitWhereClause(WhereClause whereClause, QueryModel queryModel, int index)
+    //    {
+    //        _congas.Visit(whereClause.Predicate);
+    //    }
+    //}
+
+    public class Congas : RelinqExpressionVisitor
+    {
+        public List<MethodCallExpression> MethodCalls = new List<MethodCallExpression>();
+        protected override Expression VisitMethodCall(MethodCallExpression node)
+        {
+            if (node.Method.Name == "InZone")
+            {
+                MethodCalls.Add(node);
+            }
+            return base.VisitMethodCall(node);
+        }
     }
 
     public class NodaTimeQueryModelRewriterFactory : IQueryModelRewriterFactory

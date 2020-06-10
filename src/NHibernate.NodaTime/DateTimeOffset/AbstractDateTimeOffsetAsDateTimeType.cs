@@ -15,9 +15,9 @@ namespace NHibernate.NodaTime
 
         protected override DateTime Wrap(DateTimeOffset value) => value.UtcDateTime;
 
-        public override Expression<Func<DateTimeOffset, DateTime>>[] ExpressionsExposingPersisted => new Expression<Func<DateTimeOffset, DateTime>>[]
-        {
-            x => x.UtcDateTime
-        };
+        //public override Expression<Func<DateTimeOffset, DateTime>>[] ExpressionsExposingPersisted => new Expression<Func<DateTimeOffset, DateTime>>[]
+        //{
+        //    x => x.UtcDateTime
+        //};
     }
 }

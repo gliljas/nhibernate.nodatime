@@ -80,7 +80,7 @@ namespace NHibernate.NodaTime
 
             cfg.LinqQueryProvider<NodaTimeLinqQueryProvider>();
             cfg.LinqToHqlGeneratorsRegistry<LinqFunctions>();
-
+            cfg.Properties[Environment.QueryModelRewriterFactory] = typeof(NodaTimeQueryModelRewriterFactory).AssemblyQualifiedName;
             return cfg;
         }
     }

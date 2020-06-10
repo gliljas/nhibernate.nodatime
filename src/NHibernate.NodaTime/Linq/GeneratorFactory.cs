@@ -79,25 +79,25 @@ namespace NHibernate.NodaTime.Linq
                 returnDict = supportLinqQueries.SupportedQueryMembers.Where(x=>x.Member is MethodInfo).ToDictionary(x => (MethodInfo)x.Member, x => x.Transformer);
             }
 
-            var m = type.GetType().GetProperty("ExpressionsExposingPersisted");
-            if (m != null)
-            {
-                var s = m.GetValue(type) as IEnumerable;
-                if (s != null)
-                {
-                    var expressions = s.OfType<LambdaExpression>();
-                    foreach (var lambda in expressions)
-                    {
-                        if (lambda.Body is MethodCallExpression methodCallExpression)
-                        {
-                            if (!returnDict.ContainsKey(methodCallExpression.Method))
-                            {
-                                returnDict.Add(methodCallExpression.Method, new LoadAsTransformer(NHibernateUtil.GuessType(methodCallExpression.Type)));
-                            }
-                        }
-                    }
-                }
-            }
+            //var m = type.GetType().GetProperty("ExpressionsExposingPersisted");
+            //if (m != null)
+            //{
+            //    var s = m.GetValue(type) as IEnumerable;
+            //    if (s != null)
+            //    {
+            //        var expressions = s.OfType<LambdaExpression>();
+            //        foreach (var lambda in expressions)
+            //        {
+            //            if (lambda.Body is MethodCallExpression methodCallExpression)
+            //            {
+            //                if (!returnDict.ContainsKey(methodCallExpression.Method))
+            //                {
+            //                    returnDict.Add(methodCallExpression.Method, new LoadAsTransformer(NHibernateUtil.GuessType(methodCallExpression.Type)));
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
             return returnDict;
         }
 
@@ -109,25 +109,25 @@ namespace NHibernate.NodaTime.Linq
             {
                 returnDict = supportLinqQueries.SupportedQueryMembers.Where(x=>x.Member is PropertyInfo).ToDictionary(x => x.Member, x => x.Transformer);
             }
-            var m = type.GetType().GetProperty("ExpressionsExposingPersisted");
-            if (m != null)
-            {
-                var s = m.GetValue(type) as IEnumerable;
-                if (s != null)
-                {
-                    var expressions = s.OfType<LambdaExpression>();
-                    foreach (var lambda in expressions)
-                    {
-                        if (lambda.Body is MemberExpression memberExpression && memberExpression.Member is PropertyInfo propertyInfo)
-                        {
-                            if (!returnDict.ContainsKey(memberExpression.Member))
-                            {
-                                returnDict.Add(memberExpression.Member, new LoadAsTransformer(NHibernateUtil.GuessType(propertyInfo.PropertyType)));
-                            }
-                        }
-                    }
-                }
-            }
+            //var m = type.GetType().GetProperty("ExpressionsExposingPersisted");
+            //if (m != null)
+            //{
+            //    var s = m.GetValue(type) as IEnumerable;
+            //    if (s != null)
+            //    {
+            //        var expressions = s.OfType<LambdaExpression>();
+            //        foreach (var lambda in expressions)
+            //        {
+            //            if (lambda.Body is MemberExpression memberExpression && memberExpression.Member is PropertyInfo propertyInfo)
+            //            {
+            //                if (!returnDict.ContainsKey(memberExpression.Member))
+            //                {
+            //                    returnDict.Add(memberExpression.Member, new LoadAsTransformer(NHibernateUtil.GuessType(propertyInfo.PropertyType)));
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
             return returnDict;
         }
     }

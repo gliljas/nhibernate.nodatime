@@ -159,6 +159,7 @@ namespace NHibernate.NodaTime.Tests
         public virtual void SupportsInUtc()
         {
             SupportsPropertyOrMethod(x => x.InUtc());
+            // SupportsPropertyOrMethod(x => ZonedDateTime.FromDateTimeOffset(x.ToDateTimeOffset()));
         }
 
         [SkippableTheory]

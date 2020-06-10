@@ -11,18 +11,18 @@ namespace NHibernate.NodaTime
     /// </summary>
     public class InstantAsUtcDateTimeType : AbstractInstantAsDateTimeType<UtcDateTimeType>
     {
-        public override IEnumerable<ISupportedQueryMember> SupportedQueryMembers
-        {
-            get
-            {
-                //yield return SupportedQueryMethod.For<Instant, DateTimeOffset>(x => x.ToDateTimeOffset(), new ToDateTimeOffsetTransformer());
-                yield return SupportedQueryMember.ForMethod<Instant, DateTime>(x => x.ToDateTimeUtc(), new LoadAsTransformer(NHibernateUtil.UtcDateTime));
-                //yield return SupportedQueryMethod.For<Instant, double>(x => x.ToJulianDate(), new ToDateTimeUtcTransformer());
-               // yield return SupportedQueryMethod.For<Instant, long>(x => x.ToUnixTimeMilliseconds(), new ToUnixTimeMillisecondsTransformer());
-                //yield return SupportedQueryMethod.For<Instant, OffsetDateTime>(x => x.WithOffset(default), new DateTimeOffset);
-                //yield return SupportedQueryMethod.For<Instant, OffsetDateTime>(x => x.WithOffsetSeconds(default), new GenericConversionTransformer<CustomType<OffsetDateAsDateTimeOffsetType>>());
+        //public override IEnumerable<ISupportedQueryMember> SupportedQueryMembers
+        //{
+        //    get
+        //    {
+        //        //yield return SupportedQueryMethod.For<Instant, DateTimeOffset>(x => x.ToDateTimeOffset(), new ToDateTimeOffsetTransformer());
+        //        yield return SupportedQueryMember.ForMethod<Instant, DateTime>(x => x.ToDateTimeUtc(), new LoadAsTransformer(NHibernateUtil.UtcDateTime));
+        //        //yield return SupportedQueryMethod.For<Instant, double>(x => x.ToJulianDate(), new ToDateTimeUtcTransformer());
+        //       // yield return SupportedQueryMethod.For<Instant, long>(x => x.ToUnixTimeMilliseconds(), new ToUnixTimeMillisecondsTransformer());
+        //        //yield return SupportedQueryMethod.For<Instant, OffsetDateTime>(x => x.WithOffset(default), new DateTimeOffset);
+        //        //yield return SupportedQueryMethod.For<Instant, OffsetDateTime>(x => x.WithOffsetSeconds(default), new GenericConversionTransformer<CustomType<OffsetDateAsDateTimeOffsetType>>());
 
-            }
-        }
+        //    }
+        //}
     }
 }

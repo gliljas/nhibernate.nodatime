@@ -50,7 +50,14 @@ namespace NHibernate.NodaTime.Linq
 
         public SqlString Render(IList args, ISessionFactoryImplementor factory)
         {
-            return new SqlString("(" + args[0] + ")");
+            SqlStringBuilder buf = new SqlStringBuilder().Add("(");
+            for (int i = 0; i < args.Count; i++)
+            {
+                buf.AddObject(args[i]);
+                if (i < args.Count - 1) buf.Add(", ");
+            }
+            return buf.Add(")").ToSqlString();
+            //return new SqlString(string.Join(", ", args));
         }
 
         public IType ReturnType(IType columnType, IMapping mapping) => _returnType;

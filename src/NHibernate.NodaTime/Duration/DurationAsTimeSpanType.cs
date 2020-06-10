@@ -12,9 +12,9 @@ namespace NHibernate.NodaTime
 
         protected override TimeSpan Wrap(Duration value) => value.ToTimeSpan();
 
-        public override Expression<Func<Duration, TimeSpan>>[] ExpressionsExposingPersisted => new Expression<Func<Duration, TimeSpan>>[]
-        {
-            x => x.ToTimeSpan()
-        };
+        //public override Expression<Func<Duration, TimeSpan>>[] ExpressionsExposingPersisted => new Expression<Func<Duration, TimeSpan>>[]
+        //{
+        //    x => x.ToTimeSpan()
+        //};
     }
 }

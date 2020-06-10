@@ -16,9 +16,9 @@ namespace NHibernate.NodaTime
 
         protected override int Wrap(Offset value) => value.Seconds;
 
-        public override Expression<Func<Offset, int>>[] ExpressionsExposingPersisted => new Expression<Func<Offset, int>>[] {
-            x => x.Seconds
-        };
+        //public override Expression<Func<Offset, int>>[] ExpressionsExposingPersisted => new Expression<Func<Offset, int>>[] {
+        //    x => x.Seconds
+        //};
 
         public override IEnumerable<ISupportedQueryMember> SupportedQueryMembers => new[] {
             SupportedQueryMember.ForProperty<Offset,long>(x=>x.Ticks,new MultiplicationTransformer(NodaConstants.TicksPerSecond)),

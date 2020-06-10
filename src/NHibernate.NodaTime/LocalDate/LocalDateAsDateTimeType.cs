@@ -24,10 +24,10 @@ namespace NHibernate.NodaTime
             return base.Cast(value);
         }
 
-        public override Expression<Func<LocalDate, DateTime>>[] ExpressionsExposingPersisted => new Expression<Func<LocalDate, DateTime>>[]
-        {
-            x => x.ToDateTimeUnspecified()
-        };
+        //public override Expression<Func<LocalDate, DateTime>>[] ExpressionsExposingPersisted => new Expression<Func<LocalDate, DateTime>>[]
+        //{
+        //    x => x.ToDateTimeUnspecified()
+        //};
     }
 
     public class LocalDateVisitor : ExpressionVisitor

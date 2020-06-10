@@ -48,10 +48,10 @@ namespace NHibernate.NodaTime
             return base.Cast(value);
         }
 
-        public override Expression<Func<DateTimeZone, string>>[] ExpressionsExposingPersisted => new Expression<Func<DateTimeZone, string>>[]
-        {
-            x => x.Id ,
-            x => x.ToString()
-        };
+        //public override Expression<Func<DateTimeZone, string>>[] ExpressionsExposingPersisted => new Expression<Func<DateTimeZone, string>>[]
+        //{
+        //    x => x.Id ,
+        //    x => x.ToString()
+        //};
     }
 }

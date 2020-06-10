@@ -124,6 +124,6 @@ namespace NHibernate.NodaTime
             }
         }
 
-        public virtual Expression<Func<T, TPersisted>>[] ExpressionsExposingPersisted { get; } = new Expression<Func<T, TPersisted>>[] { };
+        //public virtual Expression<Func<T, TPersisted>>[] ExpressionsExposingPersisted { get; } = new Expression<Func<T, TPersisted>>[] { };
     }
 }

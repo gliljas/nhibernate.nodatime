@@ -21,7 +21,8 @@ namespace NHibernate.NodaTime.Linq
         protected override NhLinqExpression PrepareQuery(Expression expression, out IQuery query)
         {
             expression = NhRelinqQueryParser.PreTransform(expression, _session.Factory);
-          //  expression = new PlusMinusDurationMethodExpandingVisitor().Visit(expression);
+            //  expression = new PlusMinusDurationMethodExpandingVisitor().Visit(expression);
+            //expression = CompositeTypeExpandingVisitor.Rewrite(expression);
             expression = DateIntervalVisitor.Visit(expression, _session.Factory);
             expression = Blapp.Rewrite(expression, _session.Factory);
             return base.PrepareQuery(expression, out query);

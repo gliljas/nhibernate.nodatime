@@ -27,10 +27,10 @@ namespace NHibernate.NodaTime
             return base.Cast(value);
         }
 
-        public override Expression<Func<Instant, DateTime>>[] ExpressionsExposingPersisted => new Expression<Func<Instant, DateTime>>[]
-        {
-            x => x.ToDateTimeUtc()
-        };
+        //public override Expression<Func<Instant, DateTime>>[] ExpressionsExposingPersisted => new Expression<Func<Instant, DateTime>>[]
+        //{
+        //    x => x.ToDateTimeUtc()
+        //};
 
         public override IEnumerable<ISupportedQueryMember> SupportedQueryMembers
         {
@@ -42,7 +42,7 @@ namespace NHibernate.NodaTime
                 //yield return SupportedQueryMethod.For<Instant, double>(x => x.ToJulianDate(), new ToDateTimeUtcTransformer());
                 yield return SupportedQueryMember.ForMethod<Instant, long>(x => x.ToUnixTimeMilliseconds(), new ToUnixTimeMillisecondsTransformer());
                 yield return SupportedQueryMember.ForMethod<Instant, OffsetDateTime>(x => x.WithOffset(default), new WithOffsetGenerator());
-                yield return SupportedQueryMember.ForMethod<Instant, ZonedDateTime>(x => x.InUtc(), new InUtcGenerator());
+               // yield return SupportedQueryMember.ForMethod<Instant, ZonedDateTime>(x => x.InUtc(), new InUtcGenerator());
                 //yield return SupportedQueryMethod.For<Instant, OffsetDateTime>(x => x.WithOffsetSeconds(default), new GenericConversionTransformer<CustomType<OffsetDateAsDateTimeOffsetType>>());
 
             }
